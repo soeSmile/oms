@@ -6,7 +6,8 @@
                 fit="cover"/>
     </div>
 
-    <el-form class="sp-wpx-350"
+    <el-form v-loading="loading"
+             class="sp-wpx-350"
              size="large"
              :model="user">
       <el-form-item prop="email">
@@ -31,31 +32,52 @@
           Сброс
         </el-button>
       </el-form-item>
+
+      <el-alert v-for="val in errors"
+                class="sp-mt-1"
+                :title="val"
+                type="error"
+                show-icon/>
     </el-form>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { messageToArray } from '../helper/serialazeError'
 
 export default {
   name: 'App',
 
   setup () {
+    const loading = ref(false)
     const user = ref({})
+    const errors = ref([])
 
     const reset = () => {
       user.value = {}
+      errors.value = []
     }
 
     const login = () => {
-      axios.post('/api/login', user.value).then(res => {})
+      loading.value = true
+
+      axios.get('/sanctum/csrf-cookie').then(response => {
+        axios.post('/api/login', user.value).then(res => {reset()},
+        ).catch(e => {
+          if (e.response.data.errors) {
+            errors.value = messageToArray(e.response.data.errors)
+          }
+        }).finally(() => {loading.value = false})
+      })
     }
 
     return {
+      loading,
       user,
       reset,
       login,
+      errors,
     }
   },
 }

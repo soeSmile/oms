@@ -23,7 +23,7 @@ class IndexController
             return redirect()->route('web.login');
         }
 
-        return redirect()->route('web.dashboard');
+        return redirect()->route('web.oms');
     }
 
     /**
@@ -31,7 +31,7 @@ class IndexController
      */
     public function oms(): View|Factory|Application
     {
-        return view('dashboard.index');
+        return view('oms.index');
     }
 
     /**
