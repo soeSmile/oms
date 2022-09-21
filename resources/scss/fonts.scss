@@ -1,0 +1,89 @@
+$mdi-font-path: "./fonts";
+@import "@mdi/font/scss/materialdesignicons";
+
+@font-face {
+  font-family: 'Roboto-Thin';
+  src: url('./fonts/Roboto-Thin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url('./fonts/Roboto-Light.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url('./fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto-Medium';
+  src: url('./fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto-Bold';
+  src: url('./fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Fonts
+$fontThin: 'Roboto-Thin';
+$fontLight: 'Roboto-Light';
+$fontRegular: 'Roboto-Regular';
+$fontMedium: 'Roboto-Medium';
+$fontBold: 'Roboto-Bold';
+
+// Font size
+$fontSize: 0.75rem !default;
+
+.sp-fnt {
+  &.thin {
+    font-family: $fontThin;
+  }
+
+  &.light {
+    font-family: $fontLight;
+  }
+
+  &.regular {
+    font-family: $fontRegular;
+  }
+
+  &.medium {
+    font-family: $fontMedium;
+  }
+
+  &.bold {
+    font-family: $fontBold;
+  }
+
+  @for $i from 5 through 10 {
+    $value: $i * 100;
+    &.w#{$value} {
+      font-weight: $value !important;
+    }
+  }
+
+  @for $i from 0 through 20 {
+    &.size-#{$i} {
+      font-size: $fontSize !important;
+    }
+    $fontSize: $fontSize + 0.25;
+  }
+}

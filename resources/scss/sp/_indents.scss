@@ -1,0 +1,110 @@
+/**
+ Padding && margin
+ */
+$size: 0.25rem !default;
+$sizes: (
+        0: $size,
+        1: $size * 1,
+        2: $size * 2,
+        3: $size * 3,
+        4: $size * 4,
+        5: $size * 5,
+        6: $size * 6,
+        7: $size * 7,
+        8: $size * 8,
+        9: $size * 9,
+        10: $size * 10,
+        12: $size * 12,
+        13: $size * 13,
+        14: $size * 14,
+        15: $size * 15,
+        16: $size * 16,
+        17: $size * 17,
+        18: $size * 18,
+        19: $size * 19,
+        20: $size * 20,
+        30: $size * 30,
+        40: $size * 40,
+        50: $size * 50,
+);
+
+$distance: (
+        sp-m: margin,
+        sp-mt: margin-top,
+        sp-mr: margin-right,
+        sp-mb: margin-bottom,
+        sp-ml: margin-left,
+        sp-p: padding,
+        sp-pt: padding-top,
+        sp-pr: padding-right,
+        sp-pb: padding-bottom,
+        sp-pl: padding-left
+);
+
+$distancePX: (
+        sp-px: padding,
+);
+
+$distanceMX: (
+        sp-mx: padding,
+);
+
+$distancePY: (
+        sp-py: padding,
+);
+
+$distanceMY: (
+        sp-my: padding,
+);
+
+@each $class, $value in $distance {
+  @each $id, $size in $sizes {
+    .#{$class}-#{$id} {
+      #{$value}: $size !important;
+    }
+  }
+}
+
+@each $class, $value in $distancePX {
+  @each $id, $size in $sizes {
+    .#{$class}-#{$id} {
+      padding-left: $size !important;
+      padding-right: $size !important;
+    }
+  }
+}
+
+@each $class, $value in $distanceMX {
+  @each $id, $size in $sizes {
+    .#{$class}-#{$id} {
+      margin-left: $size !important;
+      margin-right: $size !important;
+    }
+  }
+}
+
+@each $class, $value in $distancePY {
+  @each $id, $size in $sizes {
+    .#{$class}-#{$id} {
+      padding-top: $size !important;
+      padding-bottom: $size !important;
+    }
+  }
+}
+
+@each $class, $value in $distanceMY {
+  @each $id, $size in $sizes {
+    .#{$class}-#{$id} {
+      margin-top: $size !important;
+      margin-bottom: $size !important;
+    }
+  }
+}
+
+.sp-p0 {
+  padding: 0 !important;
+}
+
+.sp-m0 {
+  margin: 0 !important;
+}

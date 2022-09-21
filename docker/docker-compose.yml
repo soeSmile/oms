@@ -1,0 +1,40 @@
+version: '3'
+services:
+  unit:
+    build:
+      context: 'unit'
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: ${COMPOSE_PROJECT_NAME}-unit
+    ports:
+      - '80:80'
+    volumes:
+      - '../:/var/www'
+      - './unit/conf.json:/var/lib/unit/conf.json'
+      - './unit/logs:/var/log'
+      - './unit/certs:/var/lib/unit/certs/'
+      - './conf/php-ini-overrides.ini:/usr/local/etc/php/conf.d/40-custom.ini'
+    environment:
+      XDEBUG_MODE: debug
+      XDEBUG_CONFIG: client_host=host.docker.internal idekey=PHPSTORM start_with_request=yes
+      PHP_IDE_CONFIG: serverName=Docker
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    working_dir: /var/www
+    command: unitd --no-daemon --user www-data --group www-data
+    links:
+      - pg
+  pg:
+    build: pg
+    container_name: ${COMPOSE_PROJECT_NAME}-pg
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRESQL_MAX_OPEN_CONNS: 2000
+    volumes:
+      - './database/pg:/var/lib/postgresql/data'
+      - './temp:/temp'
