@@ -4,13 +4,14 @@
 @use "colors";
 @use "indents";
 @use "helper";
+@use "menu";
 
 body, #app {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  color: var(--rpl-color-dark);
-  font-family: var(--rpl-font-regular);
+  color: var(--color-dark);
+  font-family: var(--font-regular);
   font-size: 1rem;
-  background: var(--rpl-color-light);
+  background: var(--color-light);
 }
