@@ -16,6 +16,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="user.password"
+                  type="password"
                   placeholder="Пароль"/>
       </el-form-item>
       <el-form-item label="Запомнить"
@@ -63,7 +64,11 @@ export default {
       loading.value = true
 
       axios.get('/sanctum/csrf-cookie').then(response => {
-        axios.post('/api/login', user.value).then(res => {reset()},
+        axios.post('/api/login', user.value).then(
+            res => {
+              reset()
+              document.location.href = '/oms'
+            },
         ).catch(e => {
           if (e.response.data.errors) {
             errors.value = messageToArray(e.response.data.errors)

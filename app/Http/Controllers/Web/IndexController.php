@@ -35,10 +35,14 @@ class IndexController
     }
 
     /**
-     * @return Application|Factory|View
+     * @return Application|Factory|View|RedirectResponse
      */
-    public function login(): View|Factory|Application
+    public function login(): View|Factory|RedirectResponse|Application
     {
+        if (auth()->check()) {
+            return redirect()->route('web.oms');
+        }
+
         return view('auth.login');
     }
 }
