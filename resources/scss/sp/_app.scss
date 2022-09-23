@@ -1,7 +1,6 @@
 @use "variables";
 @use "flex";
 @use "layout";
-@use "colors";
 @use "indents";
 @use "helper";
 @use "menu";
@@ -13,5 +12,5 @@ body, #app {
   color: var(--color-dark);
   font-family: var(--font-regular);
   font-size: 1rem;
-  background: var(--color-light);
+  background: var(--color-fon);
 }

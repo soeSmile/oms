@@ -3,4 +3,107 @@
   flex-direction: column;
   background: var(--color-white);
   padding: 1rem;
+  box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
+
+  & .head {
+    & .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & .title {
+        font-family: var(--font-bold);
+        margin-left: 0.5rem;
+        font-size: 1.4rem;
+        color: var(--color-dark-1);
+      }
+
+      & img {
+        width: 50px;
+        height: auto;
+      }
+    }
+  }
+
+  & .content {
+    & .links {
+      margin-top: 2rem;
+
+      & li {
+        position: relative;
+
+        & .link {
+          display: flex;
+          align-items: center;
+          padding: 1rem;
+          cursor: pointer;
+          font-family: var(--font-medium);
+          position: relative;
+          margin-top: 0.2rem;
+          color: var(--color-dark);
+          border-radius: 0.3rem;
+
+          & .icon {
+            font-size: 1.5rem;
+            margin-right: 0.8rem;
+          }
+
+          & .sub-link {
+            position: absolute;
+            right: 1rem;
+          }
+
+          &:hover {
+            color: var(--color-primary);
+            transition: all 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+            background: var(--color-light);
+          }
+        }
+
+        & .active-route-link {
+          color: var(--color-primary);
+          transition: all 500ms cubic-bezier(0.420, 0.000, 0.580, 1.000);
+          background: var(--color-light);
+        }
+      }
+
+
+      & .sub {
+        display: none;
+        padding-left: 1rem;
+
+        &.show {
+          display: block;
+        }
+
+        &.close {
+          display: block;
+          position: absolute;
+          left: 110%;
+          background: var(--color-white);
+          top: 0;
+          margin-top: 0;
+          padding: 1rem;
+          white-space: nowrap;
+          border-radius: 0 0.3rem 0.3rem 0;
+          box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
+        }
+
+        & .link {
+          display: flex;
+          align-items: center;
+          padding: 0.6rem;
+          cursor: pointer;
+          color: var(--color-dark);
+          font-family: var(--font-light);
+          position: relative;
+
+          & .icon {
+            font-size: 1.5rem;
+            margin-right: 0.6rem;
+          }
+        }
+      }
+    }
+  }
 }

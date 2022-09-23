@@ -3,7 +3,7 @@ import App from './App.vue'
 
 const routers = [
   {
-    path: '/',
+    path: '/oms',
     component: App,
     name: 'App',
   },
