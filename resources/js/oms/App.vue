@@ -1,24 +1,7 @@
 <template>
   <main>
     <aside class="sp-menu">
-      <el-menu router>
-        <el-sub-menu v-for="(val,key) in menu"
-                     :index="key">
-          <template #title>
-            <i class="mdi" :class="val.icon"/>
-            <span>{{ val.name }}</span>
-          </template>
-          <el-menu-item-group v-if="val.menu">
-            <el-menu-item v-for="(item,k) in val.menu"
-                          :index="key + '-' + k">
-              <template #title>
-                <i class="mdi" :class="item.icon"/>
-                <span>{{ item.name }}</span>
-              </template>
-            </el-menu-item>
-          </el-menu-item-group>
-        </el-sub-menu>
-      </el-menu>
+      <i class="bx bx-abacus"/>
     </aside>
   </main>
 </template>
