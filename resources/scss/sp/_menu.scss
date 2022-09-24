@@ -49,7 +49,7 @@
           align-items: center;
           padding: 1rem;
           cursor: pointer;
-          font-family: var(--font-medium);
+          font-family: var(--font-regular);
           position: relative;
           margin-top: 0.2rem;
           color: var(--color-dark);
@@ -61,7 +61,7 @@
           }
 
           & .icon {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             margin-right: 0.8rem;
 
             &.close {

@@ -55,8 +55,8 @@
         <div class="end">
           <div class="item sp-link sp-dark"
                @click="logout">
-            <i class='bx bx-log-out-circle sp-fnt size-4'/>
-            <span class="sp-ml-1 sp-fnt bold">Выход</span>
+            <i class='bx bx-log-out-circle sp-fnt size-2'/>
+            <span class="sp-ml-1 sp-fnt">Выход</span>
           </div>
         </div>
       </div>
