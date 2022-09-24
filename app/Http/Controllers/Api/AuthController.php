@@ -24,4 +24,14 @@ class AuthController
 
         return response()->json(['errors' => trans('auth.failed')], 403);
     }
+
+    /**
+     * @return JsonResponse
+     */
+    public function logOut(): JsonResponse
+    {
+        Auth::guard('web')->logout();
+
+        return response()->json(['data' => true]);
+    }
 }

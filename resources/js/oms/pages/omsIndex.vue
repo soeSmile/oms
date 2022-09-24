@@ -5,14 +5,9 @@
 </template>
 
 <script>
-import mainMenu from '../components/mainMenu.vue'
 
 export default {
   name: 'omsIndex',
-
-  components: {
-    mainMenu,
-  },
 
   setup () {
     return {}

@@ -1,0 +1,27 @@
+.sp-head {
+  display: grid;
+  align-items: center;
+  background: var(--color-white);
+
+  &.part-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  & .start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  & .end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  & .item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+}

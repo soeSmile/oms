@@ -11,7 +11,7 @@
       </div>
       <div class="content">
         <ul class="links">
-          <li v-for="(val,idx) in menu">
+          <li v-for="(val,idx) in menu" :title="val.name">
             <router-link class="link"
                          :class="close"
                          @click="closeSubMenu"
@@ -31,7 +31,7 @@
               <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
             </div>
 
-            <ul class="sub" :class="(val.show ? 'show' : '') + ' ' + close"
+            <ul class="sub fadeInLeft" :class="(val.show ? 'show' : '') + ' ' + close"
                 v-if="val.menu">
               <li v-for="sub in val.menu">
                 <router-link class="link"
@@ -49,7 +49,20 @@
       <div class="footer"></div>
     </div>
 
-    <router-view/>
+    <div class="sp-wrap">
+      <div class="sp-head part-2">
+        <div class="start"></div>
+        <div class="end">
+          <div class="item sp-link sp-dark"
+               @click="logout">
+            <i class='bx bx-log-out-circle sp-fnt size-4'/>
+            <span class="sp-ml-1 sp-fnt bold">Выход</span>
+          </div>
+        </div>
+      </div>
+
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -109,12 +122,19 @@ export default {
       close.value = close.value ? null : 'close'
     }
 
+    const logout = () => {
+      axios.post('/api/logout').then(res => {
+        window.location.href = '/'
+      })
+    }
+
     return {
       menu,
       subShow,
       close,
       menuHideShow,
       closeSubMenu,
+      logout,
     }
   },
 }

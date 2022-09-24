@@ -1,5 +1,5 @@
 <template>
-  <div class="sp-content sp-flex center middle sp-fnt size-10 bold">
+  <div class="sp-wrap sp-flex center middle sp-fnt size-10 bold">
     Error 404 !
   </div>
 </template>

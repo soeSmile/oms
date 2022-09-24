@@ -67,13 +67,14 @@ export default {
         axios.post('/api/login', user.value).then(
             res => {
               reset()
-              document.location.href = '/oms'
+              window.location.href = '/oms'
             },
         ).catch(e => {
           if (e.response.data.errors) {
             errors.value = messageToArray(e.response.data.errors)
+            loading.value = false
           }
-        }).finally(() => {loading.value = false})
+        })
       })
     }
 

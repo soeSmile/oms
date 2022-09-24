@@ -1,15 +1,14 @@
 .sp-main {
   display: grid;
   grid-template-columns: 16rem auto;
-  gap: 1rem;
   height: inherit;
+  transition: all 300ms ease;
 
   &.close {
     grid-template-columns: 6rem auto;
   }
 }
 
-.sp-content {
-  height: 100%;
-  overflow: auto;
+.sp-wrap {
+  height: inherit;
 }
