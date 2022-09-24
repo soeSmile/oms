@@ -3,6 +3,10 @@
   grid-template-columns: 16rem auto;
   gap: 1rem;
   height: inherit;
+
+  &.close {
+    grid-template-columns: 6rem auto;
+  }
 }
 
 .sp-content {
