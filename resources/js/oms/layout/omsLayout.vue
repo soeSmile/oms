@@ -56,9 +56,9 @@
     </div>
 
     <div class="sp-wrap">
-      <div class="sp-head part-2">
+      <div class="sp-nav part-2 sp-bg-white">
         <div class="start"></div>
-        <div class="end">
+        <div class="end end">
           <div class="item sp-link sp-dark"
                @click="logout">
             <i class='bx bx-log-out-circle sp-fnt size-2'/>
@@ -112,7 +112,7 @@ export default {
         ],
       },
       {
-        name: 'reports', icon: 'bxs-plane-alt', link: '/oms/index',
+        name: 'reports', icon: 'bxs-report', link: '/oms/index',
         show: false, menu: null,
       },
     ])
