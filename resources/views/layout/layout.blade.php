@@ -12,5 +12,9 @@
 @yield('content')
 
 @stack('scripts')
+
+<script>
+  window.trans = @json(cache(app()->getLocale()), JSON_THROW_ON_ERROR)
+</script>
 </body>
 </html>

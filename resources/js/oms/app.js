@@ -10,7 +10,10 @@ import ElementPlus from 'element-plus'
 import ru from 'element-plus/es/locale/lang/ru'
 import router from './router'
 
-createApp(App).
+const app = createApp(App)
+app.config.globalProperties.trans = trans
+
+app.
   use(ElementPlus, { locale: ru }).
   use(router).
   mount('#app')

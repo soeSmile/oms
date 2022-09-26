@@ -18,7 +18,9 @@
                          v-if="val.link"
                          :to="val.link">
               <i class="icon bx" :class="val.icon + ' ' + close"/>
-              <span class="title" :class="close">{{ val.name }}</span>
+              <span class="title" :class="close">
+                {{ lang(val.name) }}
+              </span>
             </router-link>
 
             <div class="link"
@@ -26,7 +28,9 @@
                  @click="subShow(idx)"
                  v-else>
               <i class="icon bx" :class="val.icon + ' ' + close"/>
-              <span class="title" :class="close">{{ val.name }}</span>
+              <span class="title" :class="close">
+                {{ lang(val.name) }}
+              </span>
               <i v-if="val.show" class='sub-link bx bx-chevron-up' :class="close"/>
               <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
             </div>
@@ -38,7 +42,9 @@
                              @click="closeSubMenu"
                              :to="sub.link">
                   <i class="icon bx" :class="sub.icon"/>
-                  <span class="title">{{ sub.name }}</span>
+                  <span class="title">
+                    {{ lang(sub.name) }}
+                  </span>
                 </router-link>
               </li>
             </ul>
@@ -56,7 +62,9 @@
           <div class="item sp-link sp-dark"
                @click="logout">
             <i class='bx bx-log-out-circle sp-fnt size-2'/>
-            <span class="sp-ml-1 sp-fnt">Выход</span>
+            <span class="sp-ml-1 sp-fnt">
+              {{ lang('exit') }}
+            </span>
           </div>
         </div>
       </div>
@@ -68,6 +76,7 @@
 
 <script>
 import { ref } from 'vue'
+import { lang } from '../../helper/translate'
 
 export default {
   name: 'omsLayout',
@@ -76,28 +85,26 @@ export default {
     const close = ref(null)
     const menu = ref([
       {
-        name: 'Главная', icon: 'bxs-grid-alt', link: '/oms',
+        name: 'main', icon: 'bxs-grid-alt', link: '/oms',
         show: false, menu: null,
       },
       {
-        name: 'Товары', icon: 'bxs-store', link: null,
+        name: 'goods', icon: 'bxs-store', link: null,
         show: false,
         menu: [
-          { name: 'Номенклатура товаров', icon: 'bx-list-ul', link: '/oms/index' },
-          { name: 'Номенклатура', icon: 'bx-list-ul', link: '/oms/index' },
-          { name: 'Номенклатура', icon: 'bx-list-ul', link: '/oms/index' },
-          { name: 'Номенклатура', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'list', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'add', icon: 'bx-list-ul', link: '/oms/index' },
         ],
       },
       {
-        name: 'Поставщики', icon: 'bxs-user-detail', link: null,
+        name: 'suppliers', icon: 'bxs-user-detail', link: null,
         show: false,
         menu: [
-          { name: 'Список', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'list', icon: 'bx-list-ul', link: '/oms/index' },
         ],
       },
       {
-        name: 'Логистика', icon: 'bxs-plane-alt', link: '/oms/index',
+        name: 'reports', icon: 'bxs-plane-alt', link: '/oms/index',
         show: false, menu: null,
       },
     ])
@@ -135,6 +142,7 @@ export default {
       menuHideShow,
       closeSubMenu,
       logout,
+      lang,
     }
   },
 }

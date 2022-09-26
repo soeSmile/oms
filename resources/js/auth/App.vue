@@ -12,14 +12,14 @@
              :model="user">
       <el-form-item prop="email">
         <el-input v-model="user.email"
-                  placeholder="E-mail"/>
+                  :placeholder="trans.email"/>
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="user.password"
                   type="password"
-                  placeholder="Пароль"/>
+                  :placeholder="trans.password"/>
       </el-form-item>
-      <el-form-item label="Запомнить"
+      <el-form-item :label="trans.remember"
                     prop="delivery">
         <el-switch v-model="user.remember"/>
       </el-form-item>
@@ -27,10 +27,10 @@
       <el-form-item class="sp-mt-8">
         <el-button type="primary"
                    @click="login">
-          Войти
+          {{ trans.login }}
         </el-button>
         <el-button @click="reset">
-          Сброс
+          {{ trans.reset }}
         </el-button>
       </el-form-item>
 
@@ -84,6 +84,7 @@ export default {
       reset,
       login,
       errors,
+      trans,
     }
   },
 }
