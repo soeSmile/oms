@@ -10,6 +10,8 @@ export default {
   name: 'omsIndex',
 
   setup () {
+    document.title = 'OMS SpecDoc | Главная'
+
     return {}
   },
 }
