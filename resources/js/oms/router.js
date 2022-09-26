@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Error404 from '../Error404.vue'
 import omsIndex from './pages/omsIndex.vue'
+import omsOfferList from './pages/offer/omsOfferList.vue'
 
 const routers = [
   {
@@ -12,6 +13,11 @@ const routers = [
     path: '/oms',
     component: omsIndex,
     name: 'App',
+  },
+  {
+    path: '/oms/offer',
+    component: omsOfferList,
+    name: 'omsOfferList',
   },
 ]
 

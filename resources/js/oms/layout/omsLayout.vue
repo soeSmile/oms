@@ -11,7 +11,7 @@
       </div>
       <div class="content">
         <ul class="links">
-          <li v-for="(val,idx) in menu" :title="val.name">
+          <li v-for="(val,idx) in menu" :title="lang(val.name)">
             <router-link class="link"
                          :class="close"
                          @click="closeSubMenu"
@@ -35,9 +35,9 @@
               <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
             </div>
 
-            <ul class="sub fadeInLeft" :class="(val.show ? 'show' : '') + ' ' + close"
+            <ul class="sub" :class="(val.show ? 'show' : '') + ' ' + close"
                 v-if="val.menu">
-              <li v-for="sub in val.menu">
+              <li v-for="sub in val.menu" :title="lang(sub.name)">
                 <router-link class="link"
                              @click="closeSubMenu"
                              :to="sub.link">
@@ -89,11 +89,19 @@ export default {
         show: false, menu: null,
       },
       {
+        name: 'offer', icon: 'bx bxs-offer', link: null,
+        show: false,
+        menu: [
+          { name: 'list', icon: 'bx-list-ul', link: '/oms/offer' },
+          { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
+        ],
+      },
+      {
         name: 'goods', icon: 'bxs-store', link: null,
         show: false,
         menu: [
           { name: 'list', icon: 'bx-list-ul', link: '/oms/index' },
-          { name: 'add', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
         ],
       },
       {
