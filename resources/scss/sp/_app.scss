@@ -8,9 +8,6 @@
 @use "color";
 
 body, #app {
-  width: 100vw;
-  height: 100vh;
-  overflow-x: hidden;
   color: var(--color-dark);
   font-family: var(--font-regular);
   font-size: 1rem;

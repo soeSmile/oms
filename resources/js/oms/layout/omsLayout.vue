@@ -1,6 +1,6 @@
 <template>
   <div class="sp-main" :class="close">
-    <div class="sp-menu">
+    <div class="sp-menu" :class="close">
       <div class="head" :class="close">
         <div class="logo">
           <img src="/img/logo.png" alt="">
@@ -55,22 +55,20 @@
       <div class="footer"></div>
     </div>
 
-    <div class="sp-wrap">
-      <div class="sp-nav part-2 sp-bg-white">
-        <div class="start"></div>
-        <div class="end end">
-          <div class="item sp-link sp-dark"
-               @click="logout">
-            <i class='bx bx-log-out-circle sp-fnt size-2'/>
-            <span class="sp-ml-1 sp-fnt">
+    <div class="sp-nav part-2 sp-bg-white">
+      <div class="start"></div>
+      <div class="end end">
+        <div class="item sp-link sp-dark"
+             @click="logout">
+          <i class='bx bx-log-out-circle sp-fnt size-2'/>
+          <span class="sp-ml-1 sp-fnt">
               {{ lang('exit') }}
             </span>
-          </div>
         </div>
       </div>
-
-      <router-view/>
     </div>
+
+    <router-view/>
   </div>
 </template>
 

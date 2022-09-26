@@ -1,5 +1,5 @@
 <template>
-  <div class="sp-wrap sp-flex col center middle">
+  <div class="sp-page sp-flex col center middle">
     <div class="sp-flex center middle sp-mb-8">
       <el-image class="sp-wpx-200"
                 src="/img/logo.png"
