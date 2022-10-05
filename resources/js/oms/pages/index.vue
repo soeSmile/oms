@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'omsIndex',
+  name: 'index',
 
   setup () {
     document.title = 'OMS SpecDoc | Главная'

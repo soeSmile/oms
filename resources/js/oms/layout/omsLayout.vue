@@ -55,7 +55,7 @@
       <div class="footer"></div>
     </div>
 
-    <div class="sp-nav part-2 sp-bg-white">
+    <div class="sp-nav shadow part-2 sp-bg-white">
       <div class="start"></div>
       <div class="end end">
         <div class="item sp-link sp-dark"
@@ -87,18 +87,18 @@ export default {
         show: false, menu: null,
       },
       {
-        name: 'offer', icon: 'bx bxs-offer', link: null,
+        name: 'goods', icon: 'bxs-store', link: null,
         show: false,
         menu: [
-          { name: 'list', icon: 'bx-list-ul', link: '/oms/offer' },
+          { name: 'list', icon: 'bx-list-ul', link: '/oms/good' },
           { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
         ],
       },
       {
-        name: 'goods', icon: 'bxs-store', link: null,
+        name: 'offer', icon: 'bx bxs-offer', link: null,
         show: false,
         menu: [
-          { name: 'list', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'list', icon: 'bx-list-ul', link: '/oms/offer' },
           { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
         ],
       },

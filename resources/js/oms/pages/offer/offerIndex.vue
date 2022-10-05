@@ -1,6 +1,6 @@
 <template>
   <div class="sp-content">
-    <div class="sp-nav sp-bg-white">
+    <div class="sp-nav border sp-bg-white">
       <div class="item">
         <el-button>
           <i class='bx bx-refresh'></i>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'omsOfferList',
+  name: 'offerIndex',
 
   setup () {
     document.title = 'OMS SpecDoc | ' + trans.offer

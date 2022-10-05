@@ -23,7 +23,7 @@ class IndexController
             return redirect()->route('web.login');
         }
 
-        return redirect()->route('web.oms');
+        return redirect('/oms');
     }
 
     /**
