@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,7 +25,7 @@ return new class extends Migration {
             $table->uuid('confirm_key')->nullable()->unique()->comment('Ключ для подтверждения.');
             $table->smallInteger('time_zone', false, true)->default(3)->comment('Временная зона пользователя');
             $table->string('password')->nullable();
-            $table->smallInteger('role', false, true)->default(4)->comment('Роль. RoleEnum');
+            $table->smallInteger('role', false, true)->default(4)->comment('Роль. RoleEnum::class');
             $table->string('img')->nullable();
             $table->timestamps();
         });
@@ -35,7 +36,7 @@ return new class extends Migration {
                 'email'      => 'admin@yandex.ru',
                 'phone'      => '333222333222',
                 'password'   => bcrypt('qwerty12'),
-                'role'       => 1,
+                'role'       => RoleEnum::Admin->value,
                 'confirm'    => true,
                 'created_at' => now(),
                 'updated_at' => now(),
