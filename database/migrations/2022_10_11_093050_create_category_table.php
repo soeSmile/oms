@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('category', static function (Blueprint $table) {
+        Schema::create('categories', static function (Blueprint $table) {
             $table->id();
             $table->bigInteger('parent_id')->default(0)->comment('Родитель категории');
         });
@@ -21,6 +21,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('categories');
     }
 };

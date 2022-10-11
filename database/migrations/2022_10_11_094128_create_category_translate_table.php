@@ -11,9 +11,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('translate_category', static function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('category_id')->comment('Категория');
+        Schema::create('category_translate', static function (Blueprint $table) {
+            $table->unsignedBigInteger('category_id')->primary()->comment('Категория');
             $table->string('locale')->default(LocaleEnum::RU->value)->comment('Локаль. LocaleEnum::class');
             $table->text('name')->comment('Наименование');
         });

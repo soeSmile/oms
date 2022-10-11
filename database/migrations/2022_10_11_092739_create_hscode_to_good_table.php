@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hscode_to_good', function (Blueprint $table) {
-            $table->bigInteger('good_id')->primary()->comment('ID товара');
+        Schema::create('hscode_to_good', static function (Blueprint $table) {
+            $table->unsignedBigInteger('good_id')->primary()->comment('ID товара');
             $table->text('hscode')->comment('Код HS Code. Аналог ТНВЭД для европы');
         });
     }
