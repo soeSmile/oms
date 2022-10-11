@@ -90,6 +90,7 @@ export default {
         name: 'directories', icon: 'bxs-grid', link: null,
         show: false,
         menu: [
+          { name: 'categories', icon: 'bx-category', link: '/oms/category' },
           { name: 'goods', icon: 'bxs-store', link: '/oms/good' },
           { name: 'brands', icon: 'bxs-label', link: '/oms/brand' },
           { name: 'suppliers', icon: 'bxs-user-detail', link: '/oms/index' },

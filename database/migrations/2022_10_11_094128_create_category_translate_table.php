@@ -12,7 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('category_translate', static function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->primary()->comment('Категория');
+            $table->unsignedBigInteger('category_id')->comment('Категория');
             $table->string('locale')->default(LocaleEnum::RU->value)->comment('Локаль. LocaleEnum::class');
             $table->text('name')->comment('Наименование');
         });
@@ -23,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('translate_category');
+        Schema::dropIfExists('category_translate');
     }
 };

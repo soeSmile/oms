@@ -43,12 +43,6 @@ abstract class AbstractRepository
      */
     public function getAll(array $data): LengthAwarePaginator|Collection
     {
-        if (isset($data['column'])) {
-            $this->query->orderBy($data['column'], $data['order'] ?? 'desc');
-        } else {
-            $this->query->oldest('id');
-        }
-
         if (isset($data['all'])) {
             return $this->query->get();
         }
@@ -61,6 +55,6 @@ abstract class AbstractRepository
      */
     protected function getQuery(): Builder
     {
-        return DB::table($this->table)->newQuery();
+        return DB::table($this->table);
     }
 }

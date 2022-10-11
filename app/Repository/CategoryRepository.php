@@ -18,14 +18,18 @@ final class CategoryRepository extends AbstractRepository
     protected string $table = 'categories';
 
     /**
+     * @var string
+     */
+    private string $tableTranslate = 'category_translate';
+
+    /**
      * @param array $data
      * @return LengthAwarePaginator|Collection
      */
     public function getAll(array $data): LengthAwarePaginator|Collection
     {
         $this->query
-            ->join('translate_category', $this->table . 'id', 'translate_category.category_id')
-            ->where('locale', app()->getLocale());
+            ->join($this->tableTranslate, $this->table . '.id', $this->tableTranslate . '.category_id');
 
         return parent::getAll($data);
     }
