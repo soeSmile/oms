@@ -92,26 +92,19 @@ export default {
         menu: [
           { name: 'goods', icon: 'bxs-store', link: '/oms/good' },
           { name: 'brands', icon: 'bxs-label', link: '/oms/brand' },
-        ],
-      },
-      {
-        name: 'offer', icon: 'bx bxs-offer', link: null,
-        show: false,
-        menu: [
-          { name: 'list', icon: 'bx-list-ul', link: '/oms/offer' },
-          { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
-        ],
-      },
-      {
-        name: 'suppliers', icon: 'bxs-user-detail', link: null,
-        show: false,
-        menu: [
-          { name: 'list', icon: 'bx-list-ul', link: '/oms/index' },
+          { name: 'suppliers', icon: 'bxs-user-detail', link: '/oms/index' },
         ],
       },
       {
         name: 'reports', icon: 'bxs-report', link: '/oms/index',
         show: false, menu: null,
+      },
+      {
+        name: 'system', icon: 'bx-cog', link: null,
+        show: false,
+        menu: [
+          { name: 'users', icon: 'bxs-group', link: '/oms/index' },
+        ],
       },
     ])
 
