@@ -29,7 +29,10 @@ final class CategoryRepository extends AbstractRepository
     public function getAll(array $data): LengthAwarePaginator|Collection
     {
         $this->query
-            ->join($this->tableTranslate, $this->table . '.id', $this->tableTranslate . '.category_id');
+            ->crossJoin($this->table, $this->table . '.id', $this->table . '.parent_id')
+            ->join($this->tableTranslate, $this->table . '.id', $this->tableTranslate . '.category_id')
+            ->where('locale', app()->getLocale())
+            ->orderBy($this->table . '.id');
 
         return parent::getAll($data);
     }
