@@ -83,15 +83,15 @@ export default {
     const close = ref(null)
     const menu = ref([
       {
-        name: 'main', icon: 'bxs-grid-alt', link: '/oms',
+        name: 'main', icon: 'bxs-home', link: '/oms',
         show: false, menu: null,
       },
       {
-        name: 'goods', icon: 'bxs-store', link: null,
+        name: 'directories', icon: 'bxs-grid', link: null,
         show: false,
         menu: [
-          { name: 'list', icon: 'bx-list-ul', link: '/oms/good' },
-          { name: 'add', icon: 'bx-plus-circle', link: '/oms/index' },
+          { name: 'goods', icon: 'bxs-store', link: '/oms/good' },
+          { name: 'brands', icon: 'bxs-label', link: '/oms/brand' },
         ],
       },
       {

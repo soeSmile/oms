@@ -8,7 +8,7 @@
   left: 0;
   top: 0;
   height: 100%;
-  width: 16rem;
+  width: 14rem;
   z-index: 998;
 
   &.close {
@@ -30,9 +30,9 @@
       justify-content: center;
 
       & .title {
-        font-family: var(--font-bold);
+        font-family: var(--font-regular);
         margin-left: 1rem;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: var(--color-dark-1);
 
         &.close {
@@ -57,9 +57,9 @@
         & .link {
           display: flex;
           align-items: center;
-          padding: 1rem;
+          padding: 0.8rem;
           cursor: pointer;
-          font-family: var(--font-regular);
+          font-family: var(--font-light);
           position: relative;
           margin-top: 0.2rem;
           color: var(--color-dark);
@@ -138,7 +138,7 @@
             padding: 0.6rem;
             cursor: pointer;
             color: var(--color-dark);
-            font-family: var(--font-regular);
+            font-family: var(--font-light);
             position: relative;
 
             & .icon {

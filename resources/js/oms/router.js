@@ -3,6 +3,7 @@ import Error404 from '../Error404.vue'
 import omsIndex from './pages/index.vue'
 import offerIndex from './pages/offer/offerIndex.vue'
 import goodIndex from './pages/good/goodIndex.vue'
+import brandIndex from './pages/brand/brandIndex.vue'
 
 const routers = [
   {
@@ -24,6 +25,11 @@ const routers = [
     path: '/oms/offer',
     component: offerIndex,
     name: 'offerIndex',
+  },
+  {
+    path: '/oms/brand',
+    component: brandIndex,
+    name: 'brandIndex',
   },
 ]
 
