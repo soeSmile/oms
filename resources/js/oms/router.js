@@ -4,6 +4,7 @@ import omsIndex from './pages/index.vue'
 import goodIndex from './pages/good/goodIndex.vue'
 import brandIndex from './pages/brand/brandIndex.vue'
 import categoryIndex from './pages/category/categoryIndex.vue'
+import categoryPage from './pages/category/categoryPage.vue'
 
 const routers = [
   {
@@ -20,6 +21,11 @@ const routers = [
     path: '/oms/category',
     component: categoryIndex,
     name: 'categoryIndex',
+  },
+  {
+    path: '/oms/category/:id',
+    component: categoryPage,
+    name: 'categoryPage',
   },
   {
     path: '/oms/good',
