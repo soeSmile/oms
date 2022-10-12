@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('categories', static function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('parent_id')->default(0)->comment('Родитель категории');
+            $table->bigInteger('parent_id')->nullable()->comment('Родитель категории');
         });
     }
 

@@ -41,7 +41,7 @@ abstract class AbstractRepository
      * @param array $data
      * @return LengthAwarePaginator|Builder[]|Collection
      */
-    public function getAll(array $data): Collection|LengthAwarePaginator|array
+    public function getAll(array $data = []): Collection|LengthAwarePaginator|array
     {
         if (isset($data['paginate'])) {
             return $this->query->paginate($this->paginateCount);

@@ -26,10 +26,56 @@ final class CategoryRepository extends AbstractRepository
      * @param array $data
      * @return Collection|LengthAwarePaginator|array|Builder[]
      */
-    public function getAll(array $data): Collection|LengthAwarePaginator|array
+    public function getAll(array $data = []): Collection|LengthAwarePaginator|array
     {
-        $this->query->with('name');
+        $this->query->with('name', 'parent');
+
+        if (isset($data['order'])) {
+            $this->query->orderBy('id');
+        }
 
         return parent::getAll($data);
+    }
+
+    /**
+     * @return array
+     */
+    public function getTree(): array
+    {
+        $data = $this->getAll(['order' => true]);
+
+        foreach ($data as $item) {
+            $item->label = $item->name->name;
+        }
+
+        $data = $data->toArray();
+
+        return $this->buildTree($data);
+    }
+
+    /**
+     * @param array $data
+     * @param int $parentId
+     * @return array
+     */
+    private function buildTree(array &$data, int $parentId = 0): array
+    {
+        $result = [];
+
+        foreach ($data as $item) {
+            if ((int)$item['parent_id'] === $parentId) {
+                $child = $this->buildTree($data, $item['id']);
+
+                if ($child) {
+                    $item['child'] = $child;
+                }
+
+                $result[] = $item;
+
+                unset($data[$item['id']]);
+            }
+        }
+
+        return $result;
     }
 }

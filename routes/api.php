@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
      * Admin routers
      */
     Route::group(['middleware' => 'is-user:admin'], static function () {
+        Route::get('/categories/tree', [CategoryController::class, 'getTree'])->name('categories.tree');
         Route::apiResource('categories', CategoryController::class);
     });
 });

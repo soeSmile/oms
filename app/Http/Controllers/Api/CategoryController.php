@@ -31,6 +31,14 @@ class CategoryController
         return CategoryResource::collection($this->categoryRepository->getAll($request->all()));
     }
 
+    /**
+     * @return JsonResponse
+     */
+    public function getTree(): JsonResponse
+    {
+        return response()->json(['data' => $this->categoryRepository->getTree()]);
+    }
+
     public function show(int $category)
     {
     }
