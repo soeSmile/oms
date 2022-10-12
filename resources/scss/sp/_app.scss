@@ -6,6 +6,7 @@
 @use "menu";
 @use "nav";
 @use "color";
+@use "button";
 
 body, #app {
   color: var(--color-dark);

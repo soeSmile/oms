@@ -11,4 +11,16 @@ enum LocaleEnum: string
 {
     case RU = 'ru';
     case EN = 'en';
+
+    /**
+     * @return string
+     */
+    public function title(): string
+    {
+        return match ($this) {
+            self::RU => 'Русский',
+            self::EN => 'English',
+        };
+    }
 }
+

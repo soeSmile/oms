@@ -13,7 +13,7 @@
         <ul class="links">
           <li v-for="(val,idx) in menu" :title="lang(val.name)">
             <router-link class="link"
-                         :class="close"
+                         :class="close + ' ' + activeChildMenu(val.name)"
                          @click="closeSubMenu"
                          v-if="val.link"
                          :to="val.link">
@@ -39,6 +39,7 @@
                 v-if="val.menu">
               <li v-for="sub in val.menu" :title="lang(sub.name)">
                 <router-link class="link"
+                             :class="activeChildMenu(sub.name)"
                              @click="closeSubMenu"
                              :to="sub.link">
                   <i class="icon bx" :class="sub.icon"/>
@@ -72,78 +73,78 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { lang } from '../../helper/translate'
+import { useRoute } from 'vue-router'
 
-export default {
-  name: 'omsLayout',
-
-  setup () {
-    const close = ref(null)
-    const menu = ref([
-      {
-        name: 'main', icon: 'bxs-home', link: '/oms',
-        show: false, menu: null,
-      },
-      {
-        name: 'directories', icon: 'bxs-grid', link: null,
-        show: false,
-        menu: [
-          { name: 'categories', icon: 'bx-category', link: '/oms/category' },
-          { name: 'goods', icon: 'bxs-store', link: '/oms/good' },
-          { name: 'brands', icon: 'bxs-label', link: '/oms/brand' },
-          { name: 'suppliers', icon: 'bxs-user-detail', link: '/oms/index' },
-        ],
-      },
-      {
-        name: 'reports', icon: 'bxs-report', link: '/oms/index',
-        show: false, menu: null,
-      },
-      {
-        name: 'system', icon: 'bx-cog', link: null,
-        show: false,
-        menu: [
-          { name: 'users', icon: 'bxs-group', link: '/oms/index' },
-        ],
-      },
-    ])
-
-    const subShow = (idx) => {
-      for (let i in menu.value) {
-        if (i != idx) {
-          menu.value[i].show = false
-        } else {
-          menu.value[i].show = !menu.value[i].show
-        }
-      }
-    }
-
-    const closeSubMenu = () => {
-      for (let i in menu.value) {
-        menu.value[i].show = false
-      }
-    }
-
-    const menuHideShow = () => {
-      close.value = close.value ? null : 'close'
-    }
-
-    const logout = () => {
-      axios.post('/api/logout').then(res => {
-        window.location.href = '/'
-      })
-    }
-
-    return {
-      menu,
-      subShow,
-      close,
-      menuHideShow,
-      closeSubMenu,
-      logout,
-      lang,
-    }
+const close = ref(null)
+const route = useRoute()
+const menu = ref([
+  {
+    name: 'main', icon: 'bxs-home', link: '/oms',
+    show: false, menu: null,
   },
+  {
+    name: 'directories', icon: 'bxs-grid', link: null,
+    show: false,
+    menu: [
+      { name: 'categories', icon: 'bx-category', link: '/oms/category' },
+      { name: 'goods', icon: 'bxs-store', link: '/oms/good' },
+      { name: 'brands', icon: 'bxs-label', link: '/oms/brand' },
+      { name: 'suppliers', icon: 'bxs-user-detail', link: '/oms/index' },
+    ],
+  },
+  {
+    name: 'reports', icon: 'bxs-report', link: '/oms/index',
+    show: false, menu: null,
+  },
+  {
+    name: 'system', icon: 'bx-cog', link: null,
+    show: false,
+    menu: [
+      { name: 'users', icon: 'bxs-group', link: '/oms/index' },
+    ],
+  },
+])
+
+/**
+ * @param name
+ * @returns {string}
+ */
+const activeChildMenu = (name) => {
+  let style = ''
+
+  if (name === 'categories' && route.name === 'categoryPage') {
+    style = 'active-route-link'
+  }
+
+  return style
+}
+
+const subShow = (idx) => {
+  for (let i in menu.value) {
+    if (i != idx) {
+      menu.value[i].show = false
+    } else {
+      menu.value[i].show = !menu.value[i].show
+    }
+  }
+}
+
+const closeSubMenu = () => {
+  for (let i in menu.value) {
+    menu.value[i].show = false
+  }
+}
+
+const menuHideShow = () => {
+  close.value = close.value ? null : 'close'
+}
+
+const logout = () => {
+  axios.post('/api/logout').then(res => {
+    window.location.href = '/'
+  })
 }
 </script>

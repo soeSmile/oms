@@ -2,19 +2,23 @@
   <div class="sp-content">
     <div class="sp-nav border sp-bg-white">
       <div class="item">
-        <el-button @click="getData">
-          <i class='bx bx-refresh'></i>
-        </el-button>
+        <div class="sp-button light sp-mr-2"
+             @click="getData">
+          <i class='bx bx-refresh'/>
+        </div>
 
-        <el-button type="primary">
-          <i class='bx bx-plus-circle sp-mr-2'></i>
-          {{ trans.add }}
-        </el-button>
+        <router-link class="sp-mr-2"
+                     to="/oms/category/new">
+          <div class="sp-button primary">
+            <i class='bx bx-plus-circle'/>
+            <span>{{ trans.add }}</span>
+          </div>
+        </router-link>
 
-        <el-button type="info" @click="makeTree">
-          <i class='bx bx-sitemap sp-mr-2'></i>
-          {{ showTree ? trans.list : trans.tree }}
-        </el-button>
+        <div class="sp-button info" @click="switchTree">
+          <i class='bx bx-sitemap'/>
+          <span>{{ showTree ? trans.list : trans.tree }}</span>
+        </div>
       </div>
     </div>
 
@@ -55,6 +59,14 @@ const propTree = {
 }
 
 const getData = () => {
+  if (showTree.value) {
+    getTreeData()
+  } else {
+    getListData()
+  }
+}
+
+const getListData = () => {
   loading.value = true
 
   axios.get('/api/categories', { params: {} }).
@@ -74,11 +86,11 @@ const getTreeData = () => {
       finally(() => {loading.value = false})
 }
 
-const makeTree = () => {
+const switchTree = () => {
   if (!showTree.value) {
     getTreeData()
   } else {
-    getData()
+    getListData()
   }
 
   showTree.value = !showTree.value
