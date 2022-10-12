@@ -14,10 +14,18 @@
     </div>
 
     <el-card class="sp-mt-4" shadow="never">
-      <el-table v-loading="loading" :data="data" style="width: 100%">
-        <el-table-column prop="date" label="Date" width="180"/>
-        <el-table-column prop="name" label="Name" width="180"/>
-        <el-table-column prop="address" label="Address"/>
+      <el-table v-loading="loading" stripe :data="data" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="180"/>
+        <el-table-column prop="name.name" :label="trans.name"/>
+        <el-table-column prop="parent.name" :label="trans.parent"/>
+        <el-table-column :label="trans.control" width="180">
+          <template #default="scope">
+            <div class="sp-flex middle center">
+              <i class='bx bxs-edit sp-i sp-link sp-info'></i>
+              <i class='bx bx-trash sp-i sp-link sp-danger' ></i>
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
     </el-card>
   </div>

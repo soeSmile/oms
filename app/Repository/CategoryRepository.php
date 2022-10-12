@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class CategoryRepository
@@ -13,26 +15,20 @@ use Illuminate\Support\Collection;
 final class CategoryRepository extends AbstractRepository
 {
     /**
-     * @var string
+     * @param Category $model
      */
-    protected string $table = 'categories';
-
-    /**
-     * @var string
-     */
-    private string $tableTranslate = 'category_translate';
+    public function __construct(Category $model)
+    {
+        parent::__construct($model);
+    }
 
     /**
      * @param array $data
-     * @return LengthAwarePaginator|Collection
+     * @return Collection|LengthAwarePaginator|array|Builder[]
      */
-    public function getAll(array $data): LengthAwarePaginator|Collection
+    public function getAll(array $data): Collection|LengthAwarePaginator|array
     {
-        $this->query
-            ->crossJoin($this->table, $this->table . '.id', $this->table . '.parent_id')
-            ->join($this->tableTranslate, $this->table . '.id', $this->tableTranslate . '.category_id')
-            ->where('locale', app()->getLocale())
-            ->orderBy($this->table . '.id');
+        $this->query->with('name');
 
         return parent::getAll($data);
     }

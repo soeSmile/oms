@@ -6,6 +6,11 @@
   }
 }
 
+.sp-i {
+  font-size: 1.4rem;
+  margin: 0.2rem;
+}
+
 // Width in px
 @for $i from 1 through 20 {
   $value: $i * 50;
