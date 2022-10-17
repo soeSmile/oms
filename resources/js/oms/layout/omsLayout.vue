@@ -82,7 +82,7 @@ const close = ref(null)
 const route = useRoute()
 const menu = ref([
   {
-    name: 'main', icon: 'bxs-home', link: '/oms',
+    name: 'home', icon: 'bxs-home', link: '/oms',
     show: false, menu: null,
   },
   {

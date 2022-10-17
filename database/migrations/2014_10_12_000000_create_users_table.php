@@ -17,15 +17,15 @@ return new class extends Migration {
 
         Schema::create('users', static function (Blueprint $table) {
             $table->id();
-            $table->string('name')->comment('Имя');
-            $table->string('surname')->nullable()->comment('Фамилия');
-            $table->string('phone')->comment('Телефон');
+            $table->string('name');
+            $table->string('surname')->nullable();
+            $table->string('phone');
             $table->string('email')->unique();
-            $table->boolean('confirm')->default(false)->comment('Метка подтверждения пользователя');
-            $table->uuid('confirm_key')->nullable()->unique()->comment('Ключ для подтверждения.');
-            $table->smallInteger('time_zone', false, true)->default(3)->comment('Временная зона пользователя');
+            $table->boolean('confirm')->default(false);
+            $table->uuid('confirm_key')->nullable()->unique();
+            $table->smallInteger('time_zone', false, true)->default(3);
             $table->string('password')->nullable();
-            $table->smallInteger('role', false, true)->default(4)->comment('Роль. RoleEnum::class');
+            $table->smallInteger('role', false, true)->default(2)->comment(RoleEnum::class);
             $table->string('img')->nullable();
             $table->timestamps();
         });

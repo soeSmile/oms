@@ -2,6 +2,10 @@
   color: var(--color-primary);
 }
 
+.sp-secondary {
+  color: var(--color-secondary);
+}
+
 .sp-success {
   color: var(--color-success);
 }
@@ -11,7 +15,7 @@
 }
 
 .sp-danger {
-  color: var(--color-danger);
+  color: var(--color-error);
 }
 
 .sp-info {

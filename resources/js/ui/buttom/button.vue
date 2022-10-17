@@ -1,7 +1,7 @@
 <template>
   <div class="sp-button" :class="color || 'primary'">
     <i v-if="icon" :class='icon'/>
-    <span>{{ title }}</span>
+    <span v-if="title">{{ title }}</span>
   </div>
 </template>
 

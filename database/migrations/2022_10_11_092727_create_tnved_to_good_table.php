@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tnved_to_good', static function (Blueprint $table) {
-            $table->unsignedBigInteger('good_id')->comment('ID товара');
-            $table->text('tnved')->comment('Код ТНВЭД');
+            $table->unsignedBigInteger('good_id')->comment('ID good');
+            $table->text('tnved')->comment('Code TNVED');
         });
     }
 

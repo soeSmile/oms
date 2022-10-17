@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class LoginRequest
+ * Class CategoryStoreRequest
  *
  * @property-read string $email
  * @property-read string $password
  * @property-read bool $remember
  */
-class LoginRequest extends FormRequest
+class CategoryStoreRequest extends FormRequest
 {
     /**
      * @return bool
@@ -29,8 +29,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email'    => 'required|email:rfc,dns',
-            'password' => 'required'
+            'name'     => 'required|string',
+            'parentId' => 'nullable',
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => 'Category',
         ];
     }
 }

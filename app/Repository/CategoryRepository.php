@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CategoryRepository
@@ -28,13 +29,25 @@ final class CategoryRepository extends AbstractRepository
      */
     public function getAll(array $data = []): Collection|LengthAwarePaginator|array
     {
-        $this->query->with('name', 'parent');
+        $this->query->with('parent');
 
         if (isset($data['order'])) {
             $this->query->orderBy('id');
         }
 
         return parent::getAll($data);
+    }
+
+    /**
+     * @param array $data
+     * @return Builder|Model
+     */
+    public function store(array $data): Model|Builder
+    {
+        return $this->getQuery()->create([
+            'name'      => $data['name'],
+            'parent_id' => $data['parentId'] ?? null
+        ]);
     }
 
     /**
@@ -45,7 +58,7 @@ final class CategoryRepository extends AbstractRepository
         $data = $this->getAll(['order' => true]);
 
         foreach ($data as $item) {
-            $item->label = $item->name->name;
+            $item->label = $item->name;
         }
 
         $data = $data->toArray();

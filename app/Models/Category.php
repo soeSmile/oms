@@ -19,18 +19,20 @@ class Category extends Model
     protected $table = 'categories';
 
     /**
-     * @return HasOne
+     * @var string[]
      */
-    public function name(): HasOne
-    {
-        return $this->hasOne(CategoryTranslate::class);
-    }
+    protected $guarded = ['id'];
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * @return HasOne
      */
     public function parent(): HasOne
     {
-        return $this->hasOne(CategoryTranslate::class, 'category_id', 'parent_id');
+        return $this->hasOne(self::class, 'id', 'parent_id');
     }
 }

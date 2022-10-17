@@ -1,11 +1,30 @@
 <?php
 
 return [
-    'add'   => 'Add',
-    'lists' => 'List',
+    'email'    => 'E-mail',
+    'password' => 'Password',
+    'tree'     => 'Tree',
+    'list'     => 'List',
+    'name'     => 'Name',
+    'parent'   => 'Parent',
+    'control'  => 'Control',
+    'add'      => 'Add',
+    'login'    => 'Login',
+    'exit'     => 'Exit',
+    'reset'    => 'Reset',
+    'remember' => 'Remember',
+    'save'     => 'Save',
+    'cancel'   => 'Cancel',
 
-    'menu' => [
-        'main'  => 'Home',
-        'goods' => 'Goods',
-    ]
+    'home'        => 'Home',
+    'directories' => 'Directories',
+    'categories'  => 'Categories',
+    'category'    => 'Category',
+    'goods'       => 'Goods',
+    'good'        => 'Good',
+    'reports'     => 'Reports',
+    'report'      => 'Report',
+    'system'      => 'System',
+    'user'        => 'User',
+    'users'       => 'Users',
 ];

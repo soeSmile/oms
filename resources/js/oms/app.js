@@ -7,13 +7,22 @@ axios.defaults.withCredentials = true
 import { createApp } from 'vue'
 import App from './App.vue'
 import ElementPlus from 'element-plus'
-import ru from 'element-plus/es/locale/lang/ru'
 import router from './router'
+
+import uiButton from '../ui/buttom/button.vue'
+
+const components = {
+  uiButton,
+}
 
 const app = createApp(App)
 app.config.globalProperties.trans = trans
 
+for (let name in components) {
+  app.component(name, components[name])
+}
+
 app.
-  use(ElementPlus, { locale: ru }).
+  use(ElementPlus).
   use(router).
   mount('#app')

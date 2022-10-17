@@ -2,23 +2,18 @@
   <div class="sp-content">
     <div class="sp-nav border sp-bg-white">
       <div class="item">
-        <div class="sp-button light sp-mr-2"
-             @click="getData">
-          <i class='bx bx-refresh'/>
-        </div>
+        <ui-button class="sp-mr-2"
+                   icon="bx bx-refresh" color="light"
+                   @click="getData"/>
 
-        <router-link class="sp-mr-2"
-                     to="/oms/category/new">
-          <div class="sp-button primary">
-            <i class='bx bx-plus-circle'/>
-            <span>{{ trans.add }}</span>
-          </div>
+        <router-link class="sp-mr-2" to="/oms/category/new">
+          <ui-button :title="trans.add"
+                     icon="bx bx-plus-circle" color="primary"/>
         </router-link>
 
-        <div class="sp-button info" @click="switchTree">
-          <i class='bx bx-sitemap'/>
-          <span>{{ showTree ? trans.list : trans.tree }}</span>
-        </div>
+        <ui-button :title="showTree ? trans.list : trans.tree"
+                   icon="bx bx-sitemap" color="info"
+                   @click="switchTree"/>
       </div>
     </div>
 
@@ -30,7 +25,7 @@
       <el-table v-else
                 v-loading="loading" stripe :data="data" style="width: 100%">
         <el-table-column prop="id" label="ID" width="180"/>
-        <el-table-column prop="name.name" :label="trans.name"/>
+        <el-table-column prop="name" :label="trans.name"/>
         <el-table-column prop="parent.name" :label="trans.parent"/>
         <el-table-column :label="trans.control" width="180">
           <template #default="scope">

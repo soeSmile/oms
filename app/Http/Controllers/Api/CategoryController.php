@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Resources\Category\CategoryResource;
 use App\Repository\CategoryRepository;
 use Illuminate\Http\JsonResponse;
@@ -43,8 +44,13 @@ class CategoryController
     {
     }
 
-    public function store()
+    /**
+     * @param CategoryStoreRequest $categoryStoreRequest
+     * @return CategoryResource
+     */
+    public function store(CategoryStoreRequest $categoryStoreRequest): CategoryResource
     {
+        return new CategoryResource($this->categoryRepository->store($categoryStoreRequest->validated()));
     }
 
     /**

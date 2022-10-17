@@ -26,8 +26,8 @@ class TranslateServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $trans = [];
-        $locales = ['en', 'ru'];
-        $fileName = ['ru', 'auth'];
+        $locales = ['en'];
+        $fileName = ['en', 'ru', 'auth'];
 
         foreach ($locales as $locale) {
             $path = base_path("lang/$locale");

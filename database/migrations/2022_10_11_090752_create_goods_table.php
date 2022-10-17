@@ -12,13 +12,13 @@ return new class extends Migration {
     {
         Schema::create('goods', static function (Blueprint $table) {
             $table->id();
-            $table->integer('brand_id')->unsigned()->comment('ID бренда');
-            $table->decimal('width_box')->nullable()->comment('Ширина (в коробке)');
-            $table->decimal('height_box')->nullable()->comment('Высота (в коробке)');
-            $table->decimal('length_box')->nullable()->comment('Длина (в коробке)');
-            $table->decimal('weight_gross')->nullable()->comment('Вес (брутто)');
-            $table->decimal('volume')->nullable()->comment('Объем');
-            $table->boolean('deposit')->default(false)->comment('Залог (да/нет)');
+            $table->integer('brand_id')->unsigned()->comment('ID brand');
+            $table->decimal('width_box')->nullable()->comment('Width (in box)');
+            $table->decimal('height_box')->nullable()->comment('Height (in box)');
+            $table->decimal('length_box')->nullable()->comment('Length (in box)');
+            $table->decimal('weight_gross')->nullable()->comment('Weight (gross)');
+            $table->decimal('volume')->nullable();
+            $table->boolean('deposit')->default(false)->comment('Deposit good');
         });
     }
 

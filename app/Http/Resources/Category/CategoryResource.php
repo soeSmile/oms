@@ -20,8 +20,8 @@ class CategoryResource extends JsonResource
     {
         return [
             'id'     => $this->id,
-            'name'   => new CategoryTranslateResource($this->name),
-            'parent' => new CategoryTranslateResource($this->parent)
+            'name'   => $this->name,
+            'parent' => $this->parent ? new CategoryResource($this->parent) : []
         ];
     }
 }
