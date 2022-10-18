@@ -44,10 +44,13 @@
         <tr v-for="val in data">
           <td class="center">{{ val.id }}</td>
           <td class="left">{{ val.name }}</td>
-          <td class="left">{{ val.parent ? val.parent.name : '' }}</td>
+          <td class="left">{{ val.parentName }}</td>
           <td class="right">
-            <i class='bx bxs-edit sp-i sp-link sp-info'></i>
-            <i class='bx bx-trash sp-i sp-link sp-danger'></i>
+            <router-link :to="'/oms/category/' + val.id">
+              <i class='bx bxs-edit sp-i sp-link sp-info'/>
+            </router-link>
+            <i class='bx bx-trash sp-i sp-link sp-danger'
+               @click="destroy"/>
           </td>
         </tr>
         </tbody>
@@ -90,7 +93,7 @@ const getData = () => {
 const getListData = () => {
   loading.value = true
 
-  axios.get('/api/categories', { params: { paginate: true, page: page.value } }).
+  axios.get('/api/categories', { params: { order: 'id', paginate: true, page: page.value } }).
       then(res => {
         data.value = res.data.data
         pagination.value = res.data.meta
@@ -124,6 +127,10 @@ const switchTree = () => {
   }
 
   showTree.value = !showTree.value
+}
+
+const destroy = () => {
+
 }
 
 onBeforeMount(() => {

@@ -31,8 +31,14 @@ final class CategoryRepository extends AbstractRepository
     {
         $this->query->with('parent');
 
+
         if (isset($data['order'])) {
-            $this->query->orderBy('id');
+            $this->query->orderBy($data['order']);
+        }
+
+        if (isset($data['exclude'])) {
+            $this->query
+                ->where('id', '<>', $data['exclude']);
         }
 
         return parent::getAll($data);
@@ -64,7 +70,7 @@ final class CategoryRepository extends AbstractRepository
      */
     public function getTree(): array
     {
-        $data = $this->getAll(['order' => true]);
+        $data = $this->getAll(['order' => 'id']);
 
         foreach ($data as $item) {
             $item->label = $item->name;

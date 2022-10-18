@@ -20,6 +20,7 @@
 
         <div class="sp-mb-2 sp-mt-8">{{ trans.parent }}</div>
         <el-select size="large"
+                   :clearable="true"
                    v-model="category.parentId">
           <el-option v-for="val in categories"
                      :label="val.name"
@@ -32,11 +33,12 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { messageToStr } from '../../../helper/serialazeError'
 import OmsHeader from '../../component/omsHeader.vue'
 
+const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
 const category = ref({
@@ -78,13 +80,27 @@ const store = () => {
   }).finally(() => {loading.value = false})
 }
 
+const getItem = () => {
+  if (route.params.id !== 'new') {
+    loading.value = true
+    let id = route.params.id
+
+    axios.get('/api/categories/' + id).then(res => {
+      category.value = res.data.data
+      loading.value = false
+    })
+  }
+}
+
 onMounted(() => {
   loading.value = true
 
-  axios.get('/api/categories', { params: {} }).
+  axios.get('/api/categories', { params: { exclude: route.params.id } }).
       then(res => {
         categories.value = res.data.data
       }).
       finally(() => {loading.value = false})
+
+  getItem()
 })
 </script>
