@@ -44,7 +44,7 @@
         <tr v-for="val in data">
           <td class="center">{{ val.id }}</td>
           <td class="left">{{ val.name }}</td>
-          <td class="left">{{ val.parent.name }}</td>
+          <td class="left">{{ val.parent ? val.parent.name : '' }}</td>
           <td class="right">
             <i class='bx bxs-edit sp-i sp-link sp-info'></i>
             <i class='bx bx-trash sp-i sp-link sp-danger'></i>

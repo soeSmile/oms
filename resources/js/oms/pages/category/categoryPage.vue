@@ -7,7 +7,7 @@
         <router-link to="/oms/category">
           <ui-button class="sp-mr-2" :title="trans.cancel" icon="bx bx-x" color="light"/>
         </router-link>
-        <ui-button class="sp-mr-2" :title="trans.save" icon="bx bxs-save" color="success"
+        <ui-button class="sp-mr-2" :title="trans.save" icon="bx bxs-save" color="primary"
                    @click="store"/>
       </div>
     </div>

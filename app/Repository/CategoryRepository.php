@@ -24,7 +24,7 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
-     * @param array $data
+     * @param array<string> $data
      * @return Collection|LengthAwarePaginator|array|Builder[]
      */
     public function getAll(array $data = []): Collection|LengthAwarePaginator|array
@@ -39,19 +39,28 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
-     * @param array $data
+     * @param array<string> $data
      * @return Builder|Model
      */
     public function store(array $data): Model|Builder
     {
-        return $this->getQuery()->create([
-            'name'      => $data['name'],
-            'parent_id' => $data['parentId'] ?? null
-        ]);
+        return $this->getQuery()->create($this->getData($data));
     }
 
     /**
-     * @return array
+     * @param int $categoryId
+     * @param array<string> $data
+     * @return bool
+     */
+    public function update(int $categoryId, array $data): bool
+    {
+        return (bool)$this->getQuery()
+            ->where('id', $categoryId)
+            ->update($this->getData($data));
+    }
+
+    /**
+     * @return array<string>
      */
     public function getTree(): array
     {
@@ -67,9 +76,9 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
-     * @param array $data
+     * @param array<string> $data
      * @param int $parentId
-     * @return array
+     * @return array<string>
      */
     private function buildTree(array &$data, int $parentId = 0): array
     {
@@ -77,7 +86,7 @@ final class CategoryRepository extends AbstractRepository
 
         foreach ($data as $item) {
             if ((int)$item['parent_id'] === $parentId) {
-                $child = $this->buildTree($data, $item['id']);
+                $child = $this->buildTree($data, (int)$item['id']);
 
                 if ($child) {
                     $item['child'] = $child;
@@ -90,5 +99,17 @@ final class CategoryRepository extends AbstractRepository
         }
 
         return $result;
+    }
+
+    /**
+     * @param array<string> $data
+     * @return array<string, string|null>
+     */
+    private function getData(array $data): array
+    {
+        return [
+            'name'      => $data['name'],
+            'parent_id' => $data['parentId'] ?? null
+        ];
     }
 }
