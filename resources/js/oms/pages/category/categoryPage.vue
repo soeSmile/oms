@@ -94,8 +94,13 @@ const getItem = () => {
 
 onMounted(() => {
   loading.value = true
+  let id = null
 
-  axios.get('/api/categories', { params: { exclude: route.params.id } }).
+  if (route.params.id !== 'new') {
+    id = route.params.id
+  }
+
+  axios.get('/api/categories', { params: { exclude: id } }).
       then(res => {
         categories.value = res.data.data
       }).

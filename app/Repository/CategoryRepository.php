@@ -37,8 +37,7 @@ final class CategoryRepository extends AbstractRepository
         }
 
         if (isset($data['exclude'])) {
-            $this->query
-                ->where('id', '<>', $data['exclude']);
+            $this->query->where('id', '<>', $data['exclude']);
         }
 
         return parent::getAll($data);
