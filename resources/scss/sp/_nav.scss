@@ -1,13 +1,16 @@
 .sp-nav {
   display: grid;
   border-radius: 0.6rem;
+  align-items: center;
 
   &.part-2 {
     grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'start end'
   }
 
   &.part-3 {
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 'start center end'
   }
 
   &.shadow {

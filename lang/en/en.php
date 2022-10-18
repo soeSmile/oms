@@ -16,6 +16,7 @@ return [
     'save'     => 'Save',
     'cancel'   => 'Cancel',
     'show'     => 'Show',
+    'search'   => 'Search',
 
     'home'        => 'Home',
     'directories' => 'Directories',
