@@ -1,14 +1,6 @@
 @font-face {
-  font-family: 'Roboto-Thin';
-  src: url('./fonts/Roboto-Thin.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Roboto-Light';
-  src: url('./fonts/Roboto-Light.ttf') format('truetype');
+  font-family: 'Light';
+  src: url('./fonts/Inter-Light.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,44 +8,39 @@
 
 
 @font-face {
-  font-family: 'Roboto-Regular';
-  src: url('./fonts/Roboto-Regular.ttf') format('truetype');
+  font-family: 'Regular';
+  src: url('./fonts/Inter-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Roboto-Medium';
-  src: url('./fonts/Roboto-Medium.ttf') format('truetype');
+  font-family: 'Medium';
+  src: url('./fonts/Inter-Medium.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Roboto-Bold';
-  src: url('./fonts/Roboto-Bold.ttf') format('truetype');
+  font-family: 'Bold';
+  src: url('./fonts/Inter-Bold.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 // Fonts
-$fontThin: 'Roboto-Thin';
-$fontLight: 'Roboto-Light';
-$fontRegular: 'Roboto-Regular';
-$fontMedium: 'Roboto-Medium';
-$fontBold: 'Roboto-Bold';
+$fontLight: 'Light';
+$fontRegular: 'Regular';
+$fontMedium: 'Medium';
+$fontBold: 'Bold';
 
 // Font size
 $fontSize: 0.75rem !default;
 
 .sp-fnt {
-  &.thin {
-    font-family: $fontThin;
-  }
-
   &.light {
     font-family: $fontLight;
   }

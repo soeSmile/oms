@@ -1,5 +1,5 @@
 @extends('layout.layout')
-@section('title','OMS SpecDoc | Вход')
+@section('title','OMS | Login')
 @vite(['resources/scss/app.scss', 'resources/js/auth/app.js'])
 
 @section('content')

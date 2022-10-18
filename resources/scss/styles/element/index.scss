@@ -1,26 +1,26 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
-      'base': #1976d2,
+      'base': #9599f7,
     ),
     'success': (
-      'base': #2e7d32,
+      'base': #67A42C,
     ),
     'warning': (
-      'base': #ed6c02,
+      'base': #FFE089,
     ),
     'danger': (
-      'base': #d32f2f,
+      'base': #f33a67,
     ),
     'error': (
-      'base': #c62828,
+      'base': #f33a67,
     ),
     'info': (
-      'base': #0288d1,
+      'base': #89b3fe,
     ),
   ),
   $font-family: (
-    '': 'Roboto-Regular'
+    '': 'Comfortaa-Regular'
   ),
   $font-size: (
     'base': 1rem
