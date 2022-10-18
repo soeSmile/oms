@@ -1,0 +1,57 @@
+.sp-header {
+  display: grid;
+  grid-template-columns: 300px 1fr 400px;
+  position: relative;
+  width: 95%;
+  margin: 0 auto;
+  height: 8rem;
+
+  & .title {
+    font-family: var(--font-medium);
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & .slot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & .wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & .user {
+    display: grid;
+    grid-template-columns: 40px 1fr 1fr;
+    background: var(--color-white);
+    position: relative;
+    padding: 0.8rem 1.4rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
+
+    & .image {
+      width: 1rem;
+
+      & img {
+        width: 60px;
+        position: absolute;
+        left: -20px;
+        top: -10px
+      }
+    }
+
+    & .name {
+      text-align: left;
+    }
+
+    & .control {
+      text-align: right;
+    }
+  }
+}

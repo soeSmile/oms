@@ -9,6 +9,7 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import ui from '../ui'
 import router from './router'
+import store from './store'
 
 const app = createApp(App)
 app.config.globalProperties.trans = trans
@@ -16,5 +17,6 @@ app.config.globalProperties.trans = trans
 app.
   use(ElementPlus).
   use(router).
+  use(store).
   use(ui).
   mount('#app')

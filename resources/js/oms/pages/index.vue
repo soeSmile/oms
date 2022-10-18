@@ -1,18 +1,8 @@
 <template>
-  <div class="sp-content">
-    Main Page
-  </div>
+  <oms-header title="Home"/>
 </template>
 
-<script>
+<script setup>
+import OmsHeader from '../component/omsHeader.vue'
 
-export default {
-  name: 'index',
-
-  setup () {
-    document.title = 'OMS SpecDoc | Главная'
-
-    return {}
-  },
-}
 </script>

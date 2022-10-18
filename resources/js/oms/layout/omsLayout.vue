@@ -1,14 +1,15 @@
 <template>
   <div class="sp-main" :class="close">
     <div class="sp-menu" :class="close">
+
       <div class="head" :class="close">
         <div class="logo">
-          <img src="/img/logo.png" alt="">
-          <div class="title" :class="close">OMS SpecDoc</div>
+          <div class="title">OMS</div>
         </div>
         <i class='bx bx-menu sp-fnt size-4 sp-link sp-p-2'
            @click="menuHideShow"/>
       </div>
+
       <div class="content">
         <ul class="links">
           <li v-for="(val,idx) in menu" :title="lang(val.name)">
@@ -52,20 +53,6 @@
 
           </li>
         </ul>
-      </div>
-      <div class="footer"></div>
-    </div>
-
-    <div class="sp-nav shadow part-2 sp-bg-white">
-      <div class="start"></div>
-      <div class="end end">
-        <div class="item sp-link sp-dark"
-             @click="logout">
-          <i class='bx bx-log-out-circle sp-fnt size-2'/>
-          <span class="sp-ml-1 sp-fnt">
-              {{ lang('exit') }}
-            </span>
-        </div>
       </div>
     </div>
 
@@ -140,11 +127,5 @@ const closeSubMenu = () => {
 
 const menuHideShow = () => {
   close.value = close.value ? null : 'close'
-}
-
-const logout = () => {
-  axios.post('/api/logout').then(res => {
-    window.location.href = '/'
-  })
 }
 </script>

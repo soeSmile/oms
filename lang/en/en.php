@@ -22,6 +22,8 @@ return [
     'category'    => 'Category',
     'goods'       => 'Goods',
     'good'        => 'Good',
+    'brands'      => 'Brands',
+    'suppliers'   => 'Suppliers',
     'reports'     => 'Reports',
     'report'      => 'Report',
     'system'      => 'System',
