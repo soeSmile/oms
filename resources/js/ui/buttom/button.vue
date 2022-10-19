@@ -17,7 +17,7 @@ const props = defineProps({
 })
 
 const btnClass = computed(() => {
-  let style = 'primary'
+  let style = 'primary-l'
 
   if (props.color) {
     style = props.color

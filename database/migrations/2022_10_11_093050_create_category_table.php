@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -16,6 +17,8 @@ return new class extends Migration {
             $table->bigInteger('parent_id')->nullable()->comment('Parent ID');
             $table->text('name')->comment('English name');
         });
+
+        DB::statement('CREATE INDEX name_idx ON categories USING gin (name gin_trgm_ops)');
     }
 
     /**

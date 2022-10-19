@@ -53,7 +53,7 @@ final class CategoryRepository extends AbstractRepository
         $data = $this->getQuery()
             ->select('id', 'name as label', 'code', 'parent_id as parentId')
             ->selectRaw('(select name from categories as c where c.id = categories.parent_id) as parent')
-            ->orderBy('id')
+            ->orderBy('name')
             ->get();
 
         $data = $data->toArray();

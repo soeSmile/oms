@@ -5,7 +5,7 @@
   top: 5%;
   box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
   z-index: var(--z-index-pop);
-  animation: fadeIn 300ms ease normal;
+  animation: fadeIn 300ms;
 
   &.full {
     width: 100%;
@@ -29,6 +29,7 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     padding: 1rem 1.2rem;
+    user-select: none;
 
     &.primary-l {
       background: var(--color-primary-light);

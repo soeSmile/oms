@@ -8,6 +8,8 @@
           <div class="item">
             <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="success-l"
                        @click="getData"/>
+            <ui-button title="Upload from file" class="sp-mr-2" icon="bx bx-cloud-upload" color="info-l"/>
+            <ui-button title="Download" icon="bx bx-cloud-download" color="info-l"/>
           </div>
         </div>
       </div>
@@ -18,9 +20,14 @@
 
         <div class="sp-mt-4">
           <el-tree :data="data"
+                   draggable
+                   :allow-drop="allowDrop"
+                   :allow-drag="allowDrag"
+                   default-expand-all
+                   @node-drag-end="handleDragEnd"
                    node-key="id">
             <template #default="{ node, data }">
-              <div class="sp-flex middle sp-py-2 sp-pl-r">
+              <div class="sp-flex middle sp-py-3 sp-pl-r">
                 <div class="sp-mr-4">
                   <i class='bx bx-plus sp-link sp-success' @click="addCategory(node)"/>
                   <i class='bx bxs-pencil sp-link sp-primary' @click="editCategory(node)"/>
@@ -77,12 +84,14 @@ const parent = ref({
 
 const addCategory = (cat = {}) => {
   category.value = {}
+  parent.value = {}
   show.value = true
   if (cat.data) {
     parent.value = cat.data
     category.value.parentId = cat.data.id
   }
 }
+
 const editCategory = (cat) => {
   category.value = {}
   show.value = true
@@ -164,6 +173,29 @@ function error (e) {
     message: error,
     type: 'error',
   })
+}
+
+const allowDrop = (draggingNode, dropNode, DropType) => {
+  category.value = draggingNode.data
+  return DropType !== 'after'
+}
+const allowDrag = (draggingNode) => {
+  return true
+}
+const handleDragEnd = (draggingNode, dropNode, dropType, DragEvents) => {
+  if (dropType === 'inner') {
+    category.value.parentId = dropNode.data.id
+    store()
+  }
+
+  if (dropType === 'before') {
+    if (dropNode.data.parentId) {
+      category.value.parentId = dropNode.data.parentId
+    } else {
+      category.value.parentId = null
+    }
+    store()
+  }
 }
 
 onBeforeMount(() => {
