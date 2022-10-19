@@ -30,6 +30,11 @@
     grid-template-columns: 2fr 1fr;
     padding: 1rem 1.2rem;
 
+    &.primary-l {
+      background: var(--color-primary-light);
+      color: var(--color-primary-dark);
+    }
+
     &.success-l {
       background: var(--color-success-light);
       color: var(--color-success-dark);

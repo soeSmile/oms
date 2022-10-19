@@ -19,6 +19,7 @@ return [
     'search'   => 'Search',
     'code'     => 'Code',
     'mbn'      => '(may be null)',
+    'root'     => 'Root',
 
     'home'        => 'Home',
     'directories' => 'Directories',

@@ -1,46 +1,55 @@
 <template>
-  <oms-header :title="trans.categories"/>
+  <oms-header title="Categories"/>
 
   <div class="sp-content">
-    <div class="sp-card sp-bg-white sp-mt-8">
+    <div class="sp-card sp-bg-white">
       <div class="head">
-        <div class="sp-nav part-2">
-          <div class="start">
-            <div class="item">
-              <ui-button class="sp-mr-2" icon="bx bx-refresh" color="success-l"
-                         @click="getData"/>
-
-              <ui-button :title="trans.add + ' ' + trans.category" icon="bx bx-plus-circle" color="primary-l"
-                         @click="addCategory"/>
-            </div>
-          </div>
-          <div class="end">
-            <div class="item">
-              <el-input size="large" clearable v-model="search" :placeholder="trans.search"/>
-            </div>
+        <div class="sp-nav">
+          <div class="item">
+            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="success-l"
+                       @click="getData"/>
           </div>
         </div>
       </div>
 
-      <div class="content">
+      <div class="content" v-loading="loading">
+        <ui-button title="Add Root Category" icon="bx bx-plus-circle" color="primary-l"
+                   @click="addCategory"/>
 
+        <div class="sp-mt-4">
+          <el-tree :data="data"
+                   node-key="id">
+            <template #default="{ node, data }">
+              <div class="sp-flex middle sp-py-2 sp-pl-r">
+                <div class="sp-mr-4">
+                  <i class='bx bx-plus sp-link sp-success' @click="addCategory(node)"/>
+                  <i class='bx bxs-pencil sp-link sp-primary' @click="editCategory(node)"/>
+                  <i class='bx bx-x sp-link sp-danger' @click="destroy(node)"/>
+                </div>
+                <div class="sp-fnt medium sp-dark">{{ node.label }}</div>
+              </div>
+            </template>
+          </el-tree>
+        </div>
       </div>
-
-
     </div>
   </div>
 
-  <ui-dialog width="wpx-600" color="success-l"
-             :title="trans.category"
+  <ui-dialog width="wpx-600" color="primary-l"
+             title="Category"
              v-model="show" @save="store">
     <div class="sp-flex col">
       <div class="sp-flex col">
-        <div class="sp-mb-2">{{ trans.category }}</div>
-        <el-input size="large" v-model="category.name"/>
+        <div class="sp-mb-2">Parent</div>
+        <div class="sp-mb-2 sp-fnt medium italic">{{ parent.label ?? 'Root' }}</div>
       </div>
       <div class="sp-flex col sp-mt-4">
-        <div class="sp-mb-2">{{ trans.code + ' ' + trans.mbn }}</div>
-        <el-input size="large" v-model="category.code"/>
+        <div class="sp-mb-2">Category name (EN)</div>
+        <el-input size="large" v-model="category.label" clearable/>
+      </div>
+      <div class="sp-flex col sp-mt-4">
+        <div class="sp-mb-2">Code (may be empty)</div>
+        <el-input size="large" v-model="category.code" clearable/>
       </div>
     </div>
   </ui-dialog>
@@ -49,21 +58,43 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { messageToStr } from '../../../helper/serialazeError'
 
 const loading = ref(false)
 const data = ref([])
 const search = ref(null)
 const show = ref(false)
-const category = ref({})
+const category = ref({
+  id: null,
+  label: null,
+  code: null,
+  parentId: null,
+})
+const parent = ref({
+  id: null,
+})
 
-const addCategory = () => {
+const addCategory = (cat = {}) => {
+  category.value = {}
   show.value = true
+  if (cat.data) {
+    parent.value = cat.data
+    category.value.parentId = cat.data.id
+  }
+}
+const editCategory = (cat) => {
+  category.value = {}
+  show.value = true
+  if (cat.data) {
+    category.value = cat.data
+  }
 }
 
 const getData = () => {
   loading.value = true
 
-  axios.get('/api/categories', { params: { order: 'id' } }).
+  axios.get('/api/categories').
       then(res => {
         data.value = res.data.data
       }).
@@ -71,7 +102,68 @@ const getData = () => {
 }
 
 const store = () => {
-  show.value = false
+  let method = 'post',
+      link = '/api/categories'
+
+  if (category.value.id) {
+    method = 'put'
+    link = '/api/categories/' + category.value.id
+  }
+
+  axios[method](link, prepareData()).then((res) => {
+    if (method === 'post') {
+      category.value = res.data.data
+    }
+    show.value = false
+    success()
+  }).catch(e => error(e)).finally(() => {loading.value = false})
+}
+
+function prepareData () {
+
+  return {
+    id: category.value.id,
+    name: category.value.label,
+    parentId: category.value.parentId,
+    code: category.value.code,
+  }
+}
+
+const destroy = (cat) => {
+  ElMessageBox.confirm(
+      'Are you sure?',
+      'Warning',
+      {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'error',
+      },
+  ).then(() => {
+    axios.delete('/api/categories/' + cat.data.id).then(() => {success()}).catch(e => error(e))
+  }).catch(() => {
+  })
+}
+
+function success () {
+  getData()
+  ElMessage({
+    message: 'Success',
+    type: 'success',
+  })
+}
+
+function error (e) {
+  let error = 'Error'
+
+  if (e.response.data.errors) {
+    error = messageToStr(e.response.data.errors)
+  }
+
+  ElMessage({
+    dangerouslyUseHTMLString: true,
+    message: error,
+    type: 'error',
+  })
 }
 
 onBeforeMount(() => {

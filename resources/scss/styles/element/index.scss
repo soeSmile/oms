@@ -26,3 +26,7 @@
     'base': 1rem
   )
 );
+
+.el-tree-node__content {
+  height: auto !important;
+}

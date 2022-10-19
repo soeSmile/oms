@@ -9,7 +9,6 @@ use App\Http\Resources\Category\CategoryResource;
 use App\Repository\CategoryRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -26,17 +25,9 @@ class CategoryController
 
     /**
      * @param Request $request
-     * @return AnonymousResourceCollection
-     */
-    public function index(Request $request): AnonymousResourceCollection
-    {
-        return CategoryResource::collection($this->categoryRepository->getAll($request->all()));
-    }
-
-    /**
      * @return JsonResponse
      */
-    public function getTree(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         return response()->json(['data' => $this->categoryRepository->getTree()]);
     }
@@ -77,6 +68,8 @@ class CategoryController
      */
     public function destroy(int $category): JsonResponse
     {
-        return response()->json();
+        $result = $this->categoryRepository->destroy($category);
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 }

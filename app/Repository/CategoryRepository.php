@@ -9,6 +9,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class CategoryRepository
@@ -21,26 +22,6 @@ final class CategoryRepository extends AbstractRepository
     public function __construct(Category $model)
     {
         parent::__construct($model);
-    }
-
-    /**
-     * @param array<string> $data
-     * @return Collection|LengthAwarePaginator|array|Builder[]
-     */
-    public function getAll(array $data = []): Collection|LengthAwarePaginator|array
-    {
-        $this->query->with('parent');
-
-
-        if (isset($data['order'])) {
-            $this->query->orderBy($data['order']);
-        }
-
-        if (isset($data['exclude'])) {
-            $this->query->where('id', '<>', $data['exclude']);
-        }
-
-        return parent::getAll($data);
     }
 
     /**
@@ -69,11 +50,11 @@ final class CategoryRepository extends AbstractRepository
      */
     public function getTree(): array
     {
-        $data = $this->getAll(['order' => 'id']);
-
-        foreach ($data as $item) {
-            $item->label = $item->name;
-        }
+        $data = $this->getQuery()
+            ->select('id', 'name as label', 'code', 'parent_id as parentId')
+            ->selectRaw('(select name from categories as c where c.id = categories.parent_id) as parent')
+            ->orderBy('id')
+            ->get();
 
         $data = $data->toArray();
 
@@ -90,17 +71,40 @@ final class CategoryRepository extends AbstractRepository
         $result = [];
 
         foreach ($data as $item) {
-            if ((int)$item['parent_id'] === $parentId) {
+            if ((int)$item['parentId'] === $parentId) {
                 $child = $this->buildTree($data, (int)$item['id']);
 
                 if ($child) {
-                    $item['child'] = $child;
+                    $item['children'] = $child;
                 }
 
                 $result[] = $item;
 
                 unset($data[$item['id']]);
             }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function destroy(int $id): bool
+    {
+        // TODO сделать проверку на не пустой каталог
+        $result = true;
+
+        DB::beginTransaction();
+
+        try {
+            $this->getQuery()->where('id', $id)->delete();
+            $this->getQuery()->where('parent_id', $id)->update(['parent_id' => null]);
+            DB::commit();
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+            $result = false;
         }
 
         return $result;
@@ -114,7 +118,8 @@ final class CategoryRepository extends AbstractRepository
     {
         return [
             'name'      => $data['name'],
-            'parent_id' => $data['parentId'] ?? null
+            'parent_id' => $data['parentId'] ?? null,
+            'code'      => $data['code'] ?? null
         ];
     }
 }

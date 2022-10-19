@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Class Category
+ *
+ * @property-read int $id
+ * @property string $code
+ * @property int $parent_id
+ * @property string $name
  */
 class Category extends Model
 {
