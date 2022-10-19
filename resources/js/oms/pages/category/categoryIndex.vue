@@ -30,10 +30,12 @@
     </div>
   </div>
 
-  <ui-dialog width="wpx-600" color="success-l" v-model="show">
+  <ui-dialog width="wpx-600" color="success-l"
+             :title="trans.category"
+             v-model="show" @save="store">
     <div class="sp-flex col">
       <div class="sp-flex col">
-        <div class="sp-mb-2">{{ trans.category + ' ' + trans.name }}</div>
+        <div class="sp-mb-2">{{ trans.category }}</div>
         <el-input size="large" v-model="category.name"/>
       </div>
       <div class="sp-flex col sp-mt-4">
@@ -42,18 +44,6 @@
       </div>
     </div>
   </ui-dialog>
-
-  <el-dialog width="800px">
-
-    <template #footer>
-      <span class="dialog-footer">
-        <ui-button class="sp-mr-2" :title="trans.cancel" color="info-l"
-                   @click="show = false"/>
-        <ui-button :title="trans.save" color="success-l"
-                   @click="show = false"/>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup>
@@ -78,6 +68,10 @@ const getData = () => {
         data.value = res.data.data
       }).
       finally(() => {loading.value = false})
+}
+
+const store = () => {
+  show.value = false
 }
 
 onBeforeMount(() => {
