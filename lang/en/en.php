@@ -17,6 +17,8 @@ return [
     'cancel'   => 'Cancel',
     'show'     => 'Show',
     'search'   => 'Search',
+    'code'     => 'Code',
+    'mbn'      => '(may be null)',
 
     'home'        => 'Home',
     'directories' => 'Directories',

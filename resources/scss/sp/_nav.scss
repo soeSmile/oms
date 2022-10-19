@@ -1,6 +1,5 @@
 .sp-nav {
   display: grid;
-  border-radius: 0.6rem;
   align-items: center;
 
   &.part-2 {
@@ -14,6 +13,7 @@
   }
 
   &.shadow {
+    border-radius: 0.6rem;
     box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
   }
 

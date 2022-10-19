@@ -8,7 +8,7 @@
   top: 0;
   height: 100%;
   width: 18rem;
-  z-index: 998;
+  z-index: var(--z-index-menu);
 
   &.close {
     width: 6rem;
@@ -117,7 +117,7 @@
           margin-top: 0;
           white-space: nowrap;
           box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
-          z-index: 999;
+          z-index: var(--z-index-menu-sub);
           transition: all 0.4s ease;
 
           & li {

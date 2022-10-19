@@ -2,69 +2,58 @@
   <oms-header :title="trans.categories"/>
 
   <div class="sp-content">
-    <div class="sp-nav shadow sp-bg-white part-2">
-      <div class="start">
-        <div class="item">
-          <ui-button class="sp-mr-2"
-                     icon="bx bx-refresh" color="light"
-                     @click="getData"/>
-
-          <router-link class="sp-mr-2" to="/oms/category/new">
-            <ui-button :title="trans.add + ' ' + trans.category"
-                       icon="bx bx-plus-circle" color="secondary"/>
-          </router-link>
-
-          <ui-button :title="trans.show + ' ' + (showTree ? trans.list : trans.tree)"
-                     icon="bx bx-sitemap" color="info"
-                     @click="switchTree"/>
-        </div>
-      </div>
-
-      <div class="end">
-        <div class="item">
-          <el-input size="large" clearable v-model="search" :placeholder="trans.search"/>
-        </div>
-      </div>
-    </div>
-
     <div class="sp-card sp-bg-white sp-mt-8">
-      <el-tree v-if="showTree"
-               v-loading="loading" :data="data" :props="propTree"/>
+      <div class="head">
+        <div class="sp-nav part-2">
+          <div class="start">
+            <div class="item">
+              <ui-button class="sp-mr-2" icon="bx bx-refresh" color="success-l"
+                         @click="getData"/>
 
-      <table v-else class="sp-table" v-loading="loading">
-        <thead>
-        <tr>
-          <th class="center id">ID</th>
-          <th class="left">{{ trans.category }}</th>
-          <th class="left">{{ trans.parent + ' ' + trans.category }}</th>
-          <th class="right">{{ trans.control }}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="val in data">
-          <td class="center">{{ val.id }}</td>
-          <td class="left">{{ val.name }}</td>
-          <td class="left">{{ val.parentName }}</td>
-          <td class="right">
-            <router-link :to="'/oms/category/' + val.id">
-              <i class='bx bxs-edit sp-i sp-link sp-info'/>
-            </router-link>
-            <i class='bx bx-trash sp-i sp-link sp-danger'
-               @click="destroy"/>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+              <ui-button :title="trans.add + ' ' + trans.category" icon="bx bx-plus-circle" color="primary-l"
+                         @click="addCategory"/>
+            </div>
+          </div>
+          <div class="end">
+            <div class="item">
+              <el-input size="large" clearable v-model="search" :placeholder="trans.search"/>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <el-pagination v-if="!showTree"
-                     class="sp-mt-8"
-                     background
-                     @current-change="paginationHandler"
-                     layout="pager"
-                     :page-size="pagination.per_page"
-                     :total="pagination.total"/>
+      <div class="content">
+
+      </div>
+
+
     </div>
   </div>
+
+  <ui-dialog width="wpx-600" color="success-l" v-model="show">
+    <div class="sp-flex col">
+      <div class="sp-flex col">
+        <div class="sp-mb-2">{{ trans.category + ' ' + trans.name }}</div>
+        <el-input size="large" v-model="category.name"/>
+      </div>
+      <div class="sp-flex col sp-mt-4">
+        <div class="sp-mb-2">{{ trans.code + ' ' + trans.mbn }}</div>
+        <el-input size="large" v-model="category.code"/>
+      </div>
+    </div>
+  </ui-dialog>
+
+  <el-dialog width="800px">
+
+    <template #footer>
+      <span class="dialog-footer">
+        <ui-button class="sp-mr-2" :title="trans.cancel" color="info-l"
+                   @click="show = false"/>
+        <ui-button :title="trans.save" color="success-l"
+                   @click="show = false"/>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -73,64 +62,22 @@ import OmsHeader from '../../component/omsHeader.vue'
 
 const loading = ref(false)
 const data = ref([])
-const showTree = ref(false)
-const propTree = {
-  label: 'label',
-  children: 'child',
-}
 const search = ref(null)
-const pagination = ref({ total: 0 })
-const page = ref(1)
+const show = ref(false)
+const category = ref({})
+
+const addCategory = () => {
+  show.value = true
+}
 
 const getData = () => {
-  if (showTree.value) {
-    getTreeData()
-  } else {
-    getListData()
-  }
-}
-
-const getListData = () => {
   loading.value = true
 
-  axios.get('/api/categories', { params: { order: 'id', paginate: true, page: page.value } }).
-      then(res => {
-        data.value = res.data.data
-        pagination.value = res.data.meta
-      }).
-      finally(() => {loading.value = false})
-}
-
-/**
- * @param item
- */
-const paginationHandler = (item) => {
-  page.value = item
-  getListData()
-}
-
-const getTreeData = () => {
-  loading.value = true
-
-  axios.get('/api/categories/tree', { params: {} }).
+  axios.get('/api/categories', { params: { order: 'id' } }).
       then(res => {
         data.value = res.data.data
       }).
       finally(() => {loading.value = false})
-}
-
-const switchTree = () => {
-  if (!showTree.value) {
-    getTreeData()
-  } else {
-    getListData()
-  }
-
-  showTree.value = !showTree.value
-}
-
-const destroy = () => {
-
 }
 
 onBeforeMount(() => {

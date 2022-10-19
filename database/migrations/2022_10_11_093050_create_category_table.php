@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('categories', static function (Blueprint $table) {
             $table->id();
+            $table->text('code')->nullable()->comment('Category code');
             $table->bigInteger('parent_id')->nullable()->comment('Parent ID');
             $table->text('name')->comment('English name');
         });

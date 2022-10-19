@@ -30,9 +30,14 @@
     color: var(--color-white) !important;
   }
 
-  &.secondary {
-    background: var(--color-secondary);
-    color: var(--color-white) !important;
+  &.primary-l {
+    background: var(--color-primary-light);
+    color: var(--color-primary-dark) !important;
+  }
+
+  &.primary-d {
+    background: var(--color-primary-dark);
+    color: var(--color-primary-light) !important;
   }
 
   &.success {
@@ -40,9 +45,29 @@
     color: var(--color-white) !important;
   }
 
+  &.success-l {
+    background: var(--color-success-light);
+    color: var(--color-success-dark) !important;
+  }
+
+  &.success-d {
+    background: var(--color-success-dark);
+    color: var(--color-success-light) !important;
+  }
+
   &.warning {
     background: var(--color-warning);
     color: var(--color-white) !important;
+  }
+
+  &.warning-l {
+    background: var(--color-warning-light);
+    color: var(--color-warning-dark) !important;
+  }
+
+  &.warning-d {
+    background: var(--color-warning-dark);
+    color: var(--color-warning-light) !important;
   }
 
   &.error {
@@ -50,19 +75,34 @@
     color: var(--color-white) !important;
   }
 
+  &.error-l {
+    background: var(--color-error-light);
+    color: var(--color-error-dark) !important;
+  }
+
+  &.error-d {
+    background: var(--color-error-dark);
+    color: var(--color-error-light) !important;
+  }
+
   &.info {
     background: var(--color-info);
     color: var(--color-white) !important;
   }
 
+  &.info-l {
+    background: var(--color-info-light);
+    color: var(--color-info-dark) !important;
+  }
+
+  &.info-d {
+    background: var(--color-info-dark);
+    color: var(--color-info-light) !important;
+  }
+
   &.dark {
     background: var(--color-dark);
     color: var(--color-white) !important;
-  }
-
-  &.light {
-    background: var(--color-light);
-    color: var(--color-dark) !important;
   }
 
   &.white {

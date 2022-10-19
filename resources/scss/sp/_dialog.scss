@@ -1,0 +1,78 @@
+.sp-dialog {
+  position: fixed;
+  border-radius: 0.6rem;
+  background: white;
+  top: 5%;
+  box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
+  z-index: var(--z-index-pop);
+  animation: fadeIn 300ms;
+
+  &.full {
+    width: 100%;
+    left: 0;
+    top: 0;
+    max-height: 100%;
+    height: 100%;
+  }
+
+  @for $i from 1 through 20 {
+    $value: $i * 50;
+    &.wpx-#{$value} {
+      width: $value*1px;
+      left: 50%;
+      margin-left: -($value*1px)/2
+    }
+  }
+
+  & .head {
+    border-radius: 0.6rem 0.6rem 0 0;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding: 1rem 1.2rem;
+
+    &.success-l {
+      background: var(--color-success-light);
+      color: var(--color-success-dark);
+    }
+
+    & .title {
+      text-align: left;
+      font-family: var(--font-bold);
+    }
+
+    & .control {
+      text-align: right;
+
+      & i {
+        font-size: 1.5rem;
+        margin-left: 0.4rem;
+        cursor: pointer;
+      }
+    }
+  }
+
+  & .content {
+    padding: 1.2rem;
+  }
+}
+
+.sp-dialog-bg {
+  position: fixed;
+  display: block;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.3;
+  z-index: var(--z-index-pop-bg);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -10,6 +10,7 @@
 @use "button";
 @use "table";
 @use "card";
+@use "dialog";
 
 body, #app {
   color: var(--color-dark);
@@ -19,5 +20,5 @@ body, #app {
 }
 
 i {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
