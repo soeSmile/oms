@@ -5,45 +5,41 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Models\Category;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Class CategoryRepository
  */
-final class CategoryRepository extends AbstractRepository
+final class CategoryRepository
 {
     /**
-     * @param Category $model
+     * @param array<string> $data
+     * @return Collection<string, object>
      */
-    public function __construct(Category $model)
+    public function getAll(array $data): Collection
     {
-        parent::__construct($model);
+        $query = $this->getQuery()
+            ->select('id', 'name', 'parent_id as parentId', 'code')
+            ->selectRaw('(select name from categories as c where c.id = categories.parent_id) as parent')
+            ->selectRaw('(select count(id) from categories as c where c.id = categories.parent_id) as count');
+
+        if (isset($data['first'])) {
+            $query->whereNull('parent_id');
+        }
+
+        return $query->get();
     }
+
 
     /**
      * @param array $data
-     * @return Collection|LengthAwarePaginator|array|Builder[]
+     * @return bool
      */
-    public function getAll(array $data = []): Collection|LengthAwarePaginator|array
+    public function store(array $data): bool
     {
-        if (isset($data['name'])) {
-            $this->query->where('name', 'like', '%' . $data['name'] . '%');
-        }
-
-        return parent::getAll($data);
-    }
-
-    /**
-     * @param array<string> $data
-     * @return Builder|Model
-     */
-    public function store(array $data): Model|Builder
-    {
-        return $this->getQuery()->create($this->getData($data));
+        return $this->getQuery()->insert($this->getData($data));
     }
 
     /**
@@ -84,16 +80,16 @@ final class CategoryRepository extends AbstractRepository
         $result = [];
 
         foreach ($data as $item) {
-            if ((int)$item['parentId'] === $parentId) {
-                $child = $this->buildTree($data, (int)$item['id']);
+            if ((int)$item->parentId === $parentId) {
+                $child = $this->buildTree($data, (int)$item->id);
 
                 if ($child) {
-                    $item['children'] = $child;
+                    $item->children = $child;
                 }
 
                 $result[] = $item;
 
-                unset($data[$item['id']]);
+                unset($data[$item->id]);
             }
         }
 
@@ -106,7 +102,7 @@ final class CategoryRepository extends AbstractRepository
      */
     public function destroy(int $id): bool
     {
-        // TODO сделать проверку на не пустой каталог
+        // TODO отвязывать категорию от товара
         $result = true;
         $category = $this->getQuery()->where('id', $id)->first();
 
@@ -114,7 +110,7 @@ final class CategoryRepository extends AbstractRepository
 
         try {
             if ($category) {
-                $category->delete();
+                $this->getQuery()->where('id', $id)->delete();
                 $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
                 DB::commit();
             }
@@ -137,5 +133,13 @@ final class CategoryRepository extends AbstractRepository
             'parent_id' => $data['parentId'] ?? null,
             'code'      => $data['code'] ?? null
         ];
+    }
+
+    /**
+     * @return Builder
+     */
+    private function getQuery(): Builder
+    {
+        return DB::table('categories');
     }
 }

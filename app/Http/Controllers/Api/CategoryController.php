@@ -42,21 +42,14 @@ class CategoryController
     }
 
     /**
-     * @param int $category
-     * @return CategoryResource
-     */
-    public function show(int $category): CategoryResource
-    {
-        return new CategoryResource($this->categoryRepository->getQuery()->where('id', $category)->first());
-    }
-
-    /**
      * @param CategoryStoreRequest $categoryStoreRequest
-     * @return CategoryResource
+     * @return JsonResponse
      */
-    public function store(CategoryStoreRequest $categoryStoreRequest): CategoryResource
+    public function store(CategoryStoreRequest $categoryStoreRequest): JsonResponse
     {
-        return new CategoryResource($this->categoryRepository->store($categoryStoreRequest->validated()));
+        $result = $this->categoryRepository->store($categoryStoreRequest->validated());
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
     /**

@@ -13,5 +13,5 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/locales', [ApiLocaleController::class, 'getLocales'])->name('get.locales');
 
     Route::get('/categories/tree', [CategoryController::class, 'getTree'])->name('categories.tree');
-    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('categories', CategoryController::class)->except('show');
 });
