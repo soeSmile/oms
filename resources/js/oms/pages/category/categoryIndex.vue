@@ -15,16 +15,23 @@
       </div>
 
       <div class="content" v-loading="loading">
-        <ui-button title="Add Root Category" icon="bx bx-plus-circle" color="primary-l"
-                   @click="addCategory"/>
+        <div class="sp-flex middle">
+          <ui-button title="Add Root Category" icon="bx bx-plus-circle" color="primary-l"
+                     @click="addCategory"/>
+
+          <div class="sp-wpx-500 sp-ml-2">
+            <el-input size="large" placeholder="Search" clearable v-model="search"/>
+          </div>
+        </div>
 
         <div class="sp-mt-4">
           <el-tree :data="data"
                    draggable
                    :allow-drop="allowDrop"
                    :allow-drag="allowDrag"
-                   default-expand-all
                    @node-drag-end="handleDragEnd"
+                   ref="treeRef"
+                   :filter-node-method="filterNode"
                    node-key="id">
             <template #default="{ node, data }">
               <div class="sp-flex middle sp-py-3 sp-pl-r">
@@ -48,7 +55,7 @@
     <div class="sp-flex col">
       <div class="sp-flex col">
         <div class="sp-mb-2">Parent</div>
-        <div class="sp-mb-2 sp-fnt medium italic">{{ parent.label ?? 'Root' }}</div>
+        <div class="sp-mb-2 sp-fnt medium italic">{{ category.parent ?? 'Root' }}</div>
       </div>
       <div class="sp-flex col sp-mt-4">
         <div class="sp-mb-2">Category name (EN)</div>
@@ -58,19 +65,28 @@
         <div class="sp-mb-2">Code (may be empty)</div>
         <el-input size="large" v-model="category.code" clearable/>
       </div>
+      <div v-if="category.id" class="sp-flex col sp-mt-4">
+        <div class="sp-mb-2">Select parent category</div>
+        <el-select v-model="category.parentId" :filterable="true">
+          <el-option v-for="item in 10"
+                     :label="item"
+                     :value="item"/>
+        </el-select>
+      </div>
     </div>
   </ui-dialog>
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { messageToStr } from '../../../helper/serialazeError'
 
 const loading = ref(false)
 const data = ref([])
-const search = ref(null)
+const search = ref('')
+const treeRef = ref()
 const show = ref(false)
 const category = ref({
   id: null,
@@ -78,16 +94,17 @@ const category = ref({
   code: null,
   parentId: null,
 })
-const parent = ref({
-  id: null,
-})
+
+const filterNode = (value, data) => {
+  if (!value) return true
+  return data.label.includes(value)
+}
 
 const addCategory = (cat = {}) => {
   category.value = {}
-  parent.value = {}
   show.value = true
   if (cat.data) {
-    parent.value = cat.data
+    category.value.parent = cat.data.label
     category.value.parentId = cat.data.id
   }
 }
@@ -103,7 +120,7 @@ const editCategory = (cat) => {
 const getData = () => {
   loading.value = true
 
-  axios.get('/api/categories').
+  axios.get('/api/categories/tree').
       then(res => {
         data.value = res.data.data
       }).
@@ -197,6 +214,10 @@ const handleDragEnd = (draggingNode, dropNode, dropType, DragEvents) => {
     store()
   }
 }
+
+watch(search, (val) => {
+  treeRef.value.filter(val)
+})
 
 onBeforeMount(() => {
   getData()

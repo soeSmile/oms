@@ -95,13 +95,16 @@ final class CategoryRepository extends AbstractRepository
     {
         // TODO сделать проверку на не пустой каталог
         $result = true;
+        $category = $this->getQuery()->where('id', $id)->first();
 
         DB::beginTransaction();
 
         try {
-            $this->getQuery()->where('id', $id)->delete();
-            $this->getQuery()->where('parent_id', $id)->update(['parent_id' => null]);
-            DB::commit();
+            if ($category) {
+                $category->delete();
+                $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
+                DB::commit();
+            }
         } catch (\Throwable $exception) {
             DB::rollBack();
             $result = false;

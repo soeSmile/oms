@@ -120,8 +120,10 @@ const subShow = (idx) => {
 }
 
 const closeSubMenu = () => {
-  for (let i in menu.value) {
-    menu.value[i].show = false
+  if (close.value) {
+    for (let i in menu.value) {
+      menu.value[i].show = false
+    }
   }
 }
 

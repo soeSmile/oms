@@ -50,6 +50,7 @@
   & .content {
     & .links {
       margin-top: 2rem;
+      padding: 1rem;
 
       & li {
         position: relative;
@@ -57,11 +58,13 @@
         & .link {
           display: flex;
           align-items: center;
-          padding: 1.2rem 2.2rem;
+          padding: 1rem 2rem;
           cursor: pointer;
-          font-family: var(--font-regular);
+          font-family: var(--font-medium);
           position: relative;
           color: var(--color-dark);
+          border-radius: 0.6rem;
+          overflow: hidden;
 
           &.close {
             justify-content: center;
@@ -92,13 +95,14 @@
           }
 
           &:hover {
-            background: linear-gradient(90deg, var(--color-active) 0%, var(--color-active-1) 100%);
+            color: var(--color-primary);
+            transition: all 0.3s ease;
           }
         }
 
         & .active-route-link {
-          background: linear-gradient(90deg, var(--color-active) 0%, var(--color-active-1) 100%);
-          border-right: 2px solid var(--color-primary);
+          background: var(--color-primary);
+          color: var(--color-white) !important;
         }
       }
 
@@ -107,18 +111,20 @@
 
         &.show {
           display: block;
+          padding: 1rem;
         }
 
         &.close {
           position: absolute;
-          left: 100%;
+          left: 125%;
           background: var(--color-white);
           top: 0;
           margin-top: 0;
           white-space: nowrap;
           box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
           z-index: var(--z-index-menu-sub);
-          transition: all 0.4s ease;
+          border-radius: 0.6rem;
+          overflow: hidden;
 
           & li {
             & .link {
@@ -133,21 +139,26 @@
           & .link {
             display: flex;
             align-items: center;
-            padding: 1.2rem 2.2rem 1.2rem 4rem;
+            padding: 1rem 2rem 1rem 3rem;
             cursor: pointer;
             color: var(--color-dark);
             font-family: var(--font-regular);
             position: relative;
 
             & .icon {
-              font-size: 1.5rem;
-              margin-right: 0.6rem;
+              font-size: 1.25rem;
+              margin-right: 0.8rem;
+            }
+
+            &:hover {
+              color: var(--color-primary);
+              transition: all 0.3s ease;
             }
           }
 
           & .active-route-link {
-            background: linear-gradient(90deg, var(--color-active) 0%, var(--color-active-1) 100%);
-            border-right: 2px solid var(--color-primary);
+            background: var(--color-primary);
+            color: var(--color-white) !important;
           }
         }
       }

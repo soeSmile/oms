@@ -31,3 +31,7 @@
   height: auto !important;
   border-bottom: 1px dashed var(--color-light);
 }
+
+.el-tree-node__content {
+  user-select: none;
+}
