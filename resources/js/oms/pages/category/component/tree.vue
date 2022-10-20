@@ -10,6 +10,7 @@
 
   <div class="sp-mt-4">
     <el-tree :data="data"
+             accordion
              draggable
              :allow-drop="allowDrop"
              :allow-drag="allowDrag"
