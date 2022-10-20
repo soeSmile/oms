@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->text('name')->comment('English name');
         });
 
-        DB::statement('CREATE INDEX name_idx ON categories USING gin (name gin_trgm_ops)');
+        DB::statement('CREATE INDEX category_name_idx ON categories USING gin (name gin_trgm_ops)');
     }
 
     /**

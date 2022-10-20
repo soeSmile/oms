@@ -2,6 +2,7 @@
   <oms-header title="Categories"/>
 
   <div class="sp-content">
+
     <div class="sp-card sp-bg-white">
       <div class="head">
         <div class="sp-nav">
@@ -19,6 +20,7 @@
         <tree :data="data" @getData="getData"/>
       </div>
     </div>
+
   </div>
 </template>
 
