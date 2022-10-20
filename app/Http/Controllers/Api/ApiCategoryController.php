@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class CategoryController
  */
-class CategoryController
+final class ApiCategoryController
 {
     /**
      * @param CategoryRepository $categoryRepository

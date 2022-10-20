@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,7 @@ final class CategoryRepository extends AbstractRepository
      * @param array<string> $data
      * @return Collection<string, object>
      */
-    public function getAll(array $data): Collection
+    public function getAll(array $data = []): Collection
     {
         $query = $this->getQuery()
             ->select('id', 'name', 'parent_id as parentId', 'code')
@@ -37,6 +38,14 @@ final class CategoryRepository extends AbstractRepository
         return $query->get();
     }
 
+    /**
+     * @param mixed $id
+     * @return Model|null
+     */
+    public function show(mixed $id): Model|null
+    {
+        return $this->getQuery()->where('id', $id)->first();
+    }
 
     /**
      * @param array<string> $data
@@ -48,15 +57,41 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
-     * @param int $categoryId
+     * @param mixed $id
      * @param array<string> $data
      * @return bool
      */
-    public function update(int $categoryId, array $data): bool
+    public function update(mixed $id, array $data): bool
     {
         return (bool)$this->getQuery()
-            ->where('id', $categoryId)
+            ->where('id', $id)
             ->update($this->getData($data));
+    }
+
+    /**
+     * @param mixed $id
+     * @return bool
+     */
+    public function destroy(mixed $id): bool
+    {
+        // TODO отвязывать категорию от товара
+        $result = true;
+        $category = $this->getQuery()->where('id', $id)->first();
+
+        DB::beginTransaction();
+
+        try {
+            if ($category) {
+                $this->getQuery()->where('id', $id)->delete();
+                $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
+                DB::commit();
+            }
+        } catch (\Throwable $exception) {
+            DB::rollBack();
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**
@@ -98,32 +133,6 @@ final class CategoryRepository extends AbstractRepository
 
                 unset($data[$item->id]);
             }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param int $id
-     * @return bool
-     */
-    public function destroy(int $id): bool
-    {
-        // TODO отвязывать категорию от товара
-        $result = true;
-        $category = $this->getQuery()->where('id', $id)->first();
-
-        DB::beginTransaction();
-
-        try {
-            if ($category) {
-                $this->getQuery()->where('id', $id)->delete();
-                $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
-                DB::commit();
-            }
-        } catch (\Throwable $exception) {
-            DB::rollBack();
-            $result = false;
         }
 
         return $result;

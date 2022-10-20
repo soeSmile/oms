@@ -8,7 +8,10 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController
+/**
+ * Class ApiAuthController
+ */
+final class ApiAuthController
 {
     /**
      * @param LoginRequest $request

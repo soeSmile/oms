@@ -1,17 +1,16 @@
 <?php
 
-use App\Http\Controllers\Api\ApiLocaleController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ApiBrandController;
+use App\Http\Controllers\Api\ApiAuthController;
+use App\Http\Controllers\Api\ApiCategoryController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', [AuthController::class, 'login'])->name('api.login');
+Route::post('login', [ApiAuthController::class, 'login'])->name('api.login');
 
 Route::group(['middleware' => 'auth:sanctum'], static function () {
-    Route::post('/logout', [AuthController::class, 'logOut'])->name('api.logout');
+    Route::post('/logout', [ApiAuthController::class, 'logOut'])->name('api.logout');
 
-    Route::get('/locales', [ApiLocaleController::class, 'getLocales'])->name('get.locales');
-
-    Route::get('/categories/tree', [CategoryController::class, 'getTree'])->name('categories.tree');
-    Route::apiResource('categories', CategoryController::class)->except('show');
+    Route::get('/categories/tree', [ApiCategoryController::class, 'getTree'])->name('categories.tree');
+    Route::apiResource('categories', ApiCategoryController::class)->except('show');
+    Route::apiResource('brands', ApiBrandController::class);
 });
