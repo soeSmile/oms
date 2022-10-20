@@ -67,11 +67,10 @@
       </div>
       <div v-if="category.id" class="sp-flex col sp-mt-4">
         <div class="sp-mb-2">Select parent category</div>
-        <el-select v-model="category.parentId" :filterable="true">
-          <el-option v-for="item in 10"
-                     :label="item"
-                     :value="item"/>
-        </el-select>
+        <el-select-v2 v-model="newParent" filterable remote clearable size="large"
+                      :remote-method="getList"
+                      :options="dataList"
+                      :loading="loadingList"/>
       </div>
     </div>
   </ui-dialog>
@@ -84,7 +83,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import { messageToStr } from '../../../helper/serialazeError'
 
 const loading = ref(false)
+const loadingList = ref(false)
 const data = ref([])
+const dataList = ref([])
 const search = ref('')
 const treeRef = ref()
 const show = ref(false)
@@ -94,6 +95,7 @@ const category = ref({
   code: null,
   parentId: null,
 })
+const newParent = ref(null)
 
 const filterNode = (value, data) => {
   if (!value) return true
@@ -103,6 +105,8 @@ const filterNode = (value, data) => {
 const addCategory = (cat = {}) => {
   category.value = {}
   show.value = true
+  newParent.value = null
+
   if (cat.data) {
     category.value.parent = cat.data.label
     category.value.parentId = cat.data.id
@@ -112,9 +116,22 @@ const addCategory = (cat = {}) => {
 const editCategory = (cat) => {
   category.value = {}
   show.value = true
+  newParent.value = null
+
   if (cat.data) {
     category.value = cat.data
   }
+}
+
+const getList = (str) => {
+  console.log(str)
+  loadingList.value = true
+
+  axios.get('/api/categories', { params: { name: str } }).
+      then(res => {
+        dataList.value = res.data.data
+      }).
+      finally(() => {loadingList.value = false})
 }
 
 const getData = () => {

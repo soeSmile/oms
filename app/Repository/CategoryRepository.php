@@ -25,6 +25,19 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
+     * @param array $data
+     * @return Collection|LengthAwarePaginator|array|Builder[]
+     */
+    public function getAll(array $data = []): Collection|LengthAwarePaginator|array
+    {
+        if (isset($data['name'])) {
+            $this->query->where('name', 'like', '%' . $data['name'] . '%');
+        }
+
+        return parent::getAll($data);
+    }
+
+    /**
      * @param array<string> $data
      * @return Builder|Model
      */
