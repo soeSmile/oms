@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Models\Category;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
  * Class CategoryRepository
  */
-final class CategoryRepository
+final class CategoryRepository extends AbstractRepository
 {
+    /**
+     * @var string
+     */
+    protected string $table = 'categories';
+
     /**
      * @param array<string> $data
      * @return Collection<string, object>
@@ -22,8 +25,10 @@ final class CategoryRepository
     {
         $query = $this->getQuery()
             ->select('id', 'name', 'parent_id as parentId', 'code')
-            ->selectRaw('(select name from categories as c where c.id = categories.parent_id) as parent')
-            ->selectRaw('(select count(id) from categories as c where c.id = categories.parent_id) as count');
+            ->selectRaw(
+                '(select name from ' . $this->table . ' as c where c.id = ' . $this->table . '.parent_id) as parent,
+                (select count(id) from ' . $this->table . ' as c where c.id = ' . $this->table . '.parent_id) as count'
+            );
 
         if (isset($data['first'])) {
             $query->whereNull('parent_id');
@@ -34,7 +39,7 @@ final class CategoryRepository
 
 
     /**
-     * @param array $data
+     * @param array<string> $data
      * @return bool
      */
     public function store(array $data): bool
@@ -61,7 +66,9 @@ final class CategoryRepository
     {
         $data = $this->getQuery()
             ->select('id', 'name as label', 'code', 'parent_id as parentId')
-            ->selectRaw('(select name from categories as c where c.id = categories.parent_id) as parent')
+            ->selectRaw(
+                '(select name from ' . $this->table . ' as c where c.id = ' . $this->table . '.parent_id) as parent'
+            )
             ->orderBy('name')
             ->get();
 
@@ -133,13 +140,5 @@ final class CategoryRepository
             'parent_id' => $data['parentId'] ?? null,
             'code'      => $data['code'] ?? null
         ];
-    }
-
-    /**
-     * @return Builder
-     */
-    private function getQuery(): Builder
-    {
-        return DB::table('categories');
     }
 }

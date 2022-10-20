@@ -14,7 +14,7 @@ class CategorySeed extends Seeder
      */
     public function run(): void
     {
-        foreach (range(1, 10) as $item) {
+        foreach (range(1, 20) as $item) {
             DB::table('categories')->insert([
                 'code' => fake()->numerify(),
                 'name' => fake()->sentence(2)
