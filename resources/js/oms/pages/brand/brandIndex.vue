@@ -14,7 +14,7 @@
                        @click="addBrand({})"/>
 
             <div class="sp-wpx-300 sp-ml-2">
-              <el-input size="large" clearable v-model="filter.name"/>
+              <el-input size="large" clearable v-model="filter.name" placeholder="Search"/>
             </div>
           </div>
         </div>
