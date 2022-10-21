@@ -32,7 +32,7 @@
             <td class="right">
               <div class="sp-flex middle right">
                 <i class='bx bxs-pencil sp-link sp-primary' @click="addBrand(val)"/>
-                <i class='bx bx-x sp-link sp-danger'/>
+                <i class='bx bx-x sp-link sp-danger' @click="destroy(val)"/>
               </div>
             </td>
           </tr>
@@ -67,6 +67,7 @@
 import { onBeforeMount, ref } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
 import { success, error } from '../../../helper/reponse'
+import { ElMessageBox } from 'element-plus'
 
 const loading = ref(false)
 const filter = ref({
@@ -114,6 +115,25 @@ const store = () => {
     show.value = false
     success(null, getData)
   }).catch(e => error(e)).finally(() => {})
+}
+
+const destroy = (brand) => {
+  ElMessageBox.confirm(
+      'Are you sure?',
+      'Warning',
+      {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'error',
+      },
+  ).then(() => {
+    axios.delete('/api/brands/' + brand.id).
+        then(() => {
+          success(null, getData)
+        }).
+        catch(e => error(e))
+  }).catch(() => {
+  })
 }
 
 const addBrand = (item) => {

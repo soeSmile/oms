@@ -53,7 +53,7 @@ final class ApiBrandController
     {
         $result = $this->brandRepository->update($brand, $brandStoreRequest->validated());
 
-        return response()->json(['data' => $result], $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -64,6 +64,6 @@ final class ApiBrandController
     {
         $result = $this->brandRepository->destroy($brand);
 
-        return response()->json(['data' => $result], $result ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST);
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 }
