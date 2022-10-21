@@ -12,8 +12,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read string $name
  * @property-read int $brand_id
  * @property-read string $brand
+ * @property-read bool $deposit
  */
-class GoodResource extends JsonResource
+class GoodListResource extends JsonResource
 {
     /**
      * @param $request
@@ -26,6 +27,7 @@ class GoodResource extends JsonResource
             'name'    => $this->name,
             'brandId' => $this->brand_id,
             'brand'   => $this->brand ?? '',
+            'deposit' => $this->deposit ? 'Yes' : 'No'
         ];
     }
 }

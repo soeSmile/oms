@@ -17,9 +17,10 @@
         <table class="sp-table" v-loading="loading">
           <thead>
           <tr>
-            <th class="id">ID</th>
+            <th class="center id">ID</th>
             <th class="left w30">Name</th>
             <th class="left w30">Brand</th>
+            <th class="center w30">Deposit</th>
             <th class="right control">Control</th>
           </tr>
           </thead>
@@ -28,6 +29,7 @@
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.brand }}</td>
+            <td class="center">{{ val.deposit }}</td>
             <td class="right">
               <div class="sp-flex middle right">
                 <i class='bx bxs-pencil sp-link sp-primary'/>
