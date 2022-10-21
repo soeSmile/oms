@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class CategoryStoreRequest
+ * Class BrandStoreRequest
  *
  * @property-read string $name
- * @property-read int $parentId
- * @property-read string $code
  */
-class CategoryStoreRequest extends FormRequest
+class BrandStoreRequest extends FormRequest
 {
     /**
      * @return bool
@@ -29,9 +27,7 @@ class CategoryStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string',
-            'parentId' => 'nullable',
-            'code'     => 'nullable',
+            'name' => 'required|string',
         ];
     }
 
@@ -41,7 +37,7 @@ class CategoryStoreRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'Category',
+            'name' => 'Brand name',
         ];
     }
 }

@@ -66,6 +66,7 @@
 <script setup>
 import { onBeforeMount, ref } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
+import { success, error } from '../../../helper/reponse'
 
 const loading = ref(false)
 const filter = ref({
@@ -79,6 +80,7 @@ const data = ref([])
 const show = ref(false)
 const brand = ref({
   name: null,
+  id: null,
 })
 
 const getData = () => {
@@ -100,7 +102,18 @@ const paginationHandler = (page) => {
 }
 
 const store = () => {
-  show.value = false
+  let method = 'post',
+      link = '/api/brands'
+
+  if (brand.value.id) {
+    method = 'put'
+    link = '/api/brands/' + brand.value.id
+  }
+
+  axios[method](link, brand.value).then(() => {
+    show.value = false
+    success(null, getData)
+  }).catch(e => error(e)).finally(() => {})
 }
 
 const addBrand = (item) => {

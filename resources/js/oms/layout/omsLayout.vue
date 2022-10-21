@@ -78,18 +78,14 @@ const menu = ref([
       { name: 'Categories', icon: 'bx-category', link: '/oms/category' },
       { name: 'Goods', icon: 'bxs-store', link: '/oms/good' },
       { name: 'Brands', icon: 'bxs-label', link: '/oms/brand' },
-      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/index' },
+      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier' },
     ],
-  },
-  {
-    name: 'Reports', icon: 'bxs-report', link: '/oms/index',
-    show: false, menu: null,
   },
   {
     name: 'System', icon: 'bx-cog', link: null,
     show: false,
     menu: [
-      { name: 'Users', icon: 'bxs-group', link: '/oms/index' },
+      { name: 'Users', icon: 'bxs-group', link: '/oms/user' },
     ],
   },
 ])

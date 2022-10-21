@@ -25,6 +25,9 @@
             <i class='bx bxs-pencil sp-link sp-primary' @click="editCategory(node)"/>
             <i class='bx bx-x sp-link sp-danger' @click="destroy(node)"/>
           </div>
+          <div class="sp-wpx-50">
+            {{ node.id }}
+          </div>
           <div class="sp-fnt medium sp-dark">{{ node.label }}</div>
         </div>
       </template>
@@ -53,8 +56,8 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { messageToStr } from '../../../../helper/serialazeError'
+import { success, error } from '../../../../helper/reponse'
+import { ElMessageBox } from 'element-plus'
 
 const prop = defineProps({
   data: Array,
@@ -104,22 +107,18 @@ const store = () => {
     link = '/api/categories/' + category.value.id
   }
 
-  axios[method](link, prepareData()).then((res) => {
-    if (method === 'post') {
-      category.value = res.data.data
-    }
+  axios[method](link, prepareData()).then(() => {
     show.value = false
-    success()
+    success(null, emit('getData'))
   }).catch(e => error(e)).finally(() => {})
 }
 
 function prepareData () {
-
   return {
     id: category.value.id,
+    code: category.value.code,
     name: category.value.label,
     parentId: category.value.parentId,
-    code: category.value.code,
   }
 }
 
@@ -133,30 +132,12 @@ const destroy = (cat) => {
         type: 'error',
       },
   ).then(() => {
-    axios.delete('/api/categories/' + cat.data.id).then(() => {success()}).catch(e => error(e))
+    axios.delete('/api/categories/' + cat.data.id).
+        then(() => {
+          success(null, emit('getData'))
+        }).
+        catch(e => error(e))
   }).catch(() => {
-  })
-}
-
-function success () {
-  emit('getData')
-  ElMessage({
-    message: 'Success',
-    type: 'success',
-  })
-}
-
-function error (e) {
-  let error = 'Error'
-
-  if (e.response.data.errors) {
-    error = messageToStr(e.response.data.errors)
-  }
-
-  ElMessage({
-    dangerouslyUseHTMLString: true,
-    message: error,
-    type: 'error',
   })
 }
 
