@@ -12,6 +12,10 @@
 
             <ui-button title="Add Brand" icon="bx bx-plus-circle" color="primary-l"
                        @click="addBrand({})"/>
+
+            <div class="sp-wpx-300 sp-ml-2">
+              <el-input size="large" clearable v-model="filter.name"/>
+            </div>
           </div>
         </div>
       </div>
@@ -64,7 +68,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
 import { success, error } from '../../../helper/reponse'
 import { ElMessageBox } from 'element-plus'
@@ -73,6 +77,7 @@ const loading = ref(false)
 const filter = ref({
   page: 1,
   paginate: true,
+  name: null,
 })
 const pagination = ref({
   total: 0,
@@ -140,6 +145,8 @@ const addBrand = (item) => {
   show.value = true
   brand.value = item
 }
+
+watch(() => filter.value.name, () => { getData() })
 
 onBeforeMount(() => {
   getData()
