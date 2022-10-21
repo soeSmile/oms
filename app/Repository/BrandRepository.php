@@ -21,11 +21,6 @@ final class BrandRepository extends AbstractRepository
      */
     protected string $table = 'brands';
 
-    public function __construct(private readonly GoodsRepository $goods)
-    {
-        parent::__construct();
-    }
-
     /**
      * @param array $data
      * @return LengthAwarePaginator|Collection
@@ -83,7 +78,7 @@ final class BrandRepository extends AbstractRepository
         try {
             if ($category) {
                 $this->getQuery()->where('id', $id)->delete();
-                DB::table($this->goods->getTable())->where('brand_id', $id)->update(['brand_id' => null]);
+                DB::table('goods')->where('brand_id', $id)->update(['brand_id' => null]);
                 DB::commit();
             }
         } catch (Throwable $exception) {

@@ -14,7 +14,7 @@ class GoodSeed extends Seeder
      */
     public function run(): void
     {
-        foreach (range(1, 20) as $item) {
+        foreach (range(1, 100) as $item) {
             DB::table('goods')->insert([
                 'name'         => fake()->sentence(2),
                 'brand_id'     => fake()->numberBetween(1, 10),

@@ -39,6 +39,21 @@ abstract class AbstractRepository implements ContractRepository
     }
 
     /**
+     * @param string $class
+     * @return ContractRepository|null
+     */
+    public function getInstanceRepository(string $class): ContractRepository|null
+    {
+        $class = new $class();
+
+        if ($class instanceof ContractRepository) {
+            return $class;
+        }
+
+        return null;
+    }
+
+    /**
      * @param array $data
      * @return LengthAwarePaginator|Collection
      */
@@ -62,7 +77,7 @@ abstract class AbstractRepository implements ContractRepository
     /**
      * @return string
      */
-    protected function getTable(): string
+    public function getTable(): string
     {
         return $this->table;
     }

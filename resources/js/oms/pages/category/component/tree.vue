@@ -26,7 +26,7 @@
             <i class='bx bx-x sp-link sp-danger' @click="destroy(node)"/>
           </div>
           <div class="sp-wpx-50">
-            {{ node.id }}
+            {{ node.data.id }}
           </div>
           <div class="sp-fnt medium sp-dark">{{ node.label }}</div>
         </div>

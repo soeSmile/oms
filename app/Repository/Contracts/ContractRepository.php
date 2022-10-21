@@ -43,4 +43,9 @@ interface ContractRepository
      * @return bool
      */
     public function destroy(mixed $id): bool;
+
+    /**
+     * @return string
+     */
+    public function getTable(): string;
 }

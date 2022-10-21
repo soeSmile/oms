@@ -40,7 +40,7 @@ class IndexController
     public function login(): View|Factory|RedirectResponse|Application
     {
         if (auth()->check()) {
-            return redirect()->route('web.oms');
+            return redirect('/oms');
         }
 
         return view('auth.login');

@@ -98,7 +98,7 @@ const getData = () => {
  * @param page
  */
 const paginationHandler = (page) => {
-  filter.page = page
+  filter.value.page = page
   getData()
 }
 
