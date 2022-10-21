@@ -7,6 +7,8 @@ namespace App\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Class CategoryRepository
@@ -86,7 +88,8 @@ final class CategoryRepository extends AbstractRepository
                 $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
                 DB::commit();
             }
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
+            Log::error('Error delete Category', [$exception->getMessage()]);
             DB::rollBack();
             $result = false;
         }

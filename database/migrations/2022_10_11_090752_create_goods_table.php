@@ -14,7 +14,7 @@ return new class extends Migration {
         Schema::create('goods', static function (Blueprint $table) {
             $table->id();
             $table->text('name')->comment('Good name (EN)');
-            $table->integer('brand_id')->unsigned()->comment('ID brand');
+            $table->integer('brand_id')->nullable()->comment('ID brand');
             $table->decimal('width_box')->nullable()->comment('Width (in box)');
             $table->decimal('height_box')->nullable()->comment('Height (in box)');
             $table->decimal('length_box')->nullable()->comment('Length (in box)');

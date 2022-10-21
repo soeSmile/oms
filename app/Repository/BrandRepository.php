@@ -7,6 +7,9 @@ namespace App\Repository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Class BrandRepository
@@ -18,23 +21,22 @@ final class BrandRepository extends AbstractRepository
      */
     protected string $table = 'brands';
 
+    public function __construct(private readonly GoodsRepository $goods)
+    {
+        parent::__construct();
+    }
+
     /**
      * @param array $data
      * @return LengthAwarePaginator|Collection
      */
     public function getAll(array $data = []): LengthAwarePaginator|Collection
     {
-        $query = $this->getQuery();
-
         if (isset($data['name'])) {
-            $query->where('name', 'ilike', '%' . $data['name'] . '%');
+            $this->query->where('name', 'ilike', '%' . $data['name'] . '%');
         }
 
-        if (isset($data['paginate'])) {
-            return $query->paginate($this->perPage);
-        }
-
-        return $query->get();
+        return parent::getAll($data);
     }
 
     /**
@@ -52,7 +54,7 @@ final class BrandRepository extends AbstractRepository
      */
     public function store(array $data): bool
     {
-        return true;
+        return $this->getQuery()->insert($data);
     }
 
     /**
@@ -62,7 +64,9 @@ final class BrandRepository extends AbstractRepository
      */
     public function update(mixed $id, array $data): bool
     {
-        return true;
+        return (bool)$this->getQuery()
+            ->where('id', $id)
+            ->update($data);
     }
 
     /**
@@ -71,6 +75,23 @@ final class BrandRepository extends AbstractRepository
      */
     public function destroy(mixed $id): bool
     {
-        return true;
+        $result = true;
+        $category = $this->getQuery()->where('id', $id)->first();
+
+        DB::beginTransaction();
+
+        try {
+            if ($category) {
+                $this->getQuery()->where('id', $id)->delete();
+                DB::table($this->goods->getTable())->where('brand_id', $id)->update(['brand_id' => null]);
+                DB::commit();
+            }
+        } catch (Throwable $exception) {
+            Log::error('Error delete Brand', [$exception->getMessage()]);
+            DB::rollBack();
+            $result = false;
+        }
+
+        return $result;
     }
 }
