@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from 'vue-router'
 import Error404 from '../Error404.vue'
 import omsIndex from './pages/index.vue'
 import goodIndex from './pages/good/goodIndex.vue'
+import goodPage from './pages/good/goodPage.vue'
 import brandIndex from './pages/brand/brandIndex.vue'
 import categoryIndex from './pages/category/categoryIndex.vue'
 import supplierIndex from './pages/suppliers/supplierIndex.vue'
@@ -27,6 +28,11 @@ const routers = [
     path: '/oms/good',
     component: goodIndex,
     name: 'goodIndex',
+  },
+  {
+    path: '/oms/good/:id',
+    component: goodPage,
+    name: 'goodPage',
   },
   {
     path: '/oms/brand',

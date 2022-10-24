@@ -1,6 +1,6 @@
 <template>
   <div class="sp-flex middle">
-    <ui-button title="Add Root Category" icon="bx bx-plus-circle" color="primary-l"
+    <ui-button title="Add root category" icon="bx bx-plus-circle" color="primary-l"
                @click="addCategory"/>
 
     <div class="sp-wpx-500 sp-ml-2">
@@ -34,7 +34,7 @@
     </el-tree>
   </div>
 
-  <ui-dialog width="wpx-600" color="primary-l"
+  <ui-dialog width="wpx-600" color="success-l"
              title="Category"
              v-model="show" @save="store">
     <div class="sp-flex col">

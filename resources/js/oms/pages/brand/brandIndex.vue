@@ -7,10 +7,10 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="success-l"
+            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
                        @click="getData"/>
 
-            <ui-button title="Add Brand" icon="bx bx-plus-circle" color="primary-l"
+            <ui-button title="Add brand" icon="bx bx-plus-circle" color="primary-l"
                        @click="addBrand({})"/>
 
             <div class="sp-wpx-300 sp-ml-2">
@@ -55,7 +55,7 @@
 
   </div>
 
-  <ui-dialog width="wpx-600" color="primary-l"
+  <ui-dialog width="wpx-600" color="success-l"
              title="Brand"
              v-model="show" @save="store">
     <div class="sp-flex col">

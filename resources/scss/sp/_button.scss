@@ -107,6 +107,11 @@
     color: var(--color-white) !important;
   }
 
+  &.light {
+    background: var(--color-gray);
+    color: var(--color-dark) !important;
+  }
+
   &.white {
     background: var(--color-white);
     color: var(--color-dark) !important;

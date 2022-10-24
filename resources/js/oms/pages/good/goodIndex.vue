@@ -7,8 +7,12 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="success-l"
+            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
                        @click="getData"/>
+
+            <router-link to="/oms/good/new">
+              <ui-button title="Add good" icon="bx bx-plus-circle" color="primary-l"/>
+            </router-link>
           </div>
         </div>
       </div>
@@ -32,7 +36,9 @@
             <td class="center">{{ val.deposit }}</td>
             <td class="right">
               <div class="sp-flex middle right">
-                <i class='bx bxs-pencil sp-link sp-primary'/>
+                <router-link :to="'/oms/good/' + val.id">
+                  <i class='bx bxs-pencil sp-link sp-primary'/>
+                </router-link>
                 <i class='bx bx-x sp-link sp-danger'/>
               </div>
             </td>

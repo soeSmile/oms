@@ -7,7 +7,7 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="success-l"
+            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
                        @click="getData"/>
             <ui-button title="Show list" class="sp-mr-2" icon="bx bx-list-ul"/>
             <ui-button title="Upload from file" class="sp-mr-2" icon="bx bx-cloud-upload" color="info-l"/>
