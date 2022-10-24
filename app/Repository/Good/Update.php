@@ -28,9 +28,9 @@ class Update
 
         try {
             $repository->getQuery()->where('id', $id)->update($dto->storeData());
+            DB::table('good_to_category')->where('good_id', $id)->delete();
 
             if ($dto->hasCategory()) {
-                DB::table('good_to_category')->where('good_id', $id)->delete();
                 DB::table('good_to_category')->insert($dto->categories($id));
             }
 

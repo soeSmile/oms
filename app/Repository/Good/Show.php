@@ -45,7 +45,7 @@ class Show
                 $categories[] = $item->category_id;
             }
 
-            if ($item->category_id) {
+            if ($item->number) {
                 $numbers[] = $item->number;
             }
         }

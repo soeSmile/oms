@@ -194,7 +194,9 @@ const store = () => {
   }
 
   axios[method](link, good.value).then((res) => {
-    good.value.id = res.data.data
+    if (method === 'post') {
+      good.value.id = res.data.data
+    }
     success(null, getData)
     router.replace('/oms/good/' + good.value.id)
   }).catch(e => error(e)).finally(() => {loading.value = false})

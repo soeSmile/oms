@@ -111,7 +111,6 @@
 
         &.show {
           display: block;
-          padding: 1rem;
         }
 
         &.close {
@@ -125,6 +124,7 @@
           z-index: var(--z-index-menu-sub);
           border-radius: 0.6rem;
           overflow: hidden;
+          padding: 1rem;
 
           & li {
             & .link {
