@@ -66,7 +66,7 @@
               </div>
             </div>
 
-            <div class="sp-flex col sp-mt-2">
+            <div class="sp-flex col sp-mt-4">
               <div class="sp-mb-2">Pledge goods</div>
               <el-switch v-model="good.deposit"/>
             </div>
@@ -87,12 +87,65 @@
                            :label="brand.name"/>
               </el-select>
             </div>
-
-            <div class="sp-flex col sp-mt-4">
+            <div class="sp-flex col sp-mt-2">
               <div class="sp-flex middle sp-p-1"
                    v-for="(val,key) in good.category">
                 <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeCategory(key)"/>
                 <span>{{ viewCategoryName(val) }}</span>
+              </div>
+            </div>
+
+            <div class="sp-w-100 sp-flex wrap sp-mt-6">
+              <div class="block">
+                <div class="sp-mb-2">Catalogue number</div>
+                <div class="sp-flex middle">
+                  <el-input size="large" v-model="number"/>
+                  <ui-button icon="bx bx-plus" @click="addNumber"/>
+                </div>
+                <div class="sp-flex middle sp-p-1 sp-mt-2"
+                     v-for="(val,key) in good.number">
+                  <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeNumber(key)"/>
+                  <span>{{ val }}</span>
+                </div>
+              </div>
+              <div class="block">
+                <div class="sp-mb-2">ОЕ/ОЕМ</div>
+                <div class="sp-flex middle">
+                  <el-input size="large" v-model="oe"/>
+                  <ui-button icon="bx bx-plus" @click="addOe"/>
+                </div>
+                <div class="sp-flex middle sp-p-1 sp-mt-2"
+                     v-for="(val,key) in good.oe">
+                  <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeOe(key)"/>
+                  <span>{{ val }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sp-w-100 sp-flex wrap sp-mt-6">
+              <div class="block">
+                <div class="sp-mb-2">TNVED</div>
+                <div class="sp-flex middle">
+                  <el-input size="large" v-model="tnved"/>
+                  <ui-button icon="bx bx-plus" @click="addOTnved"/>
+                </div>
+                <div class="sp-flex middle sp-p-1 sp-mt-2"
+                     v-for="(val,key) in good.tnved">
+                  <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeTnved(key)"/>
+                  <span>{{ val }}</span>
+                </div>
+              </div>
+              <div class="block">
+                <div class="sp-mb-2">HS Code</div>
+                <div class="sp-flex middle">
+                  <el-input size="large" v-model="hscode"/>
+                  <ui-button icon="bx bx-plus" @click="addHsCode"/>
+                </div>
+                <div class="sp-flex middle sp-p-1 sp-mt-2"
+                     v-for="(val,key) in good.hscode">
+                  <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeHsCode(key)"/>
+                  <span>{{ val }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -117,19 +170,17 @@ const route = useRoute()
 const good = ref({
   id: null,
   category: [],
+  number: [],
+  oe: [],
+  tnved: [],
+  hscode: [],
 })
 const brands = ref([])
 const categories = ref([])
-
-const viewCategoryName = (id) => {
-  const cat = categories.value.filter((item) => item.id === id)
-
-  return cat.length > 0 ? cat[0].name : ''
-}
-
-const removeCategory = (key) => {
-  good.value.category.splice(key, 1)
-}
+const number = ref()
+const oe = ref()
+const tnved = ref()
+const hscode = ref()
 
 const store = () => {
   loading.value = true
@@ -167,6 +218,61 @@ const getData = () => {
         }
       }).
       finally(() => {loading.value = false})
+}
+
+const viewCategoryName = (id) => {
+  const cat = categories.value.filter((item) => item.id === id)
+
+  return cat.length > 0 ? cat[0].name : ''
+}
+
+const removeCategory = (key) => {
+  good.value.category.splice(key, 1)
+}
+
+const addNumber = () => {
+  if (number.value) {
+    good.value.number.push(number.value)
+    number.value = null
+  }
+
+}
+
+const removeNumber = (key) => {
+  good.value.number.splice(key, 1)
+}
+
+const addOe = () => {
+  if (oe.value) {
+    good.value.oe.push(oe.value)
+    oe.value = null
+  }
+}
+
+const removeOe = (key) => {
+  good.value.oe.splice(key, 1)
+}
+
+const addOTnved = () => {
+  if (tnved.value) {
+    good.value.tnved.push(tnved.value)
+    tnved.value = null
+  }
+}
+
+const removeTnved = (key) => {
+  good.value.tnved.splice(key, 1)
+}
+
+const addHsCode = () => {
+  if (hscode.value) {
+    good.value.hscode.push(hscode.value)
+    hscode.value = null
+  }
+}
+
+const removeHsCode = (key) => {
+  good.value.hscode.splice(key, 1)
 }
 
 onMounted(() => {
