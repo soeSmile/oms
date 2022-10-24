@@ -22,9 +22,10 @@
           <thead>
           <tr>
             <th class="center id">ID</th>
-            <th class="left w30">Name</th>
-            <th class="left w30">Brand</th>
-            <th class="center w30">Deposit</th>
+            <th class="left">Name</th>
+            <th class="left">Brand</th>
+            <th class="center">Deposit</th>
+            <th class="center">Count Categories</th>
             <th class="right control">Control</th>
           </tr>
           </thead>
@@ -34,6 +35,7 @@
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.brand }}</td>
             <td class="center">{{ val.deposit }}</td>
+            <td class="center">{{ val.count }}</td>
             <td class="right">
               <div class="sp-flex middle right">
                 <router-link :to="'/oms/good/' + val.id">

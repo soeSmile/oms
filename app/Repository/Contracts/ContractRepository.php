@@ -26,9 +26,9 @@ interface ContractRepository
 
     /**
      * @param array<string> $data
-     * @return mixed
+     * @return int
      */
-    public function store(array $data): mixed;
+    public function store(array $data): int;
 
     /**
      * @param mixed $id

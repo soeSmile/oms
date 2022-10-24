@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -27,7 +26,9 @@ final class GoodsRepository extends AbstractRepository
      */
     public function getAll(array $data = []): LengthAwarePaginator|Collection
     {
-        $this->query->select('goods.*', 'b.name as brand')
+        $this->query
+            ->select('goods.*', 'b.name as brand')
+            ->selectRaw("(select count(gc.good_id) from good_to_category as gc where gc.good_id = goods.id) as count")
             ->leftJoin('brands as b', 'goods.brand_id', '=', 'b.id')
             ->orderBy('goods.id');
 
@@ -68,15 +69,16 @@ final class GoodsRepository extends AbstractRepository
 
     /**
      * @param array $data
-     * @return mixed
+     * @return int
      */
-    public function store(array $data): mixed
+    public function store(array $data): int
     {
         $id = 0;
         DB::beginTransaction();
 
         try {
             $id = $this->getQuery()->insertGetId($this->prepareGoodData($data));
+
             if (isset($data['category'])) {
                 DB::table('good_to_category')->insert($this->prepareGoodCategory($data['category'], $id));
             }
@@ -97,7 +99,26 @@ final class GoodsRepository extends AbstractRepository
      */
     public function update(mixed $id, array $data): bool
     {
-        return true;
+        $result = true;
+
+        DB::beginTransaction();
+
+        try {
+            $this->getQuery()->where('id', $id)->update($this->prepareGoodData($data));
+
+            if (isset($data['category'])) {
+                DB::table('good_to_category')->where('good_id', $id)->delete();
+                DB::table('good_to_category')->insert($this->prepareGoodCategory($data['category'], $id));
+            }
+
+            DB::commit();
+        } catch (Throwable $exception) {
+            Log::error('Update good', [$exception->getMessage()]);
+            DB::rollBack();
+            $result = false;
+        }
+
+        return $result;
     }
 
     /**

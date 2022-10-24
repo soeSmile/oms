@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -45,9 +44,9 @@ final class BrandRepository extends AbstractRepository
 
     /**
      * @param array $data
-     * @return mixed
+     * @return int
      */
-    public function store(array $data): mixed
+    public function store(array $data): int
     {
         return $this->getQuery()->insertGetId($data);
     }

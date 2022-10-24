@@ -31,6 +31,15 @@ final class ApiGoodController
     }
 
     /**
+     * @param int $good
+     * @return JsonResponse
+     */
+    public function show(int $good): JsonResponse
+    {
+        return response()->json(['data' => $this->goodsRepository->show($good)]);
+    }
+
+    /**
      * @param GoodStoreRequest $request
      * @return JsonResponse
      */
@@ -43,10 +52,13 @@ final class ApiGoodController
 
     /**
      * @param int $good
+     * @param GoodStoreRequest $request
      * @return JsonResponse
      */
-    public function show(int $good): JsonResponse
+    public function update(int $good, GoodStoreRequest $request): JsonResponse
     {
-        return response()->json(['data' => $this->goodsRepository->show($good)]);
+        $result = $this->goodsRepository->update($good, $request->validated());
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 }
