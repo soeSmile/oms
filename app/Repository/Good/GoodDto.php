@@ -27,6 +27,21 @@ class GoodDto
     private array $numbers = [];
 
     /**
+     * @var array
+     */
+    private array $oe = [];
+
+    /**
+     * @var array
+     */
+    private array $tnved = [];
+
+    /**
+     * @var array
+     */
+    private array $hscode = [];
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
@@ -49,7 +64,44 @@ class GoodDto
         if (isset($data['number'])) {
             $this->numbers = array_unique($data['number']);
         }
+
+        if (isset($data['oe'])) {
+            $this->oe = array_unique($data['oe']);
+        }
+
+        if (isset($data['tnved'])) {
+            $this->tnved = array_unique($data['tnved']);
+        }
+
+        if (isset($data['hscode'])) {
+            $this->hscode = array_unique($data['hscode']);
+        }
     }
+
+    /**
+     * @return bool
+     */
+    public function hasHscode(): bool
+    {
+        return $this->hscode !== [];
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTnved(): bool
+    {
+        return $this->tnved !== [];
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOe(): bool
+    {
+        return $this->oe !== [];
+    }
+
 
     /**
      * @return bool
