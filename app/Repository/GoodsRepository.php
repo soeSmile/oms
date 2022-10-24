@@ -59,7 +59,9 @@ final class GoodsRepository extends AbstractRepository
             $good->put('volume', $item->volume);
             $good->put('deposit', $item->deposit);
 
-            $categories[] = $item->category_id;
+            if ($item->category_id) {
+                $categories[] = $item->category_id;
+            }
         }
 
         $good->put('category', $categories);

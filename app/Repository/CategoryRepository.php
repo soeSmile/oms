@@ -75,7 +75,6 @@ final class CategoryRepository extends AbstractRepository
      */
     public function destroy(mixed $id): bool
     {
-        // TODO отвязывать категорию от товара
         $result = true;
         $category = $this->getQuery()->where('id', $id)->first();
 
@@ -85,6 +84,7 @@ final class CategoryRepository extends AbstractRepository
             if ($category) {
                 $this->getQuery()->where('id', $id)->delete();
                 $this->getQuery()->where('parent_id', $id)->update(['parent_id' => $category->parent_id]);
+                DB::table('good_to_category')->where('category_id', $id)->delete();
                 DB::commit();
             }
         } catch (Throwable $exception) {
