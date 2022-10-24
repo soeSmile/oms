@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Repository\Good\GoodDto;
+use App\Repository\Good\Show;
+use App\Repository\Good\Store;
+use App\Repository\Good\Update;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Throwable;
 
 /**
  * Class GoodsRepository
@@ -19,6 +20,19 @@ final class GoodsRepository extends AbstractRepository
      * @var string
      */
     protected string $table = 'goods';
+
+    /**
+     * @param Store $store
+     * @param Show $show
+     * @param Update $update
+     */
+    public function __construct(
+        private readonly Store $store,
+        private readonly Show $show,
+        private readonly Update $update
+    ) {
+        parent::__construct();
+    }
 
     /**
      * @param array $data
@@ -36,37 +50,12 @@ final class GoodsRepository extends AbstractRepository
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * @return Collection
      */
-    public function show(mixed $id): Collection
+    public function show(int $id): Collection
     {
-        $good = collect();
-        $categories = [];
-        $result = $this->getQuery()
-            ->leftJoin('good_to_category as gc', 'goods.id', '=', 'gc.good_id')
-            ->where('id', $id)
-            ->get();
-
-        foreach ($result as $item) {
-            $good->put('id', $item->id);
-            $good->put('name', $item->name);
-            $good->put('brandId', $item->brand_id);
-            $good->put('widthBox', $item->width_box);
-            $good->put('heightBox', $item->height_box);
-            $good->put('lengthBox', $item->length_box);
-            $good->put('weightGross', $item->weight_gross);
-            $good->put('volume', $item->volume);
-            $good->put('deposit', $item->deposit);
-
-            if ($item->category_id) {
-                $categories[] = $item->category_id;
-            }
-        }
-
-        $good->put('category', $categories);
-
-        return $good;
+        return $this->show->show($id, $this);
     }
 
     /**
@@ -75,94 +64,16 @@ final class GoodsRepository extends AbstractRepository
      */
     public function store(array $data): int
     {
-        $id = 0;
-        DB::beginTransaction();
-
-        try {
-            $id = $this->getQuery()->insertGetId($this->prepareGoodData($data));
-
-            if (isset($data['category'])) {
-                DB::table('good_to_category')->insert($this->prepareGoodCategory($data['category'], $id));
-            }
-
-            DB::commit();
-        } catch (Throwable $exception) {
-            Log::error('Error sore good:', [$exception->getMessage()]);
-            DB::rollBack();
-        }
-
-        return $id;
+        return $this->store->store(new GoodDto($data), $this);
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      * @param array $data
      * @return bool
      */
-    public function update(mixed $id, array $data): bool
+    public function update(int $id, array $data): bool
     {
-        $result = true;
-
-        DB::beginTransaction();
-
-        try {
-            $this->getQuery()->where('id', $id)->update($this->prepareGoodData($data));
-
-            if (isset($data['category'])) {
-                DB::table('good_to_category')->where('good_id', $id)->delete();
-                DB::table('good_to_category')->insert($this->prepareGoodCategory($data['category'], $id));
-            }
-
-            DB::commit();
-        } catch (Throwable $exception) {
-            Log::error('Update good', [$exception->getMessage()]);
-            DB::rollBack();
-            $result = false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param mixed $id
-     * @return bool
-     */
-    public function destroy(mixed $id): bool
-    {
-        return true;
-    }
-
-    /**
-     * @param array $data
-     * @return array<string, mixed>
-     */
-    private function prepareGoodData(array $data): array
-    {
-        return [
-            'name'         => $data['name'],
-            'brand_id'     => $data['brandId'] ?? null,
-            'width_box'    => $data['widthBox'] ?? null,
-            'height_box'   => $data['heightBox'] ?? null,
-            'length_box'   => $data['lengthBox'] ?? null,
-            'weight_gross' => $data['weightGross'] ?? null,
-            'volume'       => $data['volume'] ?? null,
-            'deposit'      => $data['deposit'] ?? false,
-        ];
-    }
-
-    /**
-     * @param array $data
-     * @param int $goodId
-     * @return array<int, array<string, mixed>>
-     */
-    private function prepareGoodCategory(array $data, int $goodId): array
-    {
-        $array = [];
-
-        foreach ($data as $item) {
-            $array[] = ['good_id' => $goodId, 'category_id' => $item];
-        }
-
-        return $array;
+        return $this->update->update($id, new GoodDto($data), $this);
     }
 }

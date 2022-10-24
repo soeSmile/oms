@@ -34,15 +34,6 @@ final class BrandRepository extends AbstractRepository
     }
 
     /**
-     * @param mixed $id
-     * @return Collection
-     */
-    public function show(mixed $id): Collection
-    {
-        return collect();
-    }
-
-    /**
      * @param array $data
      * @return int
      */

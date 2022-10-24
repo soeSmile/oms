@@ -40,15 +40,6 @@ final class CategoryRepository extends AbstractRepository
     }
 
     /**
-     * @param mixed $id
-     * @return Collection
-     */
-    public function show(mixed $id): Collection
-    {
-        return collect();
-    }
-
-    /**
      * @param array<string> $data
      * @return int
      */

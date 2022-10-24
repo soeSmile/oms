@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Repository\Contracts\ContractRepository;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
@@ -13,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Abstract class AbstractRepository
  */
-abstract class AbstractRepository implements ContractRepository
+abstract class AbstractRepository
 {
     /**
      * @var string
@@ -54,7 +53,7 @@ abstract class AbstractRepository implements ContractRepository
     /**
      * @return Builder
      */
-    protected function getQuery(): Builder
+    public function getQuery(): Builder
     {
         return DB::table($this->table);
     }

@@ -10,6 +10,8 @@
             <router-link to="/oms/good">
               <ui-button title="Cancel" icon="bx bx-plus-circle" color="primary-l" class="sp-mr-2"/>
             </router-link>
+            <ui-button v-if="good.id" title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
+                       @click="getData"/>
             <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"
                        @click="store"/>
           </div>
