@@ -3,14 +3,15 @@
 
   <div class="sp-content">
 
-    <div class="sp-card sp-bg-white">
+    <div class="sp-card sp-bg-white" v-loading="loading">
       <div class="head">
         <div class="sp-nav">
           <div class="item">
             <router-link to="/oms/good">
               <ui-button title="Cancel" icon="bx bx-plus-circle" color="primary-l" class="sp-mr-2"/>
             </router-link>
-            <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"/>
+            <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"
+                       @click="store"/>
           </div>
         </div>
       </div>
@@ -29,7 +30,7 @@
               <el-select size="large"
                          clearable
                          filterable
-                         v-model="good.brand">
+                         v-model="good.brandId">
                 <el-option v-for="brand in brands"
                            :value="brand.id"
                            :label="brand.name"/>
@@ -64,7 +65,7 @@
             </div>
 
             <div class="sp-flex col sp-mt-2">
-              <div class="sp-mb-2">Deposit</div>
+              <div class="sp-mb-2">Pledge goods</div>
               <el-switch v-model="good.deposit"/>
             </div>
           </div>
@@ -84,6 +85,14 @@
                            :label="brand.name"/>
               </el-select>
             </div>
+
+            <div class="sp-flex col sp-mt-4">
+              <div class="sp-flex middle sp-p-1"
+                   v-for="(val,key) in good.category">
+                <i class='bx bx-x sp-mr-2 sp-link sp-danger' @click="removeCategory(key)"/>
+                <span>{{ viewCategoryName(val) }}</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -97,21 +106,68 @@
 <script setup>
 import OmsHeader from '../../component/omsHeader.vue'
 import { onMounted, ref } from 'vue'
+import { error, success } from '../../../helper/reponse'
+import { useRoute, useRouter } from 'vue-router'
 
-const good = ref({})
+const loading = ref(false)
+const router = useRouter()
+const route = useRoute()
+const good = ref({
+  id: null,
+  category: [],
+})
 const brands = ref([])
 const categories = ref([])
 
-const getBrands = () => {
-  axios.get('/api/brands').then(res => { brands.value = res.data.data })
+const viewCategoryName = (id) => {
+  const cat = categories.value.filter((item) => item.id === id)
+
+  return cat.length > 0 ? cat[0].name : ''
 }
 
-const getCategories = () => {
-  axios.get('/api/categories').then(res => { categories.value = res.data.data })
+const removeCategory = (key) => {
+  good.value.category.splice(key, 1)
+}
+
+const store = () => {
+  loading.value = true
+
+  let method = 'post',
+      link = '/api/goods'
+
+  if (good.value.id) {
+    method = 'put'
+    link = '/api/goods/' + good.value.id
+  }
+
+  axios[method](link, good.value).then((res) => {
+    good.value.id = res.data.data
+    success()
+    router.replace('/oms/good/' + good.value.id)
+  }).catch(e => error(e)).finally(() => {loading.value = false})
+}
+
+const getData = () => {
+  loading.value = true
+  let request = null
+
+  if (route.params.id !== 'new') {
+    request = axios.get('/api/goods/' + route.params.id)
+  }
+
+  Promise.all([axios.get('/api/brands'), axios.get('/api/categories'), request]).
+      then((res) => {
+        brands.value = res[0].data.data
+        categories.value = res[1].data.data
+
+        if (res[2]) {
+          good.value = res[2].data.data
+        }
+      }).
+      finally(() => {loading.value = false})
 }
 
 onMounted(() => {
-  getBrands()
-  getCategories()
+  getData()
 })
 </script>

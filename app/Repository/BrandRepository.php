@@ -36,20 +36,20 @@ final class BrandRepository extends AbstractRepository
 
     /**
      * @param mixed $id
-     * @return Model|null
+     * @return Collection
      */
-    public function show(mixed $id): Model|null
+    public function show(mixed $id): Collection
     {
-        return $this->getQuery()->where('id', $id)->first();
+        return collect();
     }
 
     /**
      * @param array $data
-     * @return bool
+     * @return mixed
      */
-    public function store(array $data): bool
+    public function store(array $data): mixed
     {
-        return $this->getQuery()->insert($data);
+        return $this->getQuery()->insertGetId($data);
     }
 
     /**

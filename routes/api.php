@@ -14,5 +14,5 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/categories/tree', [ApiCategoryController::class, 'getTree'])->name('categories.tree');
     Route::apiResource('categories', ApiCategoryController::class)->except('show');
     Route::apiResource('brands', ApiBrandController::class)->except('show');
-    Route::apiResource('goods', ApiGoodController::class)->except('show');
+    Route::apiResource('goods', ApiGoodController::class);
 });

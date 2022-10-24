@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository\Contracts;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
@@ -21,15 +20,15 @@ interface ContractRepository
 
     /**
      * @param mixed $id
-     * @return Model|null
+     * @return Collection
      */
-    public function show(mixed $id): Model|null;
+    public function show(mixed $id): Collection;
 
     /**
      * @param array<string> $data
-     * @return bool
+     * @return mixed
      */
-    public function store(array $data): bool;
+    public function store(array $data): mixed;
 
     /**
      * @param mixed $id
