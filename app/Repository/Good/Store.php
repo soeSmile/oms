@@ -18,7 +18,6 @@ class Store
      */
     public function store(GoodDto $dto, AbstractRepository $repository): int
     {
-        $id = 0;
         DB::beginTransaction();
 
         try {
@@ -28,10 +27,15 @@ class Store
                 DB::table('good_to_category')->insert($dto->categories($id));
             }
 
+            if ($dto->hasNumber()) {
+                DB::table('good_to_number')->insert($dto->numbers($id));
+            }
+
             DB::commit();
         } catch (Throwable $exception) {
             Log::error('Error sore good:', [$exception->getMessage()]);
             DB::rollBack();
+            $id = 0;
         }
 
         return $id;

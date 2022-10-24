@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('oe_to_good', static function (Blueprint $table) {
+        Schema::create('good_to_oe', static function (Blueprint $table) {
             $table->unsignedBigInteger('good_id')->comment('ID good');
             $table->text('oe')->comment('ОЕ/ОЕМ');
         });
@@ -20,8 +20,8 @@ return new class extends Migration
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('oe_to_good');
+        Schema::dropIfExists('good_to_oe');
     }
 };

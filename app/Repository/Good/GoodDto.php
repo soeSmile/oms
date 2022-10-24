@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository\Good;
 
+use function array_unique;
+
 /**
  * Class GoodDto
  */
@@ -18,6 +20,11 @@ class GoodDto
      * @var array
      */
     private array $categories = [];
+
+    /**
+     * @var array
+     */
+    private array $numbers = [];
 
     /**
      * @param array $data
@@ -36,8 +43,35 @@ class GoodDto
         ];
 
         if (isset($data['category'])) {
-            $this->categories = $data['category'];
+            $this->categories = array_unique($data['category']);
         }
+
+        if (isset($data['number'])) {
+            $this->numbers = array_unique($data['number']);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNumber(): bool
+    {
+        return $this->numbers !== [];
+    }
+
+    /**
+     * @param int $goodId
+     * @return array
+     */
+    public function numbers(int $goodId): array
+    {
+        $array = [];
+
+        foreach ($this->numbers as $item) {
+            $array[] = ['good_id' => $goodId, 'number' => $item];
+        }
+
+        return $array;
     }
 
     /**

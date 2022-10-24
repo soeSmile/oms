@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tnved_to_good', static function (Blueprint $table) {
+        Schema::create('good_to_tnved', static function (Blueprint $table) {
             $table->unsignedBigInteger('good_id')->comment('ID good');
             $table->text('tnved')->comment('Code TNVED');
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tnved_to_good');
+        Schema::dropIfExists('good_to_tnved');
     }
 };

@@ -7,6 +7,8 @@ namespace App\Repository\Good;
 use App\Repository\AbstractRepository;
 use Illuminate\Support\Collection;
 
+use function array_unique;
+
 /**
  * Class Show
  */
@@ -21,8 +23,10 @@ class Show
     {
         $good = collect();
         $categories = [];
+        $numbers = [];
         $result = $repository->getQuery()
             ->leftJoin('good_to_category as gc', 'goods.id', '=', 'gc.good_id')
+            ->leftJoin('good_to_number as gn', 'goods.id', '=', 'gn.good_id')
             ->where('id', $goodId)
             ->get();
 
@@ -40,9 +44,14 @@ class Show
             if ($item->category_id) {
                 $categories[] = $item->category_id;
             }
+
+            if ($item->category_id) {
+                $numbers[] = $item->number;
+            }
         }
 
-        $good->put('category', $categories);
+        $good->put('category', array_unique($categories));
+        $good->put('number', array_unique($numbers));
 
         return $good;
     }

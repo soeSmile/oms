@@ -195,7 +195,7 @@ const store = () => {
 
   axios[method](link, good.value).then((res) => {
     good.value.id = res.data.data
-    success()
+    success(null, getData)
     router.replace('/oms/good/' + good.value.id)
   }).catch(e => error(e)).finally(() => {loading.value = false})
 }
@@ -204,8 +204,10 @@ const getData = () => {
   loading.value = true
   let request = null
 
-  if (route.params.id !== 'new') {
-    request = axios.get('/api/goods/' + route.params.id)
+  if (route.params.id !== 'new' || good.value.id) {
+    const id = good.value.id ?? route.params.id
+
+    request = axios.get('/api/goods/' + id)
   }
 
   Promise.all([axios.get('/api/brands'), axios.get('/api/categories'), request]).
