@@ -36,6 +36,9 @@ class GoodStoreRequest extends FormRequest
             'deposit'     => 'nullable|boolean',
             'category'    => 'nullable|array',
             'number'      => 'nullable|array',
+            'oe'          => 'nullable|array',
+            'tnved'       => 'nullable|array',
+            'hscode'      => 'nullable|array',
         ];
     }
 

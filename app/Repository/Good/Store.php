@@ -24,11 +24,23 @@ class Store
             $id = $repository->getQuery()->insertGetId($dto->storeData());
 
             if ($dto->hasCategory()) {
-                DB::table('good_to_category')->insert($dto->categories($id));
+                DB::table('good_to_category')->insert($dto->category($id));
             }
 
             if ($dto->hasNumber()) {
-                DB::table('good_to_number')->insert($dto->numbers($id));
+                DB::table('good_to_number')->insert($dto->number($id));
+            }
+
+            if ($dto->hasOe()) {
+                DB::table('good_to_oe')->insert($dto->oe($id));
+            }
+
+            if ($dto->hasTnved()) {
+                DB::table('good_to_tnved')->insert($dto->tnved($id));
+            }
+
+            if ($dto->hasHscode()) {
+                DB::table('good_to_hscode')->insert($dto->hscode($id));
             }
 
             DB::commit();

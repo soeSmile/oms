@@ -19,12 +19,12 @@ class GoodDto
     /**
      * @var array
      */
-    private array $categories = [];
+    private array $category = [];
 
     /**
      * @var array
      */
-    private array $numbers = [];
+    private array $number = [];
 
     /**
      * @var array
@@ -58,11 +58,11 @@ class GoodDto
         ];
 
         if (isset($data['category'])) {
-            $this->categories = array_unique($data['category']);
+            $this->category = array_unique($data['category']);
         }
 
         if (isset($data['number'])) {
-            $this->numbers = array_unique($data['number']);
+            $this->number = array_unique($data['number']);
         }
 
         if (isset($data['oe'])) {
@@ -87,11 +87,29 @@ class GoodDto
     }
 
     /**
+     * @param int $goodId
+     * @return array
+     */
+    public function hscode(int $goodId): array
+    {
+        return $this->setGoodToItem($goodId, 'hscode');
+    }
+
+    /**
      * @return bool
      */
     public function hasTnved(): bool
     {
         return $this->tnved !== [];
+    }
+
+    /**
+     * @param int $goodId
+     * @return array
+     */
+    public function tnved(int $goodId): array
+    {
+        return $this->setGoodToItem($goodId, 'tnved');
     }
 
     /**
@@ -102,28 +120,48 @@ class GoodDto
         return $this->oe !== [];
     }
 
+    /**
+     * @param int $goodId
+     * @return array
+     */
+    public function oe(int $goodId): array
+    {
+        return $this->setGoodToItem($goodId, 'oe');
+    }
 
     /**
      * @return bool
      */
     public function hasNumber(): bool
     {
-        return $this->numbers !== [];
+        return $this->number !== [];
     }
 
     /**
      * @param int $goodId
      * @return array
      */
-    public function numbers(int $goodId): array
+    public function number(int $goodId): array
     {
-        $array = [];
+        return $this->setGoodToItem($goodId, 'number');
+    }
 
-        foreach ($this->numbers as $item) {
-            $array[] = ['good_id' => $goodId, 'number' => $item];
-        }
 
-        return $array;
+    /**
+     * @return bool
+     */
+    public function hasCategory(): bool
+    {
+        return $this->category !== [];
+    }
+
+    /**
+     * @param int $goodId
+     * @return array
+     */
+    public function category(int $goodId): array
+    {
+        return $this->setGoodToItem($goodId, 'category', '_id');
     }
 
     /**
@@ -135,23 +173,17 @@ class GoodDto
     }
 
     /**
-     * @return bool
-     */
-    public function hasCategory(): bool
-    {
-        return $this->categories !== [];
-    }
-
-    /**
      * @param int $goodId
+     * @param string $item
+     * @param string|null $prefix
      * @return array
      */
-    public function categories(int $goodId): array
+    private function setGoodToItem(int $goodId, string $item, string $prefix = null): array
     {
         $array = [];
 
-        foreach ($this->categories as $item) {
-            $array[] = ['good_id' => $goodId, 'category_id' => $item];
+        foreach ($this->{$item} as $val) {
+            $array[] = ['good_id' => $goodId, $item . $prefix => $val];
         }
 
         return $array;
