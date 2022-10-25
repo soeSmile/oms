@@ -7,7 +7,7 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            Count goods: <span class="sp-fnt bold sp-ml-2 sp-warning">{{ count }}</span>
+            Count goods: <span class="sp-fnt bold sp-ml-2 sp-warning">{{ numberFormat(count) }}</span>
           </div>
         </div>
         <div class="sp-nav">
@@ -96,6 +96,7 @@ import OmsHeader from '../../component/omsHeader.vue'
 import { ElMessageBox } from 'element-plus'
 import { error, success } from '../../../helper/reponse'
 import Sort from '../../component/sort.vue'
+import { numberFormat } from '../../../helper/numberFormat'
 
 const loading = ref(false)
 const filter = ref({
