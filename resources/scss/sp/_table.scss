@@ -55,6 +55,13 @@
           align-items: center;
         }
 
+        &.sort {
+          i {
+            font-size: 1rem;
+            color: var(--color-gray);
+            cursor: pointer;
+          }
+        }
       }
     }
   }

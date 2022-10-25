@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Good;
 
 use App\Repository\AbstractRepository;
-use Illuminate\Support\Collection;
-
-use function array_unique;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class Show
@@ -17,62 +15,37 @@ class Show
     /**
      * @param int $goodId
      * @param AbstractRepository $repository
-     * @return Collection
+     * @return array<string, mixed>
      */
-    public function show(int $goodId, AbstractRepository $repository): Collection
+    public function show(int $goodId, AbstractRepository $repository): array
     {
-        $good = collect();
-        $category = [];
-        $number = [];
-        $oe = [];
-        $tnved = [];
-        $hscode = [];
+        $good = [];
         $result = $repository->getQuery()
-            ->leftJoin('good_to_category as gc', 'goods.id', '=', 'gc.good_id')
-            ->leftJoin('good_to_number as gn', 'goods.id', '=', 'gn.good_id')
-            ->leftJoin('good_to_oe as go', 'goods.id', '=', 'go.good_id')
-            ->leftJoin('good_to_tnved as gt', 'goods.id', '=', 'gt.good_id')
-            ->leftJoin('good_to_hscode as gh', 'goods.id', '=', 'gh.good_id')
             ->where('id', $goodId)
-            ->get();
+            ->first();
 
-        foreach ($result as $item) {
-            $good->put('id', $item->id);
-            $good->put('name', $item->name);
-            $good->put('brandId', $item->brand_id);
-            $good->put('widthBox', $item->width_box);
-            $good->put('heightBox', $item->height_box);
-            $good->put('lengthBox', $item->length_box);
-            $good->put('weightGross', $item->weight_gross);
-            $good->put('volume', $item->volume);
-            $good->put('deposit', $item->deposit);
+        if ($result) {
+            $category = DB::table('good_to_category')->where('good_id', $goodId)->pluck('category_id')->toArray();
+            $number = DB::table('good_to_number')->where('good_id', $goodId)->pluck('number')->toArray();
+            $oe = DB::table('good_to_oe')->where('good_id', $goodId)->pluck('oe')->toArray();
+            $tnved = DB::table('good_to_tnved')->where('good_id', $goodId)->pluck('tnved')->toArray();
+            $hscode = DB::table('good_to_hscode')->where('good_id', $goodId)->pluck('hscode')->toArray();
 
-            if ($item->category_id) {
-                $category[] = $item->category_id;
-            }
-
-            if ($item->number) {
-                $number[] = $item->number;
-            }
-
-            if ($item->oe) {
-                $oe[] = $item->oe;
-            }
-
-            if ($item->tnved) {
-                $tnved[] = $item->tnved;
-            }
-
-            if ($item->hscode) {
-                $hscode[] = $item->hscode;
-            }
+            $good['id'] = $result->id;
+            $good['name'] = $result->name;
+            $good['brandId'] = $result->brand_id;
+            $good['widthBox'] = $result->width_box;
+            $good['heightBox'] = $result->height_box;
+            $good['lengthBox'] = $result->length_box;
+            $good['weightGross'] = $result->weight_gross;
+            $good['volume'] = $result->volume;
+            $good['deposit'] = $result->deposit;
+            $good['category'] = $category;
+            $good['number'] = $number;
+            $good['oe'] = $oe;
+            $good['tnved'] = $tnved;
+            $good['hscode'] = $hscode;
         }
-
-        $good->put('category', array_unique($category));
-        $good->put('number', array_unique($number));
-        $good->put('oe', array_unique($oe));
-        $good->put('tnved', array_unique($tnved));
-        $good->put('hscode', array_unique($hscode));
 
         return $good;
     }

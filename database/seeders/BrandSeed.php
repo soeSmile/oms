@@ -14,7 +14,7 @@ class BrandSeed extends Seeder
      */
     public function run(): void
     {
-        foreach (range(1, 10) as $item) {
+        foreach (range(1, 100) as $item) {
             DB::table('brands')->insert([
                 'name' => fake()->company()
             ]);

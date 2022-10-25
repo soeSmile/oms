@@ -27,7 +27,12 @@ final class ApiGoodController
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        return GoodListResource::collection($this->goodsRepository->getAll($request->all()));
+        $result = $this->goodsRepository->getAll($request->all());
+
+        return GoodListResource::collection($result)
+            ->additional([
+                'count' => $result->isNotEmpty() ? $result->first()->all : 0
+            ]);
     }
 
     /**
@@ -47,7 +52,7 @@ final class ApiGoodController
     {
         $result = $this->goodsRepository->store($request->validated());
 
-        return response()->json(['data' => $result], (bool)$result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -58,6 +63,17 @@ final class ApiGoodController
     public function update(int $good, GoodStoreRequest $request): JsonResponse
     {
         $result = $this->goodsRepository->update($good, $request->validated());
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param int $brand
+     * @return JsonResponse
+     */
+    public function destroy(int $brand): JsonResponse
+    {
+        $result = $this->goodsRepository->destroy($brand);
 
         return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }

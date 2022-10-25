@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Repository\Good\GoodDto;
 use App\Repository\Good\Show;
 use App\Repository\Good\Store;
-use App\Repository\Good\Update;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
@@ -24,12 +23,10 @@ final class GoodsRepository extends AbstractRepository
     /**
      * @param Store $store
      * @param Show $show
-     * @param Update $update
      */
     public function __construct(
         private readonly Store $store,
         private readonly Show $show,
-        private readonly Update $update
     ) {
         parent::__construct();
     }
@@ -40,20 +37,39 @@ final class GoodsRepository extends AbstractRepository
      */
     public function getAll(array $data = []): LengthAwarePaginator|Collection
     {
+        if (isset($data['name'])) {
+            $this->query->where('goods.name', 'ilike', '%' . $data['name'] . '%');
+        }
+
         $this->query
             ->select('goods.*', 'b.name as brand')
-            ->selectRaw("(select count(gc.good_id) from good_to_category as gc where gc.good_id = goods.id) as count")
-            ->leftJoin('brands as b', 'goods.brand_id', '=', 'b.id')
-            ->orderBy('goods.id');
+            ->selectRaw(
+                "(select count(gc.good_id) from good_to_category as gc where gc.good_id = goods.id) as count,
+                (select count(id) from goods) as all"
+            )
+            ->leftJoin('brands as b', 'goods.brand_id', '=', 'b.id');
+
+        if (isset($data['order'])) {
+            $map = [
+                'id'      => 'goods.id',
+                'name'    => 'goods.name',
+                'brand'   => 'b.name',
+                'deposit' => 'goods.deposit'
+            ];
+
+            $this->query->orderBy($map[$data['order'][0]], $data['order'][1]);
+        } else {
+            $this->query->orderBy('goods.id');
+        }
 
         return parent::getAll($data);
     }
 
     /**
      * @param int $id
-     * @return Collection
+     * @return array
      */
-    public function show(int $id): Collection
+    public function show(int $id): array
     {
         return $this->show->show($id, $this);
     }
@@ -74,6 +90,15 @@ final class GoodsRepository extends AbstractRepository
      */
     public function update(int $id, array $data): bool
     {
-        return $this->update->update($id, new GoodDto($data), $this);
+        return $this->store->update($id, new GoodDto($data), $this);
+    }
+
+    /**
+     * @param int $id
+     * @return bool
+     */
+    public function destroy(int $id): bool
+    {
+        return $this->store->destroy($id, $this);
     }
 }

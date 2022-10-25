@@ -12,6 +12,17 @@ use Throwable;
 class Store
 {
     /**
+     * @var array<string>
+     */
+    private const DELETE_TABLE = [
+        'good_to_category',
+        'good_to_number',
+        'good_to_oe',
+        'good_to_tnved',
+        'good_to_hscode'
+    ];
+
+    /**
      * @param GoodDto $dto
      * @param AbstractRepository $repository
      * @return int
@@ -22,34 +33,106 @@ class Store
 
         try {
             $id = $repository->getQuery()->insertGetId($dto->storeData());
-
-            if ($dto->hasCategory()) {
-                DB::table('good_to_category')->insert($dto->category($id));
-            }
-
-            if ($dto->hasNumber()) {
-                DB::table('good_to_number')->insert($dto->number($id));
-            }
-
-            if ($dto->hasOe()) {
-                DB::table('good_to_oe')->insert($dto->oe($id));
-            }
-
-            if ($dto->hasTnved()) {
-                DB::table('good_to_tnved')->insert($dto->tnved($id));
-            }
-
-            if ($dto->hasHscode()) {
-                DB::table('good_to_hscode')->insert($dto->hscode($id));
-            }
+            $this->insertData($dto, $id);
 
             DB::commit();
         } catch (Throwable $exception) {
-            Log::error('Error sore good:', [$exception->getMessage()]);
+            Log::error('Error store good:', [$exception->getMessage()]);
             DB::rollBack();
             $id = 0;
         }
 
         return $id;
+    }
+
+    /**
+     * @param int $id
+     * @param GoodDto $dto
+     * @param AbstractRepository $repository
+     * @return bool
+     */
+    public function update(int $id, GoodDto $dto, AbstractRepository $repository): bool
+    {
+        $result = true;
+
+        DB::beginTransaction();
+
+        try {
+            $repository->getQuery()->where('id', $id)->lockForUpdate()->update($dto->storeData());
+            $this->deleteFromRelation($id);
+            $this->insertData($dto, $id);
+
+            DB::commit();
+        } catch (Throwable $exception) {
+            Log::error('Error update good', [$exception->getMessage()]);
+            DB::rollBack();
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     * @param AbstractRepository $repository
+     * @return bool
+     */
+    public function destroy(int $id, AbstractRepository $repository): bool
+    {
+        $result = true;
+
+        DB::beginTransaction();
+
+        try {
+            $repository->getQuery()->where('id', $id)->delete();
+            $this->deleteFromRelation($id);
+
+            DB::commit();
+        } catch (Throwable $exception) {
+            Log::error('Error destroy good', [$exception->getMessage()]);
+            DB::rollBack();
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    private function deleteFromRelation(int $id): void
+    {
+        foreach (self::DELETE_TABLE as $item) {
+            DB::table($item)->where('good_id', $id)->delete();
+        }
+    }
+
+    /**
+     * @param GoodDto $dto
+     * @param int $id
+     * @return void
+     */
+    private function insertData(GoodDto $dto, int $id): void
+    {
+        if ($dto->hasCategory()) {
+            DB::table('good_to_category')->insert($dto->category($id));
+        }
+
+        if ($dto->hasNumber()) {
+            DB::table('good_to_number')->insert($dto->number($id));
+        }
+
+        if ($dto->hasOe()) {
+            DB::table('good_to_oe')->insert($dto->oe($id));
+        }
+
+        if ($dto->hasTnved()) {
+            DB::table('good_to_tnved')->insert($dto->tnved($id));
+        }
+
+        if ($dto->hasHscode()) {
+            DB::table('good_to_hscode')->insert($dto->hscode($id));
+        }
     }
 }
