@@ -167,7 +167,7 @@
               </div>
             </template>
             <div class="sp-mt-6">
-              Images
+              <good-image :id="good.id"/>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -184,6 +184,7 @@ import OmsHeader from '../../component/omsHeader.vue'
 import { onMounted, ref } from 'vue'
 import { error, success } from '../../../helper/reponse'
 import { useRoute, useRouter } from 'vue-router'
+import GoodImage from './tabs/goodImage.vue'
 
 const tabs = ref('Base')
 const loading = ref(false)

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApiBrandController;
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ApiGoodController;
+use App\Http\Controllers\Api\ApiImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [ApiAuthController::class, 'login'])->name('api.login');
@@ -15,4 +16,6 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::apiResource('categories', ApiCategoryController::class)->except('show');
     Route::apiResource('brands', ApiBrandController::class)->except('show');
     Route::apiResource('goods', ApiGoodController::class);
+
+    Route::post('/image/upload', [ApiImageController::class, 'upload'])->name('image.upload');
 });
