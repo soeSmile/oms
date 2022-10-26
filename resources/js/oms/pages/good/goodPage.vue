@@ -30,7 +30,7 @@
       </div>
 
       <div class="content sp-mt-6">
-        <good-base :good="good" :brands="brands" :categories="categories"/>
+        <good-base v-if="active === 'base'" :good="good" :brands="brands" :categories="categories"/>
         <good-image v-if="active === 'image'"/>
       </div>
 
