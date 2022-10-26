@@ -7,19 +7,19 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            <ui-button v-if="good.id" title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
+
+            <router-link to="/oms/good">
+              <ui-button title="Back" class="sp-mr-2" icon="bx bx-arrow-back" color="light"
+                         @click="getData"/>
+            </router-link>
+            <ui-button v-if="good.id" title="Reload good" class="sp-mr-2" icon="bx bx-refresh" color="primary-l"
                        @click="getData"/>
             <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"
                        @click="store"/>
           </div>
         </div>
 
-        <div class="sp-tabs">
-          <router-link to="/oms/good" class="item">
-            <i class='bx bx-arrow-back'/>
-            <span>Back</span>
-          </router-link>
-
+        <div class="sp-tabs sp-mt-6">
           <div class="item" :class="tab.disabled ? 'disabled' : (tab.active ? 'active' : '')"
                @click="selectTab(tab)"
                v-for="tab in tabs">
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="content sp-mb-6">
+      <div class="content sp-mt-6">
         <good-base :good="good" :brands="brands" :categories="categories"/>
         <good-image v-if="active === 'image'"/>
       </div>
@@ -43,7 +43,7 @@
 import OmsHeader from '../../component/omsHeader.vue'
 import GoodBase from './tabs/goodBase.vue'
 import GoodImage from './tabs/goodImage.vue'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { error, success } from '../../../helper/reponse'
 
@@ -74,6 +74,12 @@ const selectTab = (tab) => {
       item.active = (item.name === tab.name)
     })
   }
+}
+
+const setActiveTab = () => {
+  tabs.value.forEach(item => {
+    item.disabled = false
+  })
 }
 
 const store = () => {
@@ -117,5 +123,7 @@ const getData = () => {
 onBeforeMount(() => {
   getData()
 })
+
+watch(() => good.value.id, () => { setActiveTab() })
 
 </script>
