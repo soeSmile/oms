@@ -1,10 +1,19 @@
 <template>
   <oms-header title="Good page"/>
 
-  <div class="sp-content">
+  <div class="sp-content" v-loading="loading">
 
     <div class="sp-card sp-bg-white">
       <div class="head">
+        <div class="sp-nav">
+          <div class="item">
+            <ui-button v-if="good.id" title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
+                       @click="getData"/>
+            <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"
+                       @click="store"/>
+          </div>
+        </div>
+
         <div class="sp-tabs">
           <router-link to="/oms/good" class="item">
             <i class='bx bx-arrow-back'/>
@@ -20,8 +29,9 @@
         </div>
       </div>
 
-      <div class="content">
-        <component :is="currentTab"/>
+      <div class="content sp-mb-6">
+        <good-base :good="good" :brands="brands" :categories="categories"/>
+        <good-image v-if="active === 'image'"/>
       </div>
 
     </div>
@@ -31,28 +41,81 @@
 
 <script setup>
 import OmsHeader from '../../component/omsHeader.vue'
-import goodBase from './tabs/goodBase.vue'
-import goodImage from './tabs/goodImage.vue'
-import { computed, markRaw, ref, shallowRef } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import GoodBase from './tabs/goodBase.vue'
+import GoodImage from './tabs/goodImage.vue'
+import { onBeforeMount, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { error, success } from '../../../helper/reponse'
 
-const store = useStore()
+const loading = ref(false)
 const tabs = ref([
-  { name: 'Common data', icon: 'bx bx-list-ul', active: true, disabled: true, component: goodBase },
-  { name: 'Images', icon: 'bx bx-image-alt', active: false, disabled: true, component: goodImage },
+  { name: 'Common data', icon: 'bx bx-list-ul', active: true, disabled: false, show: 'base' },
+  { name: 'Images', icon: 'bx bx-image-alt', active: false, disabled: true, show: 'image' },
 ])
+const router = useRouter()
 const route = useRoute()
-const currentTab = shallowRef(goodBase)
+const active = ref('base')
+const good = ref({
+  id: null,
+  category: [],
+  number: [],
+  oe: [],
+  tnved: [],
+  hscode: [],
+})
+const brands = ref([])
+const categories = ref([])
 
 const selectTab = (tab) => {
   if (!tab.disabled) {
-    currentTab.value = markRaw(tab.component)
+    active.value = tab.show
 
     tabs.value.forEach(item => {
       item.active = (item.name === tab.name)
     })
   }
 }
+
+const store = () => {
+  loading.value = true
+
+  let method = 'post',
+      link = '/api/goods'
+
+  if (good.value.id) {
+    method = 'put'
+    link = '/api/goods/' + good.value.id
+  }
+
+  axios[method](link, good.value).then((res) => {
+    if (method === 'post') {
+      good.id = res.data.data
+    }
+    success(null, getData)
+    router.replace('/oms/good/' + good.value.id)
+  }).catch(e => error(e)).finally(() => {loading.value = false})
+}
+
+const getData = () => {
+  loading.value = true
+  let request = null
+  if (route.params.id !== 'new' || good.value.id) {
+    const id = good.value.id ?? route.params.id
+    request = axios.get('/api/goods/' + id)
+  }
+  Promise.all([axios.get('/api/brands'), axios.get('/api/categories'), request]).
+      then((res) => {
+        brands.value = res[0].data.data
+        categories.value = res[1].data.data
+        if (res[2]) {
+          good.value = res[2].data.data
+        }
+      }).
+      finally(() => {loading.value = false})
+}
+
+onBeforeMount(() => {
+  getData()
+})
 
 </script>
