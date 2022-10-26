@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('good_to_hscode', static function (Blueprint $table) {
-            $table->unsignedBigInteger('good_id')->comment('ID good');
+            $table->unsignedBigInteger('good_id')->comment('ID good')->index();
             $table->text('hscode')->comment('HS code. Analogue of TNVED for Europe');
         });
     }

@@ -10,9 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('good_to_category', static function (Blueprint $table) {
+        Schema::create('good_to_image', static function (Blueprint $table) {
+            $table->id();
+            $table->text('path')->comment('Image path');
+            $table->text('name')->comment('Image name');
             $table->unsignedBigInteger('good_id')->index();
-            $table->unsignedBigInteger('category_id');
         });
     }
 
@@ -21,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('good_to_category');
+        Schema::dropIfExists('good_to_image');
     }
 };

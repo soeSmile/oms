@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('good_to_number', static function (Blueprint $table) {
-            $table->unsignedBigInteger('good_id')->comment('ID good');
+            $table->unsignedBigInteger('good_id')->comment('ID good')->index();
             $table->text('number')->comment('Catalogue number');
         });
     }

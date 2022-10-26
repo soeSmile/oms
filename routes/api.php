@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\ApiBrandController;
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ApiGoodController;
-use App\Http\Controllers\Api\ApiImageController;
+use App\Http\Controllers\Api\ApiGoodImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [ApiAuthController::class, 'login'])->name('api.login');
@@ -15,7 +15,8 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::get('/categories/tree', [ApiCategoryController::class, 'getTree'])->name('categories.tree');
     Route::apiResource('categories', ApiCategoryController::class)->except('show');
     Route::apiResource('brands', ApiBrandController::class)->except('show');
-    Route::apiResource('goods', ApiGoodController::class);
 
-    Route::post('/image/upload', [ApiImageController::class, 'upload'])->name('image.upload');
+    Route::get('/goods/images/{good}', [ApiGoodImageController::class, 'images'])->name('goods.images');
+    Route::get('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.image.upload');
+    Route::apiResource('goods', ApiGoodController::class);
 });

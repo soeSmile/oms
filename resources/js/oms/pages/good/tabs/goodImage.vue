@@ -1,12 +1,11 @@
 <template>
   <el-upload
       v-model:file-list="images"
-      action="/api/image/upload"
+      :action="'/api/goods/images/'+ id +'/upload'"
       :headers="headers"
       list-type="picture-card"
       :on-preview="previewImage"
-      :on-remove="removeImage"
-  >
+      :on-remove="removeImage">
     <i class='bx bx-plus'/>
   </el-upload>
 
@@ -18,6 +17,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getCookie } from '../../../../helper/cookie'
+import { useRoute } from 'vue-router'
 
 const prop = defineProps({
   id: Number,
@@ -30,6 +30,7 @@ const headers = {
   'Accept': 'application/json, text/plain, */*',
   'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
 }
+const route = useRoute()
 
 const previewImage = (image) => {
 }
@@ -37,7 +38,15 @@ const previewImage = (image) => {
 const removeImage = (image, images) => {
 }
 
+const getImages = () => {
+  axios.get('/api/goods/images/' + route.params.id).
+      then(res => {
+        images.value = res.data.data
+      })
+}
+
 onMounted(() => {
+  getImages()
 })
 
 </script>

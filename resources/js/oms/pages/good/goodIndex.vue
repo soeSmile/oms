@@ -5,7 +5,7 @@
 
     <div class="sp-card sp-bg-white">
       <div class="head">
-        <div class="sp-nav">
+        <div class="sp-nav sp-mb-4">
           <div class="item">
             Count goods: <span class="sp-fnt bold sp-ml-2 sp-warning">{{ numberFormat(count) }}</span>
           </div>
