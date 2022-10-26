@@ -1,16 +1,16 @@
 <template>
   <el-upload
       v-model:file-list="images"
-      :action="'/api/goods/images/'+ id +'/upload'"
+      :action="'/api/goods/images/'+ good.id +'/upload'"
       :headers="headers"
       list-type="picture-card"
       :on-preview="previewImage"
-      :on-remove="removeImage">
+      :before-remove="beforeRemove">
     <i class='bx bx-plus'/>
   </el-upload>
 
   <el-dialog v-model="showImage">
-    <img w-full :src="showImageUrl" alt="Preview Image"/>
+    <img class="sp-good-img-show" :src="showImageUrl" alt="Preview Image"/>
   </el-dialog>
 </template>
 
@@ -18,10 +18,9 @@
 import { onMounted, ref } from 'vue'
 import { getCookie } from '../../../../helper/cookie'
 import { useRoute } from 'vue-router'
+import { ElMessageBox } from 'element-plus'
 
-const prop = defineProps({
-  id: Number,
-})
+const prop = defineProps(['good'])
 const images = ref([])
 const showImage = ref(false)
 const showImageUrl = ref()
@@ -33,13 +32,29 @@ const headers = {
 const route = useRoute()
 
 const previewImage = (image) => {
+  showImageUrl.value = image.url
+  showImage.value = true
 }
 
-const removeImage = (image, images) => {
+const beforeRemove = async (image, images) => {
+  try {
+    await ElMessageBox.confirm(
+        'Are you sure?',
+        'Warning',
+        {
+          confirmButtonText: 'Delete',
+          cancelButtonText: 'Cancel',
+          type: 'error',
+        },
+    )
+    console.log(image)
+  } catch (e) {
+    return false
+  }
 }
 
 const getImages = () => {
-  axios.get('/api/goods/images/' + route.params.id).
+  axios.get('/api/goods/images/' + prop.good.id).
       then(res => {
         images.value = res.data.data
       })

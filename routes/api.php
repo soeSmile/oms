@@ -17,6 +17,6 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::apiResource('brands', ApiBrandController::class)->except('show');
 
     Route::get('/goods/images/{good}', [ApiGoodImageController::class, 'images'])->name('goods.images');
-    Route::get('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.image.upload');
+    Route::post('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.image.upload');
     Route::apiResource('goods', ApiGoodController::class);
 });

@@ -25,7 +25,7 @@ class GoodImageResource extends JsonResource
         return [
             'id'   => $this->id,
             'name' => $this->name,
-            'url'  => $this->path,
+            'url'  => '/' . $this->path,
         ];
     }
 }

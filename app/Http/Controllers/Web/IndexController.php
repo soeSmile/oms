@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 /**
  * Class IndexController
  */
-class IndexController
+final class IndexController
 {
     /**
      * @return RedirectResponse

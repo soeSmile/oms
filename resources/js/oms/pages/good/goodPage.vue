@@ -31,7 +31,7 @@
 
       <div class="content sp-mt-6">
         <good-base v-if="active === 'base'" :good="good" :brands="brands" :categories="categories"/>
-        <good-image v-if="active === 'image'"/>
+        <good-image v-if="active === 'image'" :good="good"/>
       </div>
 
     </div>
