@@ -23,9 +23,11 @@ class IsUser
         };
 
         if (!$check) {
-            return response()->json([
-                'errors' => 'unauthorized'
-            ], 403);
+            if ($request->expectsJson()) {
+                return response()->json(['errors' => 'unauthorized'], 403);
+            }
+
+            abort(404);
         }
 
         return $next($request);

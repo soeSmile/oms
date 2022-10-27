@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enum\RoleEnum;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
@@ -28,7 +29,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate(): void
     {
         Gate::define('viewHorizon', static function ($user) {
-            return $user->email === 'admin@yandex.ru';
+            return $user->roler === RoleEnum::Admin->value;
         });
     }
 }
