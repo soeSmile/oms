@@ -38,3 +38,10 @@ services:
     volumes:
       - './database/pg:/var/lib/postgresql/data'
       - './temp:/temp'
+  redis:
+    image: redis
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - './database/redis:/data'
