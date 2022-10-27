@@ -60,4 +60,16 @@ final class GoodImageService
 
         return $result;
     }
+
+    /**
+     * @param array $images
+     * @return void
+     */
+    public function destroyImages(array $images): void
+    {
+        foreach ($images as $image) {
+            $path = is_array($image) ? $image['path'] : $image->path;
+            Storage::delete($path);
+        }
+    }
 }

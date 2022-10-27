@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 /**
  * Class GoodImageRepository
  */
@@ -13,6 +16,19 @@ final class GoodImageRepository extends AbstractRepository
      * @var string
      */
     protected string $table = 'good_to_image';
+
+    /**
+     * @param array $data
+     * @return LengthAwarePaginator|Collection
+     */
+    public function getAll(array $data = []): LengthAwarePaginator|Collection
+    {
+        if (isset($data['goodId'])) {
+            $this->query->where('good_id', $data['goodId']);
+        }
+
+        return parent::getAll($data);
+    }
 
     /**
      * @param array $data

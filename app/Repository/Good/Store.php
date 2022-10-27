@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Good;
 
+use App\Jobs\RemoveGoodImagesJob;
 use App\Repository\AbstractRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -96,6 +97,7 @@ class Store
     public function destroy(int $id, AbstractRepository $repository): bool
     {
         $result = true;
+        $queryImages = DB::table('good_to_image')->where('good_id', $id)->get()->toArray();
 
         DB::beginTransaction();
 
@@ -111,6 +113,10 @@ class Store
             Log::error('Error destroy good', [$exception->getMessage()]);
             DB::rollBack();
             $result = false;
+        }
+
+        if ($result) {
+            dispatch(new RemoveGoodImagesJob($queryImages));
         }
 
         return $result;
