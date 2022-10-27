@@ -97,7 +97,7 @@ const menu = ref([
 const activeChildMenu = (name) => {
   let style = ''
 
-  if (name === 'categories' && route.name === 'categoryPage') {
+  if (name === 'Goods' && route.name === 'goodPage') {
     style = 'active-route-link'
   }
 
