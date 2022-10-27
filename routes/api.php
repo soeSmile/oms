@@ -16,7 +16,8 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::apiResource('categories', ApiCategoryController::class)->except('show');
     Route::apiResource('brands', ApiBrandController::class)->except('show');
 
-    Route::get('/goods/images/{good}', [ApiGoodImageController::class, 'images'])->name('goods.images');
-    Route::post('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.image.upload');
+    Route::get('/goods/images/{good}', [ApiGoodImageController::class, 'images'])->name('goods.images.index');
+    Route::delete('/goods/images/{id}', [ApiGoodImageController::class, 'destroy'])->name('goods.images.destroy');
+    Route::post('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.images.upload');
     Route::apiResource('goods', ApiGoodController::class);
 });

@@ -19,7 +19,19 @@ class Store
         'good_to_number',
         'good_to_oe',
         'good_to_tnved',
-        'good_to_hscode'
+        'good_to_hscode',
+        'good_to_image'
+    ];
+
+    /**
+     * @var array<string>
+     */
+    private const UPDATE_TABLE = [
+        'good_to_category',
+        'good_to_number',
+        'good_to_oe',
+        'good_to_tnved',
+        'good_to_hscode',
     ];
 
     /**
@@ -59,7 +71,11 @@ class Store
 
         try {
             $repository->getQuery()->where('id', $id)->lockForUpdate()->update($dto->storeData());
-            $this->deleteFromRelation($id);
+
+            foreach (self::UPDATE_TABLE as $item) {
+                DB::table($item)->where('good_id', $id)->delete();
+            }
+
             $this->insertData($dto, $id);
 
             DB::commit();
@@ -85,7 +101,10 @@ class Store
 
         try {
             $repository->getQuery()->where('id', $id)->delete();
-            $this->deleteFromRelation($id);
+
+            foreach (self::DELETE_TABLE as $item) {
+                DB::table($item)->where('good_id', $id)->delete();
+            }
 
             DB::commit();
         } catch (Throwable $exception) {
@@ -95,17 +114,6 @@ class Store
         }
 
         return $result;
-    }
-
-    /**
-     * @param int $id
-     * @return void
-     */
-    private function deleteFromRelation(int $id): void
-    {
-        foreach (self::DELETE_TABLE as $item) {
-            DB::table($item)->where('good_id', $id)->delete();
-        }
     }
 
     /**

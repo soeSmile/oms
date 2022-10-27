@@ -5,7 +5,8 @@
       :headers="headers"
       list-type="picture-card"
       :on-preview="previewImage"
-      :before-remove="beforeRemove">
+      :before-remove="beforeRemove"
+      :on-success="afterUpload">
     <i class='bx bx-plus'/>
   </el-upload>
 
@@ -19,6 +20,7 @@ import { onMounted, ref } from 'vue'
 import { getCookie } from '../../../../helper/cookie'
 import { useRoute } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
+import { success } from '../../../../helper/reponse'
 
 const prop = defineProps(['good'])
 const images = ref([])
@@ -36,7 +38,7 @@ const previewImage = (image) => {
   showImage.value = true
 }
 
-const beforeRemove = async (image, images) => {
+const beforeRemove = async (image) => {
   try {
     await ElMessageBox.confirm(
         'Are you sure?',
@@ -47,10 +49,16 @@ const beforeRemove = async (image, images) => {
           type: 'error',
         },
     )
-    console.log(image)
+    axios.delete('/api/goods/images/' + image.id).then(() => {
+      success()
+    })
   } catch (e) {
     return false
   }
+}
+
+const afterUpload = (response, file, files) => {
+  files[files.length - 1].id = response.data.id
 }
 
 const getImages = () => {

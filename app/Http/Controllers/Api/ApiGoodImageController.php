@@ -48,4 +48,15 @@ final class ApiGoodImageController
 
         return response()->json(['data' => $result], $result !== [] ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $result = $this->goodImageService->destroy($id);
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+    }
 }
