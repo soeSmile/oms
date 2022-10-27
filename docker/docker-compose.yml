@@ -25,6 +25,20 @@ services:
     command: unitd --no-daemon --user www-data --group www-data
     links:
       - pg
+  horizon:
+    build:
+      context: 'unit'
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    container_name: ${COMPOSE_PROJECT_NAME}-horizon
+    volumes:
+      - '../:/var/www'
+    working_dir: /var/www
+    command: php artisan horizon
+    links:
+      - pg
+      - redis
   pg:
     build: pg
     container_name: ${COMPOSE_PROJECT_NAME}-pg
