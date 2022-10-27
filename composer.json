@@ -6,11 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "arcanedev/log-viewer": "~9",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.19",
+        "laravel/horizon": "^5.10",
         "laravel/sanctum": "^3.0",
-        "laravel/tinker": "^2.7",
-        "arcanedev/log-viewer": "~9"
+        "laravel/tinker": "^2.7"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12.3",
