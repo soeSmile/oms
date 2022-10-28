@@ -16,6 +16,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property-read string $email
  * @property-read bool $confirm
  * @property-read int $role
+ * @property-read bool $deleted
  */
 class UserResource extends JsonResource
 {
@@ -34,6 +35,7 @@ class UserResource extends JsonResource
             'confirm'  => $this->confirm,
             'role'     => $this->role,
             'roleName' => RoleEnum::from($this->role)->title(),
+            'deleted'  => $this->deleted
         ];
     }
 }

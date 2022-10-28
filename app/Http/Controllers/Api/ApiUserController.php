@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\User\UserConfirmRequest;
 use App\Http\Requests\User\UserStoreRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Repository\UserRepository;
 use Illuminate\Http\JsonResponse;
@@ -55,6 +56,29 @@ final class ApiUserController
     public function store(UserStoreRequest $request): JsonResponse
     {
         $result = $this->repository->store($request->validated());
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param int $id
+     * @param UserUpdateRequest $request
+     * @return JsonResponse
+     */
+    public function update(int $id, UserUpdateRequest $request): JsonResponse
+    {
+        $result = $this->repository->update($id, $request->validated());
+
+        return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $result = $this->repository->destroy($id);
 
         return response()->json(['data' => $result], $result ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST);
     }

@@ -42,7 +42,7 @@
                   <i class='bx bxs-pencil sp-link sp-primary sp-mr-1'/>
                 </router-link>
                 <i class='bx bx-shield-quarter sp-link sp-warning sp-mr-1' @click="confirm(val)"/>
-                <i class='bx bx-x sp-link sp-danger'/>
+                <i class='bx bx-x sp-link sp-danger' @click="destroy(val)"/>
               </div>
             </td>
           </tr>
@@ -116,6 +116,25 @@ const confirm = (user) => {
       },
   ).then(() => {
     axios.post('/api/users/confirm', { id: user.id, confirm: !user.confirm }).
+        then(() => {
+          success(null, getData)
+        }).
+        catch(e => error(e))
+  }).catch(() => {
+  })
+}
+
+const destroy = (user) => {
+  ElMessageBox.confirm(
+      'Are you sure you want to delete user?',
+      'Warning',
+      {
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+        type: 'error',
+      },
+  ).then(() => {
+    axios.delete('/api/users/' + user.id).
         then(() => {
           success(null, getData)
         }).

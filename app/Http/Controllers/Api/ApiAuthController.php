@@ -23,7 +23,8 @@ final class ApiAuthController
             Auth::attempt([
                 'email'    => $request->email,
                 'password' => $request->password,
-                'confirm'  => true
+                'confirm'  => true,
+                'deleted'  => false
             ], $request->remember)
         ) {
             $request->session()->regenerate();

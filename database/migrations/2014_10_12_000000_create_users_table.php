@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->boolean('confirm')->default(false);
             $table->uuid('confirm_key')->nullable()->unique();
             $table->smallInteger('time_zone', false, true)->default(3);
-            $table->string('password')->nullable();
+            $table->string('password');
             $table->smallInteger('role', false, true)->default(2)->comment(RoleEnum::class);
             $table->string('img')->nullable();
             $table->boolean('deleted')->default(false);
