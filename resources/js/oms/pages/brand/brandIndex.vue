@@ -7,8 +7,8 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-            <ui-button title="Reload" class="sp-mr-2" icon="bx bx-refresh" color="light"
-                       @click="getData"/>
+            <ui-button title="Reload and clear" class="sp-mr-2" icon="bx bx-refresh" color="light"
+                       @click="getData(true)"/>
 
             <ui-button title="Add brand" icon="bx bx-plus-circle" color="primary-l"
                        @click="addBrand({})"/>
@@ -89,7 +89,15 @@ const brand = ref({
   id: null,
 })
 
-const getData = () => {
+const getData = (clear = false) => {
+  if (clear) {
+    filter.value = {
+      page: 1,
+      paginate: true,
+      name: null,
+    }
+  }
+
   loading.value = true
 
   axios.get('/api/brands', { params: filter.value }).

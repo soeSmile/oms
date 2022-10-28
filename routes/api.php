@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiCategoryController;
 use App\Http\Controllers\Api\ApiGoodController;
 use App\Http\Controllers\Api\ApiGoodImageController;
+use App\Http\Controllers\Api\ApiUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [ApiAuthController::class, 'login'])->name('api.login');
@@ -20,4 +21,5 @@ Route::group(['middleware' => 'auth:sanctum'], static function () {
     Route::delete('/goods/images/{id}', [ApiGoodImageController::class, 'destroy'])->name('goods.images.destroy');
     Route::post('/goods/images/{good}/upload', [ApiGoodImageController::class, 'upload'])->name('goods.images.upload');
     Route::apiResource('goods', ApiGoodController::class);
+    Route::apiResource('users', ApiUserController::class);
 });
