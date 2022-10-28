@@ -69,7 +69,7 @@ final class GoodsRepository extends AbstractRepository
      * @param int $id
      * @return array
      */
-    public function show(int $id): array
+    public function showGood(int $id): array
     {
         return $this->show->show($id, $this);
     }

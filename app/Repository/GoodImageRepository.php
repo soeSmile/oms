@@ -44,10 +44,11 @@ final class GoodImageRepository extends AbstractRepository
     }
 
     /**
-     * @param int $id
+     * @param mixed $id
+     * @param string $column
      * @return Object|null
      */
-    public function show(int $id): ?object
+    public function show(mixed $id, string $column = 'id'): ?object
     {
         return $this->getQuery()->where('id', $id)->first();
     }

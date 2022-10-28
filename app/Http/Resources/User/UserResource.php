@@ -11,6 +11,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * Class BrandResource
  * @property-read int $id
  * @property-read string $name
+ * @property-read string $surname
+ * @property-read string $phone
  * @property-read string $email
  * @property-read bool $confirm
  * @property-read int $role
@@ -24,11 +26,14 @@ class UserResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id'      => $this->id,
-            'name'    => $this->name,
-            'email'   => $this->email,
-            'confirm' => $this->confirm,
-            'role'    => RoleEnum::from($this->role)->title(),
+            'id'       => $this->id,
+            'name'     => $this->name,
+            'surname'  => $this->surname,
+            'phone'    => $this->phone,
+            'email'    => $this->email,
+            'confirm'  => $this->confirm,
+            'role'     => $this->role,
+            'roleName' => RoleEnum::from($this->role)->title(),
         ];
     }
 }

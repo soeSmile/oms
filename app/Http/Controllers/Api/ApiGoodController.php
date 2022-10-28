@@ -41,7 +41,7 @@ final class ApiGoodController
      */
     public function show(int $good): JsonResponse
     {
-        return response()->json(['data' => $this->goodsRepository->show($good)]);
+        return response()->json(['data' => $this->goodsRepository->showGood($good)]);
     }
 
     /**

@@ -35,7 +35,7 @@
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.email }}</td>
             <td class="center">{{ val.confirm ? 'Yes' : 'No' }}</td>
-            <td class="center">{{ val.role }}</td>
+            <td class="center">{{ val.roleName }}</td>
             <td class="right">
               <div class="sp-flex middle right">
                 <router-link :to="'/oms/user/' + val.id">

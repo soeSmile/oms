@@ -51,6 +51,16 @@ abstract class AbstractRepository
     }
 
     /**
+     * @param mixed $id
+     * @param string $column
+     * @return Object|null
+     */
+    public function show(mixed $id, string $column = 'id'): ?object
+    {
+        return $this->getQuery()->where($column, $id)->first();
+    }
+
+    /**
      * @return Builder
      */
     public function getQuery(): Builder

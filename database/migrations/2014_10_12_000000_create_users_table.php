@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('surname')->nullable();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->boolean('confirm')->default(false);
             $table->uuid('confirm_key')->nullable()->unique();
@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->string('password')->nullable();
             $table->smallInteger('role', false, true)->default(2)->comment(RoleEnum::class);
             $table->string('img')->nullable();
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
 

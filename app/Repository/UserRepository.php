@@ -25,4 +25,13 @@ final class UserRepository extends AbstractRepository
             ->where('id', '<>', 1)
             ->update(['confirm' => $confirm]);
     }
+
+    /**
+     * @param array<string> $data
+     * @return int
+     */
+    public function store(array $data): int
+    {
+        return $this->getQuery()->insertGetId($data);
+    }
 }
