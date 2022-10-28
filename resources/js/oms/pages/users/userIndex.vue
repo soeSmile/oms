@@ -34,12 +34,12 @@
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.email }}</td>
-            <td class="center">{{ val.confirm }}</td>
+            <td class="center">{{ val.confirm ? 'Yes' : 'No' }}</td>
             <td class="center">{{ val.role }}</td>
             <td class="right">
               <div class="sp-flex middle right">
                 <i class='bx bxs-pencil sp-link sp-primary sp-mr-1'/>
-                <i class='bx bx-shield-quarter sp-link sp-warning sp-mr-1'/>
+                <i class='bx bx-shield-quarter sp-link sp-warning sp-mr-1' @click="confirm(val)"/>
                 <i class='bx bx-x sp-link sp-danger'/>
               </div>
             </td>
@@ -63,6 +63,8 @@
 <script setup>
 import OmsHeader from '../../component/omsHeader.vue'
 import { onBeforeMount, ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
+import { error, success } from '../../../helper/reponse'
 
 const loading = ref()
 const data = ref([])
@@ -99,6 +101,25 @@ const getData = (clear = false) => {
 const paginationHandler = (page) => {
   filter.value.page = page
   getData()
+}
+
+const confirm = (user) => {
+  ElMessageBox.confirm(
+      'Are you sure you want to ' + (user.confirm ? 'block' : 'unblock') + ' user?',
+      'Warning',
+      {
+        confirmButtonText: 'Ok',
+        cancelButtonText: 'Cancel',
+        type: 'error',
+      },
+  ).then(() => {
+    axios.post('/api/users/confirm', { id: user.id, confirm: !user.confirm }).
+        then(() => {
+          success(null, getData)
+        }).
+        catch(e => error(e))
+  }).catch(() => {
+  })
 }
 
 onBeforeMount(() => {

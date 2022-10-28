@@ -13,4 +13,16 @@ final class UserRepository extends AbstractRepository
      * @var string
      */
     protected string $table = 'users';
+
+    /**
+     * @param int $id
+     * @param bool $confirm
+     * @return bool
+     */
+    public function confirm(int $id, bool $confirm = false): bool
+    {
+        return (bool)$this->getQuery()->where('id', $id)
+            ->where('id', '<>', 1)
+            ->update(['confirm' => $confirm]);
+    }
 }

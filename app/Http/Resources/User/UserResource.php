@@ -27,7 +27,7 @@ class UserResource extends JsonResource
             'id'      => $this->id,
             'name'    => $this->name,
             'email'   => $this->email,
-            'confirm' => $this->confirm ? 'Yes' : 'No',
+            'confirm' => $this->confirm,
             'role'    => RoleEnum::from($this->role)->title(),
         ];
     }
