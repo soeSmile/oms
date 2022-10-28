@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <div class="content">
+      <div class="content sp-mt-6">
         <table class="sp-table" v-loading="loading">
           <thead>
           <tr>
@@ -38,7 +38,9 @@
             <td class="center">{{ val.role }}</td>
             <td class="right">
               <div class="sp-flex middle right">
-                <i class='bx bxs-pencil sp-link sp-primary sp-mr-1'/>
+                <router-link :to="'/oms/user/' + val.id">
+                  <i class='bx bxs-pencil sp-link sp-primary sp-mr-1'/>
+                </router-link>
                 <i class='bx bx-shield-quarter sp-link sp-warning sp-mr-1' @click="confirm(val)"/>
                 <i class='bx bx-x sp-link sp-danger'/>
               </div>

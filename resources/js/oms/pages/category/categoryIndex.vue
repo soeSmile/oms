@@ -16,7 +16,7 @@
         </div>
       </div>
 
-      <div class="content" v-loading="loading">
+      <div class="content sp-mt-6" v-loading="loading">
         <tree :data="data" @getData="getData"/>
       </div>
     </div>

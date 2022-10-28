@@ -101,6 +101,10 @@ const activeChildMenu = (name) => {
     style = 'active-route-link'
   }
 
+  if (name === 'Users' && route.name === 'userPage') {
+    style = 'active-route-link'
+  }
+
   return style
 }
 

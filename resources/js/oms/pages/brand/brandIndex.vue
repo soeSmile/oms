@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="content">
+      <div class="content sp-mt-6">
         <table class="sp-table" v-loading="loading">
           <thead>
           <tr>

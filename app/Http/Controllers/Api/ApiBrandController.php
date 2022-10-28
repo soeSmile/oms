@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Brand\BrandStoreRequest;
-use App\Http\Resources\Brand\UserResource;
+use App\Http\Resources\Brand\BrandResource;
 use App\Repository\BrandRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ final class ApiBrandController
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        return UserResource::collection($this->brandRepository->getAll($request->all()));
+        return BrandResource::collection($this->brandRepository->getAll($request->all()));
     }
 
     /**

@@ -7,10 +7,8 @@
       <div class="head">
         <div class="sp-nav">
           <div class="item">
-
             <router-link to="/oms/good">
-              <ui-button title="Back" class="sp-mr-2" icon="bx bx-arrow-back" color="light"
-                         @click="getData"/>
+              <ui-button title="Back" class="sp-mr-2" icon="bx bx-arrow-back" color="light"/>
             </router-link>
             <ui-button v-if="good.id" title="Reload good" class="sp-mr-2" icon="bx bx-refresh" color="primary-l"
                        @click="getData"/>
