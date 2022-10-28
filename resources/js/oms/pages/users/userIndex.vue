@@ -26,18 +26,20 @@
             <th class="left">Email</th>
             <th class="center">Confirm</th>
             <th class="center">Role</th>
+            <th class="center">Deleted</th>
             <th class="right control">Control</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="val in data">
+          <tr v-for="val in data" :class="{'sp-bg-gray' : val.deleted}">
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.email }}</td>
             <td class="center">{{ val.confirm ? 'Yes' : 'No' }}</td>
             <td class="center">{{ val.roleName }}</td>
+            <td class="center">{{ val.deleted ? 'Yes' : 'No' }}</td>
             <td class="right">
-              <div class="sp-flex middle right">
+              <div class="sp-flex middle right" v-if="!val.deleted">
                 <router-link :to="'/oms/user/' + val.id">
                   <i class='bx bxs-pencil sp-link sp-primary sp-mr-1'/>
                 </router-link>
