@@ -24,8 +24,16 @@ final class UserRepository extends AbstractRepository
      */
     public function getAll(array $data = []): LengthAwarePaginator|Collection
     {
-        if (!isAdmin()) {
+        if (isset($data['deleted'])) {
+            $this->query->where('deleted', $data['deleted']);
+        } else {
             $this->query->where('deleted', false);
+        }
+
+        if (isset($data['order'])) {
+            $this->query->orderBy($data['order'][0], $data['order'][1]);
+        } else {
+            $this->query->orderBy('id');
         }
 
         return parent::getAll($data);
