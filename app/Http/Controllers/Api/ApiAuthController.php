@@ -19,7 +19,13 @@ final class ApiAuthController
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        if (Auth::attempt($request->validated())) {
+        if (
+            Auth::attempt([
+                'email'    => $request->email,
+                'password' => $request->password,
+                'confirm'  => true
+            ], $request->remember)
+        ) {
             $request->session()->regenerate();
 
             return response()->json(['data' => true]);

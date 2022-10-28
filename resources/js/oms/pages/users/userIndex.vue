@@ -13,10 +13,6 @@
             <router-link to="/oms/user/new">
               <ui-button title="Add user" icon="bx bx-plus-circle" color="primary-l"/>
             </router-link>
-
-            <div class="sp-wpx-300 sp-ml-2">
-              <el-input size="large" clearable v-model="filter.name" placeholder="Search"/>
-            </div>
           </div>
         </div>
       </div>
