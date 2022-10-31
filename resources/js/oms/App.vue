@@ -2,21 +2,9 @@
   <component :is="layout"/>
 </template>
 
-<script>
+<script setup>
 import omsLayout from './layout/omsLayout.vue'
 
-export default {
-  name: 'App',
+const layout = omsLayout
 
-  components: {
-    omsLayout,
-  },
-
-  setup () {
-
-    return {
-      layout: 'omsLayout',
-    }
-  },
-}
 </script>

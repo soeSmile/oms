@@ -10,8 +10,28 @@ import ElementPlus from 'element-plus'
 import ui from '../ui'
 import router from './router'
 import store from './store'
+import middlewarePipeline from './middlewarePipeline'
+
+/**
+ * use middleware
+ */
+router.beforeEach(async (to, from, next) => {
+  if (!to.meta.middleware) {
+    return next()
+  }
+
+  const middleware = to.meta.middleware
+  const context = { to, from, next, store }
+
+  return middleware[0]({
+    ...context,
+    next: middlewarePipeline(context, middleware, 1),
+  })
+})
 
 const app = createApp(App)
+
+app.config.globalProperties.user = user
 
 app.
   use(ElementPlus).

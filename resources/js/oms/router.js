@@ -8,6 +8,8 @@ import categoryIndex from './pages/category/categoryIndex.vue'
 import supplierIndex from './pages/suppliers/supplierIndex.vue'
 import userIndex from './pages/users/userIndex.vue'
 import userPage from './pages/users/userPage.vue'
+import isAdmin from './middleware/isAdmin'
+import isManager from './middleware/isManager'
 
 const routers = [
   {
@@ -49,11 +51,17 @@ const routers = [
     path: '/oms/user',
     component: userIndex,
     name: 'userIndex',
+    meta: {
+      middleware: [isAdmin],
+    },
   },
   {
     path: '/oms/user/:id',
     component: userPage,
     name: 'userPage',
+    meta: {
+      middleware: [isAdmin],
+    },
   },
 ]
 

@@ -13,41 +13,45 @@
       <div class="content">
         <ul class="links">
           <li v-for="(val,idx) in menu" :title="val.name">
-            <router-link class="link"
-                         :class="close + ' ' + activeChildMenu(val.name)"
-                         @click="closeSubMenu"
-                         v-if="val.link"
-                         :to="val.link">
-              <i class="icon bx" :class="val.icon + ' ' + close"/>
-              <span class="title" :class="close">
+            <section v-if="checkRole(val)">
+              <router-link class="link"
+                           :class="close + ' ' + activeChildMenu(val.name)"
+                           @click="closeSubMenu"
+                           v-if="val.link"
+                           :to="val.link">
+                <i class="icon bx" :class="val.icon + ' ' + close"/>
+                <span class="title" :class="close">
                 {{ val.name }}
               </span>
-            </router-link>
+              </router-link>
 
-            <div class="link"
-                 :class="close"
-                 @click="subShow(idx)"
-                 v-else>
-              <i class="icon bx" :class="val.icon + ' ' + close"/>
-              <span class="title" :class="close">
+              <div class="link"
+                   :class="close"
+                   @click="subShow(idx)"
+                   v-else>
+                <i class="icon bx" :class="val.icon + ' ' + close"/>
+                <span class="title" :class="close">
                 {{ val.name }}
               </span>
-              <i v-if="val.show" class='sub-link bx bx-chevron-up' :class="close"/>
-              <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
-            </div>
+                <i v-if="val.show" class='sub-link bx bx-chevron-up' :class="close"/>
+                <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
+              </div>
+            </section>
 
             <ul class="sub" :class="(val.show ? 'show' : '') + ' ' + close"
                 v-if="val.menu">
               <li v-for="sub in val.menu" :title="sub.name">
-                <router-link class="link"
-                             :class="activeChildMenu(sub.name)"
-                             @click="closeSubMenu"
-                             :to="sub.link">
-                  <i class="icon bx" :class="sub.icon"/>
-                  <span class="title">
+                <section v-if="checkRole(sub)">
+                  <router-link class="link"
+                               :class="activeChildMenu(sub.name)"
+                               @click="closeSubMenu"
+                               :to="sub.link">
+                    <i class="icon bx" :class="sub.icon"/>
+                    <span class="title">
                     {{ sub.name }}
                   </span>
-                </router-link>
+                  </router-link>
+                </section>
               </li>
             </ul>
 
@@ -68,27 +72,32 @@ const close = ref(null)
 const route = useRoute()
 const menu = ref([
   {
-    name: 'Home', icon: 'bxs-home', link: '/oms',
-    show: false, menu: null,
+    name: 'Home', icon: 'bxs-home', link: '/oms', menu: null, role: [],
   },
   {
-    name: 'Directories', icon: 'bxs-grid', link: null,
-    show: false,
+    name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
     menu: [
-      { name: 'Categories', icon: 'bx-category', link: '/oms/category' },
-      { name: 'Goods', icon: 'bxs-store', link: '/oms/good' },
-      { name: 'Brands', icon: 'bxs-label', link: '/oms/brand' },
-      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier' },
+      { name: 'Categories', icon: 'bx-category', link: '/oms/category', role: [] },
+      { name: 'Goods', icon: 'bxs-store', link: '/oms/good', role: [] },
+      { name: 'Brands', icon: 'bxs-label', link: '/oms/brand', role: [] },
+      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier', role: [] },
     ],
   },
   {
-    name: 'System', icon: 'bx-cog', link: null,
-    show: false,
+    name: 'System', icon: 'bx-cog', link: null, show: false, role: [1],
     menu: [
-      { name: 'Users', icon: 'bxs-group', link: '/oms/user' },
+      { name: 'Users', icon: 'bxs-group', link: '/oms/user', role: [1] },
     ],
   },
 ])
+
+const checkRole = (item) => {
+  if (item.role.length > 0) {
+    return item.role.includes(user.role)
+  }
+
+  return true
+}
 
 /**
  * @param name

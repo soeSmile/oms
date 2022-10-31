@@ -42,6 +42,16 @@ return new class extends Migration {
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+            [
+                'name'       => 'Manager',
+                'email'      => 'manager@yandex.ru',
+                'phone'      => '333222333222',
+                'password'   => bcrypt('qwerty12'),
+                'role'       => RoleEnum::Manager->value,
+                'confirm'    => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ];
 
         foreach ($data as $item) {
