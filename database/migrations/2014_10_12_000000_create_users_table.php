@@ -34,6 +34,7 @@ return new class extends Migration {
         $data = [
             [
                 'name'       => 'Admin',
+                'surname'    => 'Ivanov',
                 'email'      => 'admin@yandex.ru',
                 'phone'      => '333222333222',
                 'password'   => bcrypt('qwerty12'),
@@ -44,6 +45,7 @@ return new class extends Migration {
             ],
             [
                 'name'       => 'Manager',
+                'surname'    => 'Petrov',
                 'email'      => 'manager@yandex.ru',
                 'phone'      => '333222333222',
                 'password'   => bcrypt('qwerty12'),

@@ -11,7 +11,7 @@
         <div class="image">
           <img src="/img/face.png" alt="">
         </div>
-        <div class="name">Admin Adminov</div>
+        <div class="name">{{ user.name + ' ' + (user.surname ?? '') }}</div>
         <div class="control">
           <i class='sp-link hover sp-mr-2 bx bx-envelope'/>
           <i class='sp-link hover sp-mr-2 bx bx-bell'/>
