@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->default(0)->comment('User. 0 - Default or System');
             $table->ipAddress('ip')->nullable()->comment('IP address');
             $table->jsonb('data')->comment('Data');
+            $table->timestamp('date')->comment('Date');
         });
     }
 

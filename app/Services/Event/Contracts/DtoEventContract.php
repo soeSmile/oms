@@ -19,6 +19,7 @@ interface DtoEventContract
         'user_id' => 0,
         'ip'      => null,
         'data'    => [],
+        'date'    => null
     ];
 
     /**

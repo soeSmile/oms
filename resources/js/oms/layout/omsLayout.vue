@@ -87,6 +87,7 @@ const menu = ref([
     name: 'System', icon: 'bx-cog', link: null, show: false, role: [1],
     menu: [
       { name: 'Users', icon: 'bxs-group', link: '/oms/user', role: [1] },
+      { name: 'Events', icon: 'bx bx-history', link: '/oms/event', role: [1] },
     ],
   },
 ])

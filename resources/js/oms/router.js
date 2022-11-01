@@ -10,6 +10,7 @@ import userIndex from './pages/users/userIndex.vue'
 import userPage from './pages/users/userPage.vue'
 import isAdmin from './middleware/isAdmin'
 import isManager from './middleware/isManager'
+import eventIndex from './pages/event/eventIndex.vue'
 
 const routers = [
   {
@@ -59,6 +60,14 @@ const routers = [
     path: '/oms/user/:id',
     component: userPage,
     name: 'userPage',
+    meta: {
+      middleware: [isAdmin],
+    },
+  },
+  {
+    path: '/oms/event',
+    component: eventIndex,
+    name: 'eventIndex',
     meta: {
       middleware: [isAdmin],
     },

@@ -56,6 +56,7 @@ abstract class AbstractDto implements DtoEventContract
         $this->data['event'] = $enum->value;
         $this->data['user_id'] = auth()->id() ?? 0;
         $this->data['ip'] = getIP();
+        $this->data['date'] = now();
     }
 
     /**

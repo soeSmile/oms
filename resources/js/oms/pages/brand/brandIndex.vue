@@ -20,8 +20,8 @@
         </div>
       </div>
 
-      <div class="content sp-mt-6">
-        <table class="sp-table" v-loading="loading">
+      <div class="content">
+        <table class="sp-table sp-mt-6" v-loading="loading">
           <thead>
           <tr>
             <th class="id">ID</th>
@@ -30,7 +30,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="val in data">
+          <tr v-for="val in data" class="hover">
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
             <td class="right">

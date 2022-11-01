@@ -3,7 +3,7 @@
 
   <div class="sp-content">
 
-    <div class="sp-card sp-bg-white">
+    <div class="sp-card sp-bg-white" v-loading="loading">
       <div class="head">
         <div class="sp-nav sp-mb-4">
           <div class="item">
@@ -26,8 +26,8 @@
         </div>
       </div>
 
-      <div class="content sp-mt-6">
-        <table class="sp-table" v-loading="loading">
+      <div class="content">
+        <table class="sp-table sp-mt-6">
           <thead>
           <tr>
             <th class="center id sort" @click="sortBy('id', sort.id)">
@@ -59,7 +59,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="val in data">
+          <tr v-for="val in data" class="hover">
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
             <td class="left">{{ val.brand }}</td>
