@@ -38,5 +38,27 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Ls
-        run: cd /home/www && ls -l
+      - name: Cd
+        run: cd /home/www
+      - name: Fetch
+        run: docker exec -w /var/www oms-unit git fetch --all
+      - name: Reset
+        run: docker exec -w /var/www oms-unit git reset --hard origin/main
+      - name: Pull
+        run: docker exec -w /var/www oms-unit git pull origin main
+      - name: Composer
+        run: docker exec -w /var/www composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+      - name: Migrate
+        run: docker exec -w /var/www php artisan migrate --force
+      - name: Cache clear
+        run: docker exec -w /var/www php artisan cache:clear
+      - name: Route clear
+        run: docker exec -w /var/www php artisan route:cache
+      - name: Config clear
+        run: docker exec -w /var/www php artisan config:cache
+      - name: View clear
+        run: docker exec -w /var/www php artisan view:cache
+      - name: Npm
+        run: npm ci
+      - name: Build js
+        run: npm run build
