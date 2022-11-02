@@ -38,8 +38,6 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Cd
-        run: cd /home/www
       - name: Fetch
         run: docker exec -w /var/www oms-unit git fetch --all
       - name: Reset
@@ -59,6 +57,6 @@ jobs:
       - name: View clear
         run: docker exec -w /var/www oms-unit php artisan view:cache
       - name: Npm
-        run: npm ci
+        run: cd /home/www && npm ci
       - name: Build js
-        run: npm run build
+        run: cd /home/www && npm run build
