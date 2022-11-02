@@ -24,11 +24,23 @@
           <thead>
           <tr>
             <th class="icon left"></th>
-            <th class="id center">ID</th>
+            <th class="id center">
+              <sort align="center" field="id" :filter="filter" @getData="getData">
+                ID
+              </sort>
+            </th>
             <th class="left">Event</th>
-            <th class="left">User</th>
+            <th class="left">
+              <sort align="left" field="user" :filter="filter" @getData="getData">
+                User
+              </sort>
+            </th>
             <th class="center">IP</th>
-            <th class="center">Date</th>
+            <th class="center">
+              <sort align="center" field="date" :filter="filter" @getData="getData">
+                Date
+              </sort>
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -70,6 +82,7 @@
 <script setup>
 import OmsHeader from '../../component/omsHeader.vue'
 import { onBeforeMount, ref, watch } from 'vue'
+import Sort from '../../component/sort.vue'
 
 const loading = ref()
 const filter = ref({
@@ -77,6 +90,7 @@ const filter = ref({
   paginate: true,
   name: null,
   event: null,
+  order: {},
 })
 const pagination = ref({
   total: 0,
@@ -103,6 +117,8 @@ const getData = (clear = false) => {
       page: 1,
       paginate: true,
       name: null,
+      event: null,
+      order: {},
     }
   }
 
@@ -113,7 +129,8 @@ const getData = (clear = false) => {
         data.value = res.data.data
         pagination.value = res.data.meta
         events.value = res.data.events
-      }).finally(() => loading.value = false)
+      }).
+      finally(() => loading.value = false)
 }
 
 /**

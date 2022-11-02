@@ -31,7 +31,9 @@ final class UserRepository extends AbstractRepository
         }
 
         if (isset($data['order'])) {
-            $this->query->orderBy($data['order'][0], $data['order'][1]);
+            foreach ($data['order'] as $key => $item) {
+                $this->query->orderBy($key, $item);
+            }
         } else {
             $this->query->orderBy('id');
         }

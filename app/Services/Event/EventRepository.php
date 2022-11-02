@@ -41,6 +41,20 @@ final class EventRepository
             $query->where('event', $data['event']);
         }
 
+        if (isset($data['order'])) {
+            $map = [
+                'id'   => 'events.id',
+                'user' => 'events.user_id',
+                'date' => 'events.date',
+            ];
+
+            foreach ($data['order'] as $key => $item) {
+                $query->orderBy($map[$key], $item);
+            }
+        } else {
+            $query->orderBy('events.date', 'desc');
+        }
+
         return $query->paginate(25);
     }
 

@@ -57,7 +57,9 @@ final class GoodsRepository extends AbstractRepository
                 'deposit' => 'goods.deposit'
             ];
 
-            $this->query->orderBy($map[$data['order'][0]], $data['order'][1]);
+            foreach ($data['order'] as $key => $item) {
+                $this->query->orderBy($map[$key], $item);
+            }
         } else {
             $this->query->orderBy('goods.id');
         }
