@@ -27,6 +27,7 @@ final class ApiEventController
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        return EventResource::collection($this->repository->getAll($request->all()));
+        return EventResource::collection($this->repository->getAll($request->all()))
+            ->additional(['events' => $this->repository->getEvents()]);
     }
 }

@@ -50,3 +50,18 @@
     height: $value*1%;
   }
 }
+
+.sp-fadeInDown {
+  animation: fadeInDown 0.3s;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translatey(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translatey(0);
+  }
+}

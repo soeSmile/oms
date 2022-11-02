@@ -60,4 +60,20 @@ final class EventRepository
     {
         return DB::table($this->table);
     }
+
+    /**
+     * @return array
+     */
+    public function getEvents(): array
+    {
+        $array = [];
+        $data = array_column(EventEnum::cases(), 'value');
+
+        foreach ($data as $key => $item) {
+            $array[$key]['name'] = EventEnum::from($item)->title();
+            $array[$key]['value'] = $item;
+        }
+
+        return $array;
+    }
 }

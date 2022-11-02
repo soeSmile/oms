@@ -9,6 +9,12 @@
           <div class="item">
             <ui-button title="Reload and clear" class="sp-mr-2" icon="bx bx-refresh" color="light"
                        @click="getData(true)"/>
+            <el-select class="sp-wpx-300" size="large" clearable filterable
+                       v-model="filter.event">
+              <el-option v-for="event in events"
+                         :label="event.name"
+                         :value="event.value"/>
+            </el-select>
           </div>
         </div>
       </div>
@@ -26,23 +32,27 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-for="(val,key) in data" class="link">
-            <template v-if="!val.expand">
+          <template v-for="(val,key) in data">
+            <tr class="link" @click="showExpand(key)">
               <td class="left">
-                <i class='bx bx-chevrons-right' @click="showExpand(key)"/>
+                <i class="sp-warning"
+                   :class="expandRows.includes(key) ? 'bx bx-chevrons-down' : 'bx bx-chevrons-right'"/>
               </td>
               <td class="center">{{ val.id }}</td>
               <td>{{ val.eventName }}</td>
               <td>{{ val.name }}</td>
               <td class="center">{{ val.ip }}</td>
               <td class="center">{{ val.date }}</td>
-            </template>
-            <template v-else>
+            </tr>
+            <tr v-if="expandRows.includes(key)" class="sp-fadeInDown">
               <td colspan="6">
-                {{ expandData }}
+                <div class="sp-p-1 sp-flex middle" v-for="(item,k) in expandData[key]">
+                  <div class="sp-wpx-200">{{ k }} :</div>
+                  <div>{{ item }}</div>
+                </div>
               </td>
-            </template>
-          </tr>
+            </tr>
+          </template>
           </tbody>
         </table>
 
@@ -59,33 +69,32 @@
 
 <script setup>
 import OmsHeader from '../../component/omsHeader.vue'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 
 const loading = ref()
 const filter = ref({
   page: 1,
   paginate: true,
   name: null,
+  event: null,
 })
 const pagination = ref({
   total: 0,
 })
 const data = ref([])
-const expandKey = ref(null)
-const expandShow = ref(null)
-const expandData = ref([])
-
-
+const expandRows = ref([])
+const expandData = ref({})
+const events = ref([])
 
 const showExpand = (key) => {
-  if (expandKey.value) {
-    data.value.splice(expandKey.value, 1)
-    expandKey.value = null
+  const index = expandRows.value.indexOf(key)
+  if (index > -1) {
+    expandRows.value.splice(index, 1)
+    delete expandData.value[key]
+  } else {
+    expandRows.value.push(key)
+    expandData.value[key] = data.value[key].data
   }
-  expandKey.value = key + 1
-  expandShow.value = true
-  expandData.value = data.value[key].data
-  data.value.splice(key + 1, 0, { expand: true })
 }
 
 const getData = (clear = false) => {
@@ -103,6 +112,7 @@ const getData = (clear = false) => {
       then(res => {
         data.value = res.data.data
         pagination.value = res.data.meta
+        events.value = res.data.events
       }).finally(() => loading.value = false)
 }
 
@@ -113,6 +123,8 @@ const paginationHandler = (page) => {
   filter.value.page = page
   getData()
 }
+
+watch(() => filter.value.event, () => { getData() })
 
 onBeforeMount(() => {
   getData()

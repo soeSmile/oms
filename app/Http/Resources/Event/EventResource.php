@@ -35,7 +35,7 @@ class EventResource extends JsonResource
             'userId'    => $this->userId,
             'name'      => $this->name,
             'ip'        => $this->ip,
-            'date'      => Carbon::parse($this->date)->format('H:i:s d-m-Y'),
+            'date'      => Carbon::parse($this->date)->tz(auth()->user()->time_zone)->format('H:i:s d-m-Y'),
             'data'      => json_decode($this->data, false, 512, JSON_THROW_ON_ERROR),
         ];
     }
