@@ -33,3 +33,10 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
+
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Ls
+        run: ls -l
