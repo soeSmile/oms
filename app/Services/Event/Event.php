@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Event;
 
 use App\Services\Event\Contracts\DtoEventContract;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
@@ -27,7 +28,8 @@ final class Event
                 $dto->set($enum, $data);
                 $repository->store($dto);
             }
-        } catch (Throwable) {
+        } catch (Throwable $exception) {
+            Log::error('Error save event', [$exception->getMessage()]);
         }
     }
 }
