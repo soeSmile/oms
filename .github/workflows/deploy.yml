@@ -47,17 +47,17 @@ jobs:
       - name: Pull
         run: docker exec -w /var/www oms-unit git pull origin main
       - name: Composer
-        run: docker exec -w /var/www composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+        run: docker exec -w /var/www oms-unit composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
       - name: Migrate
-        run: docker exec -w /var/www php artisan migrate --force
+        run: docker exec -w /var/www oms-unit php artisan migrate --force
       - name: Cache clear
-        run: docker exec -w /var/www php artisan cache:clear
+        run: docker exec -w /var/www oms-unit php artisan cache:clear
       - name: Route clear
-        run: docker exec -w /var/www php artisan route:cache
+        run: docker exec -w /var/www oms-unit php artisan route:cache
       - name: Config clear
-        run: docker exec -w /var/www php artisan config:cache
+        run: docker exec -w /var/www oms-unit php artisan config:cache
       - name: View clear
-        run: docker exec -w /var/www php artisan view:cache
+        run: docker exec -w /var/www oms-unit php artisan view:cache
       - name: Npm
         run: npm ci
       - name: Build js
