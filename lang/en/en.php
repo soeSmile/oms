@@ -28,6 +28,7 @@ return [
     'good'        => 'Good',
     'brands'      => 'Brands',
     'suppliers'   => 'Suppliers',
+    'supplier'    => 'Supplier',
     'reports'     => 'Reports',
     'report'      => 'Report',
     'system'      => 'System',
