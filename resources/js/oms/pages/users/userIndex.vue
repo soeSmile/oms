@@ -26,35 +26,24 @@
         <table class="sp-table" v-loading="loading">
           <thead>
           <tr>
-            <th class="id center sort" @click="sortBy('id', sort.id)">
-              <div class="sp-flex middle center">
-                ID
-                <sort :sort="sort.id"/>
-              </div>
+            <th class="id center">
+              ID
             </th>
-            <th class="left sort" @click="sortBy('name', sort.name)">
-              <div class="sp-flex middle">
+            <th class="left">
+              <sort align="left" field="name" :filter="filter" @getData="getData">
                 Name
-                <sort :sort="sort.name"/>
-              </div>
+              </sort>
             </th>
-            <th class="left sort" @click="sortBy('email', sort.email)">
-              <div class="sp-flex middle">
+            <th class="left">
+              <sort align="left" field="email" :filter="filter" @getData="getData">
                 Email
-                <sort :sort="sort.email"/>
-              </div>
+              </sort>
             </th>
-            <th class="center sort" @click="sortBy('confirm', sort.confirm)">
-              <div class="sp-flex middle center">
-                Confirm
-                <sort :sort="sort.confirm"/>
-              </div>
+            <th class="center">
+              Confirm
             </th>
-            <th class="center sort" @click="sortBy('role', sort.role)">
-              <div class="sp-flex middle center">
-                Role
-                <sort :sort="sort.role"/>
-              </div>
+            <th class="center">
+              Role
             </th>
             <th class="center">Deleted</th>
             <th class="right control">Control</th>
@@ -106,58 +95,19 @@ const data = ref([])
 const filter = ref({
   page: 1,
   paginate: true,
-  order: [],
+  order: {},
   deleted: false,
 })
 const pagination = ref({
   total: 0,
 })
-const sort = ref({
-  id: null,
-  name: null,
-  email: null,
-  confirm: null,
-  role: null,
-})
-
-const clearSort = () => {
-  for (let i in sort.value) {
-    sort.value[i] = null
-  }
-  filter.value.order = []
-}
-
-const sortBy = (field, value) => {
-  clearSort()
-
-  switch (value) {
-    case 'asc': {
-      sort.value[field] = 'desc'
-      break
-    }
-    case null: {
-      sort.value[field] = 'asc'
-      break
-    }
-    default: {
-      sort.value[field] = null
-      break
-    }
-  }
-
-  if (sort.value[field]) {
-    filter.value.order = [field, sort.value[field]]
-  }
-  getData()
-}
 
 const getData = (clear = false) => {
   if (clear) {
-    clearSort()
     filter.value = {
       page: 1,
       paginate: true,
-      order: [],
+      order: {},
       deleted: false,
     }
   }
