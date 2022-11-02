@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property-read string $email
  * @property-read string $password
  * @property-read bool $remember
+ * @property-read int $timeZone
  */
 class LoginRequest extends FormRequest
 {
@@ -31,7 +32,8 @@ class LoginRequest extends FormRequest
         return [
             'email'    => 'required|email',
             'password' => 'required',
-            'remember' => 'nullable|boolean'
+            'remember' => 'nullable|boolean',
+            'timeZone' => 'required|integer'
         ];
     }
 }

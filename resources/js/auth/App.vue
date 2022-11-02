@@ -43,7 +43,10 @@ import { ref } from 'vue'
 import { messageToArray } from '../helper/serialazeError'
 
 const loading = ref(false)
-const user = ref({})
+const user = ref({
+  email: null,
+  password: null,
+})
 const errors = ref([])
 
 const reset = () => {
@@ -55,7 +58,11 @@ const login = () => {
   loading.value = true
 
   axios.get('/sanctum/csrf-cookie').then(response => {
-    axios.post('/api/login', user.value).then(
+    axios.post('/api/login', {
+      email: user.value.email,
+      password: user.value.password,
+      timeZone: -new Date().getTimezoneOffset() / 60 || 3,
+    }).then(
         res => {
           reset()
           window.location.href = '/oms'

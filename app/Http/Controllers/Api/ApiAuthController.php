@@ -31,6 +31,8 @@ final class ApiAuthController
         ) {
             $request->session()->regenerate();
 
+            auth()->user()->update(['time_zone' => $request->timeZone]);
+
             Event::store(EventEnum::Login, ['email' => $request->email]);
             return response()->json(['data' => true]);
         }
