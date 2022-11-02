@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Event;
 
 use App\Services\Event\Contracts\DtoEventContract;
+use Throwable;
 
 /**
  * Class Event
@@ -18,12 +19,15 @@ final class Event
      */
     public static function store(EventEnum $enum, array $data = []): void
     {
-        $dto = new ($enum->dto())();
-        $repository = new EventRepository();
+        try {
+            $dto = new ($enum->dto())();
+            $repository = new EventRepository();
 
-        if ($dto instanceof DtoEventContract) {
-            $dto->set($enum, $data);
-            $repository->store($dto);
+            if ($dto instanceof DtoEventContract) {
+                $dto->set($enum, $data);
+                $repository->store($dto);
+            }
+        } catch (Throwable) {
         }
     }
 }
