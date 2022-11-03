@@ -4,8 +4,6 @@ on:
   pull_request:
     type:
       - closed
-    branches:
-      - main
 
 jobs:
   Tests:
