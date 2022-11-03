@@ -10,7 +10,7 @@
             <router-link to="/oms/user">
               <ui-button title="Back" class="sp-mr-2" icon="bx bx-arrow-back" color="light"/>
             </router-link>
-            <ui-button v-if="user.id" title="Reload good" class="sp-mr-2" icon="bx bx-refresh" color="primary-l"
+            <ui-button v-if="user.id" title="Reload user" class="sp-mr-2" icon="bx bx-refresh" color="primary-l"
                        @click="getData"/>
             <ui-button title="Save" icon="bx bx-plus-circle" color="success-l"
                        @click="store"/>
