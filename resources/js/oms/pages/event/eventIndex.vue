@@ -24,11 +24,6 @@
           <thead>
           <tr>
             <th class="icon left"></th>
-            <th class="id center">
-              <sort align="center" field="id" :filter="filter" @getData="getData">
-                ID
-              </sort>
-            </th>
             <th class="left">Event</th>
             <th class="left">
               <sort align="left" field="user" :filter="filter" @getData="getData">
@@ -50,7 +45,6 @@
                 <i class="sp-warning"
                    :class="expandRows.includes(key) ? 'bx bx-chevrons-down' : 'bx bx-chevrons-right'"/>
               </td>
-              <td class="center">{{ val.id }}</td>
               <td>{{ val.eventName }}</td>
               <td>{{ val.name }}</td>
               <td class="center">{{ val.ip }}</td>
