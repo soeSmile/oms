@@ -38,7 +38,11 @@ final class EventRepository
             ->leftJoin('users as u', 'u.id', '=', 'events.user_id');
 
         if (isset($data['event'])) {
-            $query->where('event', $data['event']);
+            $query->where('events.event', $data['event']);
+        }
+
+        if (isset($data['user'])) {
+            $query->where('events.user_id', $data['user']);
         }
 
         if (isset($data['order'])) {
