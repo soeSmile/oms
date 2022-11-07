@@ -9,7 +9,7 @@ use function array_unique;
 /**
  * Class GoodDto
  */
-class GoodDto
+final class GoodDto
 {
     /**
      * @var array

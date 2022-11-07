@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 /**
  * Class Show
  */
-class Show
+final class Show
 {
     /**
      * @param int $goodId
