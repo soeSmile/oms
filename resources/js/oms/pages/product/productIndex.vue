@@ -3,17 +3,23 @@
 
   <div class="sp-content">
 
-    <div class="sp-card sp-bg-white">
+    <div class="sp-card sp-bg-white" v-loading="loading">
       <div class="head">
+        <div class="sp-nav sp-mb-4">
+          <div class="item">
+            Count products: <span class="sp-fnt bold sp-ml-2 sp-warning">{{ numberFormat(count) }}</span>
+          </div>
+        </div>
         <div class="sp-nav">
           <div class="item">
             <ui-button title="Reload and clear" class="sp-mr-2" icon="bx bx-refresh" color="light"
                        @click="getData(true)"/>
 
-            <ui-button title="Add brand" icon="bx bx-plus-circle" color="primary-l"
-                       @click="addBrand({})"/>
+            <router-link to="/oms/product/new" class="sp-mr-2">
+              <ui-button title="Add product" icon="bx bx-plus-circle" color="primary-l"/>
+            </router-link>
 
-            <div class="sp-wpx-300 sp-ml-2">
+            <div class="sp-wpx-300">
               <el-input size="large" clearable v-model="filter.name" placeholder="Search"/>
             </div>
           </div>
@@ -21,11 +27,26 @@
       </div>
 
       <div class="content">
-        <table class="sp-table sp-mt-6" v-loading="loading">
+        <table class="sp-table sp-mt-6">
           <thead>
           <tr>
-            <th class="id">ID</th>
-            <th class="left">Name</th>
+            <th class="center id sort">
+              <sort align="middle" field="id" :filter="filter" @getData="getData">
+                center
+              </sort>
+            </th>
+            <th class="left sort">
+              <sort align="left" field="name" :filter="filter" @getData="getData">
+                Name
+              </sort>
+            </th>
+            <th class="left sort">
+              Brand
+            </th>
+            <th class="center sort">
+              Deposit
+            </th>
+            <th class="center">Count Categories</th>
             <th class="right control">Control</th>
           </tr>
           </thead>
@@ -33,9 +54,14 @@
           <tr v-for="val in data" class="hover">
             <td class="center">{{ val.id }}</td>
             <td class="left">{{ val.name }}</td>
+            <td class="left">{{ val.brand }}</td>
+            <td class="center">{{ val.deposit }}</td>
+            <td class="center">{{ val.count }}</td>
             <td class="right">
               <div class="sp-flex middle right">
-                <i class='bx bxs-pencil sp-link sp-primary' @click="addBrand(val)"/>
+                <router-link :to="'/oms/product/' + val.id">
+                  <i class='bx bxs-pencil sp-link sp-primary'/>
+                </router-link>
                 <i class='bx bx-x sp-link sp-danger' @click="destroy(val)"/>
               </div>
             </td>
@@ -54,40 +80,28 @@
     </div>
 
   </div>
-
-  <ui-dialog width="wpx-600" color="success-l"
-             title="Brand"
-             v-model="show" @save="store">
-    <div class="sp-flex col">
-      <div class="sp-flex col sp-mt-4">
-        <div class="sp-mb-2">Brand name (EN)</div>
-        <el-input size="large" v-model="brand.name" clearable/>
-      </div>
-    </div>
-  </ui-dialog>
 </template>
 
 <script setup>
-import { onBeforeMount, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import OmsHeader from '../../component/omsHeader.vue'
-import { success, error } from '../../../helper/reponse'
 import { ElMessageBox } from 'element-plus'
+import { error, success } from '../../../helper/reponse'
+import Sort from '../../component/sort.vue'
+import { numberFormat } from '../../../helper/numberFormat'
 
 const loading = ref(false)
 const filter = ref({
   page: 1,
   paginate: true,
   name: null,
+  order: {},
 })
 const pagination = ref({
   total: 0,
 })
 const data = ref([])
-const show = ref(false)
-const brand = ref({
-  name: null,
-  id: null,
-})
+const count = ref(0)
 
 const getData = (clear = false) => {
   if (clear) {
@@ -95,39 +109,18 @@ const getData = (clear = false) => {
       page: 1,
       paginate: true,
       name: null,
+      order: {},
     }
   }
 
   loading.value = true
 
-  axios.get('/api/brands', { params: filter.value }).
-      then(res => {
+  axios.get('/api/products', { params: filter.value }).
+      then((res => {
         data.value = res.data.data
         pagination.value = res.data.meta
-      }).finally(() => loading.value = false)
-}
-
-/**
- * @param page
- */
-const paginationHandler = (page) => {
-  filter.value.page = page
-  getData()
-}
-
-const store = () => {
-  let method = 'post',
-      link = '/api/brands'
-
-  if (brand.value.id) {
-    method = 'put'
-    link = '/api/brands/' + brand.value.id
-  }
-
-  axios[method](link, brand.value).then(() => {
-    show.value = false
-    success(null, getData)
-  }).catch(e => error(e)).finally(() => {})
+        count.value = res.data.count
+      })).finally(() => {loading.value = false})
 }
 
 const destroy = (brand) => {
@@ -140,7 +133,7 @@ const destroy = (brand) => {
         type: 'error',
       },
   ).then(() => {
-    axios.delete('/api/brands/' + brand.id).
+    axios.delete('/api/products/' + brand.id).
         then(() => {
           success(null, getData)
         }).
@@ -149,14 +142,17 @@ const destroy = (brand) => {
   })
 }
 
-const addBrand = (item) => {
-  show.value = true
-  brand.value = item
+/**
+ * @param page
+ */
+const paginationHandler = (page) => {
+  filter.value.page = page
+  getData()
 }
 
 watch(() => filter.value.name, () => { getData() })
 
-onBeforeMount(() => {
+onMounted(() => {
   getData()
 })
 </script>

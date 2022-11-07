@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Web\GoodController;
+use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\IndexController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,5 +11,5 @@ Route::group(['middleware' => 'auth'], static function () {
     Route::get('/oms', [IndexController::class, 'oms'])->name('web.oms');
     Route::get('/oms/{any}', [IndexController::class, 'oms'])->where('any', '.*')->name('web.oms.all');
 
-    Route::get('/good/{id}/img/{image}', [GoodController::class, 'showImage'])->name('good.image.show');
+    Route::get('/product/{id}/img/{image}', [ProductController::class, 'showImage'])->name('product.image.show');
 });

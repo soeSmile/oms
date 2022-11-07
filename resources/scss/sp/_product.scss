@@ -1,0 +1,13 @@
+.sp-product {
+  & .block {
+    max-width: 100%;
+    width: 48%;
+    min-width: 300px;
+    margin: 0 auto;
+  }
+}
+
+.sp-product-img-show {
+  width: auto;
+  max-width: 100%;
+}

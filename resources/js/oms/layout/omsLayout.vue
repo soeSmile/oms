@@ -78,7 +78,7 @@ const menu = ref([
     name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
     menu: [
       { name: 'Categories', icon: 'bx-category', link: '/oms/category', role: [] },
-      { name: 'Goods', icon: 'bxs-store', link: '/oms/good', role: [] },
+      { name: 'Products', icon: 'bxs-store', link: '/oms/product', role: [] },
       { name: 'Brands', icon: 'bxs-label', link: '/oms/brand', role: [] },
       { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier', role: [] },
     ],
@@ -107,7 +107,7 @@ const checkRole = (item) => {
 const activeChildMenu = (name) => {
   let style = ''
 
-  if (name === 'Goods' && route.name === 'goodPage') {
+  if (name === 'Products' && route.name === 'productPage') {
     style = 'active-route-link'
   }
 

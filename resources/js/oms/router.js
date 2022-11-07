@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import Error404 from '../Error404.vue'
 import omsIndex from './pages/index.vue'
-import goodIndex from './pages/good/goodIndex.vue'
-import goodPage from './pages/good/goodPage.vue'
+import productIndex from './pages/product/productIndex.vue'
+import productPage from './pages/product/productPage.vue'
 import brandIndex from './pages/brand/brandIndex.vue'
 import categoryIndex from './pages/category/categoryIndex.vue'
 import supplierIndex from './pages/suppliers/supplierIndex.vue'
@@ -29,14 +29,14 @@ const routers = [
     name: 'categoryIndex',
   },
   {
-    path: '/oms/good',
-    component: goodIndex,
-    name: 'goodIndex',
+    path: '/oms/product',
+    component: productIndex,
+    name: 'productIndex',
   },
   {
-    path: '/oms/good/:id',
-    component: goodPage,
-    name: 'goodPage',
+    path: '/oms/product/:id',
+    component: productPage,
+    name: 'productPage',
   },
   {
     path: '/oms/brand',

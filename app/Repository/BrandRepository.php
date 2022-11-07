@@ -68,7 +68,7 @@ final class BrandRepository extends AbstractRepository
         try {
             if ($category) {
                 $this->getQuery()->where('id', $id)->delete();
-                DB::table('goods')->where('brand_id', $id)->update(['brand_id' => null]);
+                DB::table('products')->where('brand_id', $id)->update(['brand_id' => null]);
                 DB::commit();
             }
         } catch (Throwable $exception) {
