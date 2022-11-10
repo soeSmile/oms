@@ -1,7 +1,7 @@
 .sp-menu {
   display: flex;
   flex-direction: column;
-  background: var(--color-white);
+  background: var(--color-light);
   box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
   position: fixed;
   left: 0;
@@ -116,7 +116,7 @@
         &.close {
           position: absolute;
           left: 125%;
-          background: var(--color-white);
+          background: var(--color-light);
           top: 0;
           margin-top: 0;
           white-space: nowrap;
