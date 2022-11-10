@@ -1,6 +1,8 @@
 <template>
   <div class="sp-page sp-flex col center middle">
-
+    <div class="sp-mb-16">
+      <img src="/img/logo.png" alt="">
+    </div>
     <el-form class="sp-wpx-350"
              size="large"
              :model="user">

@@ -4,7 +4,7 @@
 
       <div class="head" :class="close">
         <div class="logo">
-          <div class="title">OMS</div>
+          <img src="/img/logo.png" alt="">
         </div>
         <i class='bx bx-menu sp-fnt size-4 sp-link sp-p-2'
            @click="menuHideShow"/>
