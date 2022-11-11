@@ -9,7 +9,7 @@
         <span v-if="showName">{{ item.name }}</span>
       </div>
       <div class="right" :class="{'close' : close}">
-        <i v-if="showSub" class='sub-link bx bx-chevron-up'/>
+        <i v-if="item.show" class='sub-link bx bx-chevron-up'/>
         <i v-else class='sub-link bx bx-chevron-down'/>
       </div>
     </div>
@@ -26,7 +26,7 @@
 
     <div v-if="menu"
          class="items-container sp-fadeInDown" :class="containerClass">
-      <menu-item :class="{ opened: showSub }"
+      <menu-item :class="{ opened: item.show }"
                  v-for="m in menu"
                  :menu="m.menu"
                  :item="m"
@@ -47,11 +47,10 @@ const props = defineProps({
 })
 
 const expanded = ref(false)
-const showSub = ref(false)
 
 const toggleMenu = () => {
   expanded.value = !expanded.value
-  showSub.value = !showSub.value
+  props.item.show = !props.item.show
 }
 
 const containerClass = computed(() => {
@@ -61,7 +60,7 @@ const containerClass = computed(() => {
     style += ' close'
   }
 
-  if (showSub.value) {
+  if (props.item.show) {
     style += ' show'
   }
 
