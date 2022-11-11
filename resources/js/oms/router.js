@@ -1,16 +1,9 @@
 import { createWebHistory, createRouter } from 'vue-router'
+import system from './routers/system'
+import directories from './routers/directories'
 import Error404 from '../Error404.vue'
 import omsIndex from './pages/index.vue'
-import productIndex from './pages/product/productIndex.vue'
-import productPage from './pages/product/productPage.vue'
-import brandIndex from './pages/brand/brandIndex.vue'
-import categoryIndex from './pages/category/categoryIndex.vue'
-import supplierIndex from './pages/suppliers/supplierIndex.vue'
-import userIndex from './pages/users/userIndex.vue'
-import userPage from './pages/users/userPage.vue'
-import isAdmin from './middleware/isAdmin'
-import isManager from './middleware/isManager'
-import eventIndex from './pages/event/eventIndex.vue'
+import offerIndex from './pages/offer/offerIndex.vue'
 
 const routers = [
   {
@@ -24,59 +17,19 @@ const routers = [
     name: 'App',
   },
   {
-    path: '/oms/category',
-    component: categoryIndex,
-    name: 'categoryIndex',
-  },
-  {
-    path: '/oms/product',
-    component: productIndex,
-    name: 'productIndex',
-  },
-  {
-    path: '/oms/product/:id',
-    component: productPage,
-    name: 'productPage',
-  },
-  {
-    path: '/oms/brand',
-    component: brandIndex,
-    name: 'brandIndex',
-  },
-  {
-    path: '/oms/supplier',
-    component: supplierIndex,
-    name: 'supplierIndex',
-  },
-  {
-    path: '/oms/user',
-    component: userIndex,
-    name: 'userIndex',
-    meta: {
-      middleware: [isAdmin],
-    },
-  },
-  {
-    path: '/oms/user/:id',
-    component: userPage,
-    name: 'userPage',
-    meta: {
-      middleware: [isAdmin],
-    },
-  },
-  {
-    path: '/oms/event',
-    component: eventIndex,
-    name: 'eventIndex',
-    meta: {
-      middleware: [isAdmin],
-    },
+    path: '/offer',
+    component: offerIndex,
+    name: 'offerIndex',
   },
 ]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: routers,
+  routes: [
+    ...routers,
+    ...system,
+    ...directories,
+  ],
   linkActiveClass: 'active-route-link',
   linkExactActiveClass: 'exact-active-route-link',
 })

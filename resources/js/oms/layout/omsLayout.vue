@@ -71,9 +71,8 @@ import { useRoute } from 'vue-router'
 const close = ref(null)
 const route = useRoute()
 const menu = ref([
-  {
-    name: 'Home', icon: 'bxs-home', link: '/oms', menu: null, role: [],
-  },
+  { name: 'Home', icon: 'bxs-home', link: '/oms', menu: null, role: [] },
+  { name: 'Offer', icon: 'bxs-offer', link: '/offer', menu: null, role: [] },
   {
     name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
     menu: [
