@@ -1,16 +1,19 @@
 .sp-menu {
   display: flex;
   flex-direction: column;
-  background: var(--color-light);
-  box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
   position: fixed;
-  left: 0;
-  top: 0;
   height: 100%;
   width: 18rem;
+  left: 0;
+  top: 0;
+  transition: all .3s ease;
+  overflow: auto;
   z-index: var(--z-index-menu);
+  background: var(--color-light);
+  box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
 
   &.close {
+    overflow: inherit;
     width: 6rem;
   }
 
@@ -29,17 +32,6 @@
       align-items: center;
       justify-content: center;
 
-      & .title {
-        font-family: var(--font-bold);
-        font-size: 1.6rem;
-        text-align: center;
-        color: var(--color-error);
-
-        &.close {
-          display: none;
-        }
-      }
-
       & img {
         width: 50px;
         height: auto;
@@ -48,56 +40,63 @@
   }
 
   & .content {
-    & .links {
-      margin-top: 2rem;
-      padding: 1rem;
+    padding: 1rem;
 
-      & li {
+    .menu-item {
+      position: relative;
+      width: 100%;
+
+      .label {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        white-space: nowrap;
+        user-select: none;
+        padding: 1rem 2rem;
+        box-sizing: border-box;
+        font-size: 14px;
+        color: var(--color-dark);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        font-family: var(--font-medium);
         position: relative;
+        border-radius: 0.6rem;
+        overflow: hidden;
 
-        & .link {
+        > div {
           display: flex;
           align-items: center;
-          padding: 1rem 2rem;
-          cursor: pointer;
-          font-family: var(--font-medium);
-          position: relative;
-          color: var(--color-dark);
-          border-radius: 0.6rem;
-          overflow: hidden;
+          gap: 1rem;
+        }
 
+        & .right {
           &.close {
-            justify-content: center;
+            display: none;
           }
+        }
 
-          & .icon {
+        i {
+          font-size: 1.25rem;
+          margin-right: 0.8rem;
+
+          &.expand {
             font-size: 1.25rem;
-            margin-right: 0.8rem;
 
-            &.close {
-              margin: 0;
+            &.opened {
+              transform: rotate(180deg);
             }
           }
+        }
 
-          & .sub-link {
-            position: absolute;
-            right: 1rem;
+        &.close {
+          width: fit-content;
+        }
 
-            &.close {
-              display: none;
-            }
-          }
 
-          & .title {
-            &.close {
-              display: none;
-            }
-          }
-
-          &:hover {
-            color: var(--color-primary);
-            transition: all 0.3s ease;
-          }
+        &:hover {
+          color: var(--color-primary);
+          transition: all 0.3s ease;
         }
 
         & .active-route-link {
@@ -106,7 +105,10 @@
         }
       }
 
-      & .sub {
+      .items-container {
+        width: 100%;
+        left: calc(100% + 6px);
+        transition: height 0.3s ease;
         display: none;
 
         &.show {
@@ -114,51 +116,17 @@
         }
 
         &.close {
+          width: fit-content;
           position: absolute;
-          left: 125%;
           background: var(--color-light);
-          top: 0;
-          margin-top: 0;
-          white-space: nowrap;
           box-shadow: 0 0 21px 0 rgba(89, 102, 122, 0.1);
-          z-index: var(--z-index-menu-sub);
-          border-radius: 0.6rem;
-          overflow: hidden;
+          top: 0;
           padding: 1rem;
+          border-radius: 0.6rem;
 
-          & li {
-            & .link {
-              padding: 1.2rem 2.2rem;
-            }
-          }
-        }
-
-        & li {
-          position: relative;
-
-          & .link {
-            display: flex;
-            align-items: center;
-            padding: 1rem 2rem 1rem 3rem;
-            cursor: pointer;
-            color: var(--color-dark);
-            font-family: var(--font-regular);
-            position: relative;
-
-            & .icon {
-              font-size: 1.25rem;
-              margin-right: 0.8rem;
-            }
-
-            &:hover {
-              color: var(--color-primary);
-              transition: all 0.3s ease;
-            }
-          }
-
-          & .active-route-link {
-            background: var(--color-primary);
-            color: var(--color-white) !important;
+          .label {
+            width: 100% !important;
+            padding-left: 20px !important;
           }
         }
       }

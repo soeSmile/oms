@@ -1,62 +1,23 @@
 <template>
-  <div class="sp-main" :class="close">
-    <div class="sp-menu" :class="close">
+  <div class="sp-main" :class="{ 'close': close }">
 
-      <div class="head" :class="close">
+    <div class="sp-menu" :class="{ 'close': close }">
+
+      <div class="head" :class="{ 'close': close }">
         <div class="logo">
           <img src="/img/logo.png" alt="">
         </div>
         <i class='bx bx-menu sp-fnt size-4 sp-link sp-p-2'
-           @click="menuHideShow"/>
+           @click="close = !close"/>
       </div>
 
       <div class="content">
-        <ul class="links">
-          <li v-for="(val,idx) in menu" :title="val.name">
-            <section v-if="checkRole(val)">
-              <router-link class="link"
-                           :class="close + ' ' + activeChildMenu(val.name)"
-                           @click="closeSubMenu"
-                           v-if="val.link"
-                           :to="val.link">
-                <i class="icon bx" :class="val.icon + ' ' + close"/>
-                <span class="title" :class="close">
-                {{ val.name }}
-              </span>
-              </router-link>
-
-              <div class="link"
-                   :class="close"
-                   @click="subShow(idx)"
-                   v-else>
-                <i class="icon bx" :class="val.icon + ' ' + close"/>
-                <span class="title" :class="close">
-                {{ val.name }}
-              </span>
-                <i v-if="val.show" class='sub-link bx bx-chevron-up' :class="close"/>
-                <i v-else class='sub-link bx bx-chevron-down' :class="close"/>
-              </div>
-            </section>
-
-            <ul class="sub" :class="(val.show ? 'show' : '') + ' ' + close"
-                v-if="val.menu">
-              <li v-for="sub in val.menu" :title="sub.name">
-                <section v-if="checkRole(sub)">
-                  <router-link class="link"
-                               :class="activeChildMenu(sub.name)"
-                               @click="closeSubMenu"
-                               :to="sub.link">
-                    <i class="icon bx" :class="sub.icon"/>
-                    <span class="title">
-                    {{ sub.name }}
-                  </span>
-                  </router-link>
-                </section>
-              </li>
-            </ul>
-
-          </li>
-        </ul>
+        <menu-item v-for="val in menu"
+                   :menu="val.menu"
+                   :name="val.name"
+                   :icon="val.icon"
+                   :depth="0"
+                   :close="close"/>
       </div>
     </div>
 
@@ -67,14 +28,15 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
+import MenuItem from './menuItem.vue'
 
-const close = ref(null)
+const close = ref(false)
 const route = useRoute()
 const menu = ref([
-  { name: 'Home', icon: 'bxs-home', link: '/oms', menu: null, role: [] },
-  { name: 'Offer', icon: 'bxs-offer', link: '/offer', menu: null, role: [] },
+  { name: 'Home', icon: 'bxs-home', link: '/oms', role: [] },
+  { name: 'Offer', icon: 'bxs-offer', link: '/offer', role: [] },
   {
-    name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
+    name: 'Directories', icon: 'bxs-grid', link: null, role: [],
     menu: [
       { name: 'Categories', icon: 'bx-category', link: '/oms/category', role: [] },
       { name: 'Products', icon: 'bxs-store', link: '/oms/product', role: [] },
@@ -83,8 +45,14 @@ const menu = ref([
     ],
   },
   {
-    name: 'System', icon: 'bx-cog', link: null, show: false, role: [1],
+    name: 'System', icon: 'bx-cog', link: null, role: [1],
     menu: [
+      {
+        name: 'System', icon: 'bx-cog', link: null, role: [1],
+        menu: [
+          { name: 'Users', icon: 'bxs-group', link: '/oms/user', role: [1] },
+        ],
+      },
       { name: 'Users', icon: 'bxs-group', link: '/oms/user', role: [1] },
       { name: 'Events', icon: 'bx bx-history', link: '/oms/event', role: [1] },
     ],
@@ -97,45 +65,5 @@ const checkRole = (item) => {
   }
 
   return true
-}
-
-/**
- * @param name
- * @returns {string}
- */
-const activeChildMenu = (name) => {
-  let style = ''
-
-  if (name === 'Products' && route.name === 'productPage') {
-    style = 'active-route-link'
-  }
-
-  if (name === 'Users' && route.name === 'userPage') {
-    style = 'active-route-link'
-  }
-
-  return style
-}
-
-const subShow = (idx) => {
-  for (let i in menu.value) {
-    if (i != idx) {
-      menu.value[i].show = false
-    } else {
-      menu.value[i].show = !menu.value[i].show
-    }
-  }
-}
-
-const closeSubMenu = () => {
-  if (close.value) {
-    for (let i in menu.value) {
-      menu.value[i].show = false
-    }
-  }
-}
-
-const menuHideShow = () => {
-  close.value = close.value ? null : 'close'
 }
 </script>
