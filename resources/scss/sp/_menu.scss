@@ -99,7 +99,7 @@
           transition: all 0.3s ease;
         }
 
-        & .active-route-link {
+        &.active-route-link {
           background: var(--color-primary);
           color: var(--color-white) !important;
         }
@@ -123,6 +123,7 @@
           top: 0;
           padding: 1rem;
           border-radius: 0.6rem;
+          z-index: var(--z-index-menu-sub);
 
           .label {
             width: 100% !important;

@@ -1,25 +1,35 @@
 <template>
   <div class="menu-item" :class="{ opened: expanded }">
-    <div class="label"
+    <div v-if="menu"
+         class="label"
          @click="toggleMenu"
          :style="{ paddingLeft: depth * 20 + 20 + 'px' }">
       <div class="left">
-        <i v-if="icon" class="icon bx" :class="icon"/>
-        <span v-if="showName">{{ name }}</span>
+        <i v-if="item.icon" class="icon bx" :class="item.icon"/>
+        <span v-if="showName">{{ item.name }}</span>
       </div>
-      <div v-if="menu" class="right" :class="{'close' : close}">
+      <div class="right" :class="{'close' : close}">
         <i v-if="showSub" class='sub-link bx bx-chevron-up'/>
         <i v-else class='sub-link bx bx-chevron-down'/>
       </div>
     </div>
 
+    <router-link v-else
+                 :to="item.link"
+                 class="label"
+                 :style="{ paddingLeft: depth * 20 + 20 + 'px' }">
+      <div class="left">
+        <i v-if="item.icon" class="icon bx" :class="item.icon"/>
+        <span v-if="showName">{{ item.name }}</span>
+      </div>
+    </router-link>
+
     <div v-if="menu"
          class="items-container sp-fadeInDown" :class="containerClass">
       <menu-item :class="{ opened: showSub }"
-                 v-for="item in menu"
-                 :menu="item.menu"
-                 :name="item.name"
-                 :icon="item.icon"
+                 v-for="m in menu"
+                 :menu="m.menu"
+                 :item="m"
                  :depth="depth + 1"
                  :close="close"/>
     </div>
@@ -31,8 +41,7 @@ import { computed, ref } from 'vue'
 
 const props = defineProps({
   menu: Array,
-  name: String,
-  icon: String,
+  item: Object,
   depth: Number,
   close: Boolean,
 })

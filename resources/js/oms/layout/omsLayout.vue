@@ -14,8 +14,7 @@
       <div class="content">
         <menu-item v-for="val in menu"
                    :menu="val.menu"
-                   :name="val.name"
-                   :icon="val.icon"
+                   :item="val"
                    :depth="0"
                    :close="close"/>
       </div>
