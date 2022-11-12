@@ -2,10 +2,11 @@
   <div class="menu-item" :class="{ opened: expanded }">
     <div v-if="menu"
          class="label"
+         :class="{'close' : close}"
          @click="toggleMenu"
-         :style="{ paddingLeft: depth * 20 + 20 + 'px' }">
+         :style="close ? '' : { paddingLeft: depth * 20 + 20 + 'px' }">
       <div class="left">
-        <i v-if="item.icon" class="icon bx" :class="item.icon"/>
+        <i v-if="item.icon" class="icon bx" :class="item.icon + (close ? ' close' : '')"/>
         <span v-if="showName">{{ item.name }}</span>
       </div>
       <div class="right" :class="{'close' : close}">
@@ -17,9 +18,11 @@
     <router-link v-else
                  :to="item.link"
                  class="label"
-                 :style="{ paddingLeft: depth * 20 + 20 + 'px' }">
+                 :class="{'close' : close}"
+                 @click="hideRootSub(0)"
+                 :style="close ? '' : { paddingLeft: depth * 20 + 20 + 'px' }">
       <div class="left">
-        <i v-if="item.icon" class="icon bx" :class="item.icon"/>
+        <i v-if="item.icon" class="icon bx" :class="item.icon + (close ? ' close' : '')"/>
         <span v-if="showName">{{ item.name }}</span>
       </div>
     </router-link>
@@ -37,7 +40,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 
 const props = defineProps({
   menu: Array,
@@ -47,8 +50,10 @@ const props = defineProps({
 })
 
 const expanded = ref(false)
+const hideRootSub = inject('hideRootSub')
 
 const toggleMenu = () => {
+  hideRootSub(props.depth)
   expanded.value = !expanded.value
   props.item.show = !props.item.show
 }

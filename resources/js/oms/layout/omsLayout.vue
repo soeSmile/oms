@@ -8,7 +8,7 @@
           <img src="/img/logo.png" alt="">
         </div>
         <i class='bx bx-menu sp-fnt size-4 sp-link sp-p-2'
-           @click="close = !close"/>
+           @click="closeMenu"/>
       </div>
 
       <div class="content">
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import MenuItem from './menuItem.vue'
 
@@ -35,7 +35,7 @@ const menu = ref([
   { name: 'Home', icon: 'bxs-home', link: '/oms', role: [] },
   { name: 'Offer', icon: 'bxs-offer', link: '/offer', role: [] },
   {
-    name: 'Directories', icon: 'bxs-grid', link: null, role: [],
+    name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
     menu: [
       { name: 'Categories', icon: 'bx-category', link: '/oms/category', role: [] },
       { name: 'Products', icon: 'bxs-store', link: '/oms/product', role: [] },
@@ -44,10 +44,10 @@ const menu = ref([
     ],
   },
   {
-    name: 'System', icon: 'bx-cog', link: null, role: [1],
+    name: 'System', icon: 'bx-cog', link: null, show: false, role: [1],
     menu: [
       {
-        name: 'System', icon: 'bx-cog', link: null, role: [1],
+        name: 'System', icon: 'bx-cog', link: null, show: false, role: [1],
         menu: [
           { name: 'Users', icon: 'bxs-group', link: '/oms/user', role: [1] },
         ],
@@ -65,4 +65,21 @@ const checkRole = (item) => {
 
   return true
 }
+
+const closeMenu = () => {
+  close.value = !close.value
+  hideRootSub()
+}
+
+const hideRootSub = () => {
+  menu.value.forEach((e) => {
+    e.show = false
+  })
+}
+
+provide('hideRootSub', (depth) => {
+  if (close.value && depth === 0) {
+    hideRootSub()
+  }
+})
 </script>

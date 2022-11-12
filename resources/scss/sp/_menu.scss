@@ -80,6 +80,10 @@
           font-size: 1.25rem;
           margin-right: 0.8rem;
 
+          &.close {
+            margin-right: 0;
+          }
+
           &.expand {
             font-size: 1.25rem;
 
@@ -90,7 +94,7 @@
         }
 
         &.close {
-          width: fit-content;
+          justify-content: center;
         }
 
 
