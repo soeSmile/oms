@@ -12,7 +12,7 @@
       </div>
 
       <div class="content">
-        <menu-item v-for="val in menu"
+        <menu-item v-for="val in menus"
                    :menu="val.menu"
                    :item="val"
                    :depth="0"
@@ -25,22 +25,22 @@
 </template>
 
 <script setup>
-import { provide, ref } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import MenuItem from './menuItem.vue'
 
 const close = ref(false)
 const route = useRoute()
-const menu = ref([
-  { name: 'Home', icon: 'bxs-home', link: '/oms', role: [] },
-  { name: 'Offer', icon: 'bxs-offer', link: '/offer', role: [] },
+const menus = ref([
+  { name: 'Home', icon: 'bxs-home', link: '/oms' },
+  { name: 'Offer', icon: 'bxs-offer', link: '/offer' },
   {
-    name: 'Directories', icon: 'bxs-grid', link: null, show: false, role: [],
+    name: 'Directories', icon: 'bxs-grid', link: null, show: false,
     menu: [
-      { name: 'Categories', icon: 'bx-category', link: '/oms/category', role: [] },
-      { name: 'Products', icon: 'bxs-store', link: '/oms/product', role: [] },
-      { name: 'Brands', icon: 'bxs-label', link: '/oms/brand', role: [] },
-      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier', role: [] },
+      { name: 'Categories', icon: 'bx-category', link: '/oms/category' },
+      { name: 'Products', icon: 'bxs-store', link: '/oms/product' },
+      { name: 'Brands', icon: 'bxs-label', link: '/oms/brand' },
+      { name: 'Suppliers', icon: 'bxs-user-detail', link: '/oms/supplier' },
     ],
   },
   {
@@ -58,21 +58,13 @@ const menu = ref([
   },
 ])
 
-const checkRole = (item) => {
-  if (item.role.length > 0) {
-    return item.role.includes(user.role)
-  }
-
-  return true
-}
-
 const closeMenu = () => {
   close.value = !close.value
   hideRootSub()
 }
 
 const hideRootSub = () => {
-  menu.value.forEach((e) => {
+  menus.value.forEach((e) => {
     e.show = false
   })
 }

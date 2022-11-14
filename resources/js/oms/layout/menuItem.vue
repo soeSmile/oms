@@ -1,8 +1,10 @@
 <template>
-  <div class="menu-item" :class="{ opened: expanded }">
+  <div v-if="checkRole(item)"
+       class="menu-item" :class="{ opened: expanded }">
     <div v-if="menu"
+         :title="item.name"
          class="label"
-         :class="{'close' : close}"
+         :class="labelClass"
          @click="toggleMenu"
          :style="close ? '' : { paddingLeft: depth * 20 + 20 + 'px' }">
       <div class="left">
@@ -16,9 +18,10 @@
     </div>
 
     <router-link v-else
+                 :title="item.name"
                  :to="item.link"
                  class="label"
-                 :class="{'close' : close}"
+                 :class="labelClass"
                  @click="hideRootSub(0)"
                  :style="close ? '' : { paddingLeft: depth * 20 + 20 + 'px' }">
       <div class="left">
@@ -52,11 +55,28 @@ const props = defineProps({
 const expanded = ref(false)
 const hideRootSub = inject('hideRootSub')
 
+const checkRole = (item) => {
+  if (item.role && item.role.length > 0) {
+    return item.role.includes(user.role)
+  }
+
+  return true
+}
+
 const toggleMenu = () => {
   hideRootSub(props.depth)
   expanded.value = !expanded.value
   props.item.show = !props.item.show
 }
+
+const labelClass = computed(() => {
+  let style = 'depth_' + props.depth
+
+  if (props.close) {
+    style += ' close'
+  }
+  return style
+})
 
 const containerClass = computed(() => {
   let style = ''

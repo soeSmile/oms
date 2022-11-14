@@ -42,11 +42,11 @@
   & .content {
     padding: 1rem;
 
-    .menu-item {
+    & .menu-item {
       position: relative;
       width: 100%;
 
-      .label {
+      & .label {
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -76,7 +76,7 @@
           }
         }
 
-        i {
+        & i {
           font-size: 1.25rem;
           margin-right: 0.8rem;
 
@@ -93,10 +93,11 @@
           }
         }
 
-        &.close {
-          justify-content: center;
+        &.depth_0 {
+          &.close {
+            justify-content: center;
+          }
         }
-
 
         &:hover {
           color: var(--color-primary);
