@@ -1,3 +1,1 @@
 # OMS System
-
-![](img.png)
